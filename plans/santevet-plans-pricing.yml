@@ -1,0 +1,61 @@
+generated: '2026-08-17'
+method: searched
+source: https://www.santevet.com/partenaire-btob
+plan_count: 0
+note: >-
+  SantéVet publishes no API plans, no developer pricing, no free tier and no self-serve signup.
+  Access to all three partner APIs is negotiated: the B2B partner page routes every enquiry to a
+  Typeform (https://aaxko64pztt.typeform.com/to/I7vhM5Bm) or a commercial phone number, and
+  there is no published rate card for API usage at any volume. An honest zero rather than an
+  omitted file.
+plans: []
+access_model:
+  self_serve: false
+  free_tier: false
+  trial: false
+  published_rate_card: false
+  gate: sales
+  gate_url: https://www.santevet.com/partenaire-btob
+  gate_mechanism: Typeform intake form plus commercial phone line
+  gate_form: https://aaxko64pztt.typeform.com/to/I7vhM5Bm
+  commercial_phone: '+33 4 78 17 38 00'
+  markets: [France, Belgium, Spain, Italy, Germany]
+  integration_options:
+  - api
+  - dedicated landing page
+  quote_from_page: >-
+    "une suite de produits conçus pour s'intégrer parfaitement selon vos besoins
+    (API ou Landing Page Dédiée)"
+underlying_product_pricing:
+  note: >-
+    Distinct from API pricing, and recorded because it explains the shape of the API. SantéVet
+    deliberately publishes no consumer price grid — a pet-insurance premium is computed per
+    animal from breed, age and postal code, and is only obtainable by requesting a quote. That
+    rating engine IS the acquisition API: GET /rates takes postal_code, breed, father_breed,
+    mother_breed and birth_date and returns rates and options. The absence of a public price
+    list and the existence of a partner rating API are the same business decision.
+  price_grid_published: false
+  pricing_surface: 'GET https://acquisition.api.santevet.com/rates (partner-authenticated)'
+  rating_inputs:
+  - postal_code
+  - breed
+  - father_breed
+  - mother_breed
+  - birth_date
+  reference_data_surface: >-
+    https://toolkit.api.santevet.com — /insurances, /options, /rates/search,
+    /promotional-codes and /payment-divisions publish the contract definitions, option
+    catalogue, rate rows, promotional codes and instalment plans behind those quotes, all
+    partner-authenticated.
+evidence:
+- url: https://www.santevet.com/partenaire-btob
+  status: 200
+  finding: >-
+    B2B partner program page. Names API integration as an option; publishes no pricing, no
+    technical documentation, no developer portal and no self-serve signup.
+- url: https://acquisition.api.santevet.com/status
+  status: 401
+  finding: partner API requires credentials; no anonymous or trial access path exists
+- url: https://courtier.santevet.com/
+  status: 302
+  finding: broker extranet redirects to /login — registration is a partner onboarding process

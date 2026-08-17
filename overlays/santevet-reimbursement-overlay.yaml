@@ -1,0 +1,154 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the SantéVet Reimbursement API
+  version: 1.0.0
+extends: openapi/santevet-reimbursement-openapi.yml
+x-generated: '2026-08-17'
+x-method: generated
+x-source: >-
+  Derived from live probes of https://reimbursement.api.santevet.com. The harvested
+  specification is never mutated — openapi/_original/santevet-reimbursement-openapi-original.json
+  is the verbatim fetch from https://reimbursement.api.santevet.com/api/doc.json.
+actions:
+- target: $.info
+  description: >-
+    The document has a real title, version and developer contact — the best-formed of SantéVet's
+    three contracts. Adding the description it lacks.
+  update:
+    description: >-
+      SantéVet's partner claims and reimbursement API. Creates and retrieves pet-insurance
+      reimbursement claims, lists a client's or an animal's claims, and retrieves the
+      third-party-payment (tiers payant) instalment schedule for a coverage — the API behind
+      SantéVet's PayVet product, where the insurer settles directly with the veterinary clinic
+      instead of reimbursing the owner afterwards. Six operations. Requires partner credentials.
+- target: $.components.securitySchemes
+  description: >-
+    THE MOST IMPORTANT CORRECTION IN THIS OVERLAY. The document declares NO securitySchemes and
+    NO security requirement, yet every operation returns 401 "User authentication required"
+    anonymously. An agent reading this specification would conclude the API is open. Recording
+    the observed scheme, matching the sibling toolkit API's declared apiKey scheme.
+  update:
+    x-apievangelist-observed-apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: >-
+        OBSERVED, NOT DECLARED. Partner API key in the Authorization header, consistent with the
+        apiKey scheme the SantéVet Toolkit API declares. Verified by
+        GET https://reimbursement.api.santevet.com/api/v1/reimbursements/1 returning HTTP 401
+        with body {"message":"User authentication required"}.
+- target: $.info
+  description: Recording the undeclared authentication and error contract at document level.
+  update:
+    x-apievangelist-auth:
+      declared_in_spec: false
+      observed: true
+      scheme: apiKey
+      location: header
+      parameter: Authorization
+      observed_status: 401
+      observed_body: '{"message":"User authentication required"}'
+      issuance: >-
+        Not self-serve. Partner onboarding via https://www.santevet.com/partenaire-btob
+    x-apievangelist-error-envelope:
+      media_type: application/json
+      shape:
+        message: human-readable explanation
+      note: >-
+        A flat {"message"} envelope — not RFC 7807, and different from the problem+json / Hydra
+        envelopes the sibling toolkit API returns. No error code, no type URI, no stable
+        identifier.
+- target: $.info
+  description: >-
+    Recording the operations that declare no failure response at all, so the gap is
+    machine-visible.
+  update:
+    x-apievangelist-gaps:
+      declared_401_responses: 0
+      declared_403_responses: 0
+      declared_429_responses: 0
+      operations_with_no_4xx:
+      - createReimbursement
+      - updateReimbursement
+      - findSchedule
+      rate_limit_headers: none
+      request_id_header: none
+      idempotency: none
+      pagination: none
+      note: >-
+        createReimbursement is a multipart/form-data write with no declared failure mode and no
+        idempotency key — a retried claim submission has no published deduplication contract.
+- target: $.servers
+  description: >-
+    The servers[] block is correct and complete and is NOT altered. Recording only the
+    observation about the third entry.
+  update:
+    x-apievangelist-server-note: >-
+      The Development server https://{user}.reimbursement-api.srv-dev-web-2021.santevet.lan
+      enumerates four developer trigrams (xch, gle, mau, tpe) in a public document. Unreachable
+      from outside SantéVet's network and harmless to callers, but it is internal topology and
+      staff-adjacent initials published in a public contract — worth raising with the provider.
+    x-apievangelist-tls:
+      production_host: reimbursement.api.santevet.com
+      tls_version: TLSv1.3
+      hsts: false
+      note: >-
+        No HSTS header on the API host, unlike www.santevet.com which sets
+        max-age=63072000. See security/santevet-domain-security.yml.
+- target: $.info
+  description: >-
+    Recording the dangling identifier problem — the single biggest usability gap in this contract.
+  update:
+    x-apievangelist-dangling-references:
+      note: >-
+        These fields appear on reimbursement DTOs but resolve to no operation in any published
+        SantéVet contract, so an agent handed a reimbursement cannot follow any of them.
+      fields:
+      - contract_id
+      - clinic_id
+      - veterinary_id
+      - sinister_notification_id
+      - correspondence_id
+      - origin_id
+      partially_resolvable:
+      - field: coverage_id
+        via: GET /api/v1/third-party-payments/{coverageId}/schedule
+      - field: animal_id
+        via: GET /api/v1/animals/{animalId}/reimbursements
+      probable_cross_api_binding:
+      - field: origin_id
+        to: 'SantéVet Toolkit API OrigineCommerciale (/commercial-origins/{id})'
+        confidence: medium
+      detail: data-model/santevet-data-model.yml
+- target: $.info
+  description: >-
+    Recording that the three near-duplicate reimbursement schemas are not distinguishable by name.
+  update:
+    x-apievangelist-schema-note:
+      duplicates:
+      - schema: ApiReimbursement
+        properties: 25
+        returned_by: findReimbursement
+      - schema: ApiReimbursement2
+        properties: 18
+        returned_by: findAllReimbursementsByAnimal
+      - schema: ApiReimbursement3
+        properties: 19
+        returned_by: findAllReimbursementsByClient
+      note: >-
+        Auto-numbered suffixes carry no meaning. The same applies to ApiClinic / ApiClinic2 /
+        ApiClinic3. Naming them for their serialization context would make the contract
+        self-explanatory.
+- target: $.info
+  description: API Evangelist profile cross-references.
+  update:
+    x-apievangelist-artifacts:
+      authentication: authentication/santevet-authentication.yml
+      conventions: conventions/santevet-conventions.yml
+      errors: errors/santevet-problem-types.yml
+      data_model: data-model/santevet-data-model.yml
+      lifecycle: lifecycle/santevet-lifecycle.yml
+      conformance: conformance/santevet-conformance.yml
+      rate_limits: rate-limits/santevet-rate-limits.yml
+      sandbox: sandbox/santevet-sandbox.yml
+      skills: skills/_index.yml

@@ -1,0 +1,860 @@
+openapi: 3.0.3
+info:
+  title: Reimbursement API
+  contact:
+    email: devs-web@santevet.com
+  version: 1.0.0
+servers:
+- url: https://reimbursement.api.santevet.com
+  description: Production
+- url: https://staging.reimbursement.api.santevet.com
+  description: Staging
+- url: https://{user}.reimbursement-api.srv-dev-web-2021.santevet.lan
+  description: Development
+  variables:
+    user:
+      enum:
+      - xch
+      - gle
+      - mau
+      - tpe
+      default: xch
+      description: The developer trigram
+paths:
+  /api/v1/reimbursements/{reimbursementId}:
+    get:
+      tags:
+      - Reimbursement
+      summary: Retrieve a reimbursement.
+      operationId: findReimbursement
+      parameters:
+      - name: reimbursementId
+        in: path
+        description: The identifier of the reimbursement
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Reimbursement founded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiReimbursement'
+        '400':
+          description: Invalid identifier supplied
+        '404':
+          description: Reimbursement not found
+    patch:
+      tags:
+      - Reimbursement
+      summary: Update a reimbursement.
+      operationId: updateReimbursement
+      parameters:
+      - name: reimbursementId
+        in: path
+        description: The identifier of the reimbursement
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateThirdPartyPaymentRequest'
+      responses:
+        '200':
+          description: Reimbursement updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReimbursementIdResponse'
+  /api/v1/animals/{animalId}/reimbursements:
+    get:
+      tags:
+      - Reimbursement
+      summary: Retrieve a collection of reimbursements by an animal identifier.
+      operationId: findAllReimbursementsByAnimal
+      parameters:
+      - name: animalId
+        in: path
+        description: The identifier of the animal
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Collection of reimbursements
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApiReimbursement2'
+        '404':
+          description: Animal not found
+  /api/v1/clients/{clientId}/reimbursements:
+    get:
+      tags:
+      - Reimbursement
+      summary: Retrieve a collection of reimbursements by a client identifier.
+      operationId: findAllReimbursementsByClient
+      parameters:
+      - name: clientId
+        in: path
+        description: The identifier of the client
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Collection of reimbursements
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApiReimbursement3'
+        '404':
+          description: Client not found
+  /api/v1/reimbursements:
+    post:
+      tags:
+      - Reimbursement
+      summary: Create a new reimbursement.
+      operationId: createReimbursement
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - type
+              discriminator:
+                propertyName: type
+                mapping:
+                  '1': '#/components/schemas/CreateReimbursementClaimRequest'
+                  '2': '#/components/schemas/CreateThirdPartyPaymentRequest'
+                  '3': '#/components/schemas/CreateLossQuotationRequest'
+                  '4': '#/components/schemas/CreateDeathRegistrationRequest'
+              oneOf:
+              - $ref: '#/components/schemas/CreateReimbursementClaimRequest'
+              - $ref: '#/components/schemas/CreateThirdPartyPaymentRequest'
+              - $ref: '#/components/schemas/CreateLossQuotationRequest'
+              - $ref: '#/components/schemas/CreateDeathRegistrationRequest'
+            encoding:
+              file:
+                contentType: application/pdf, application/x-pdf, image/png, image/jpg, image/jpeg, image/gif
+      responses:
+        '200':
+          description: Reimbursement created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReimbursementIdResponse'
+  /api/v1/third-party-payments/{coverageId}/schedule:
+    get:
+      tags:
+      - Reimbursement
+      summary: Retrieve schedule for a Third Party Payment by its Coverage identifier.
+      operationId: findSchedule
+      parameters:
+      - name: coverageId
+        in: path
+        description: The identifier of the coverage
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Schedule founded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSchedule'
+components:
+  schemas:
+    ApiReimbursement:
+      properties:
+        id:
+          description: The reimbursement identifier
+          type: integer
+        type:
+          description: 'The reimbursement type<br/> `1`: Reimbursement claim, `2`: Third party payment, `5`: Loss quotation,
+            `6`: Death registration'
+          type: integer
+        status:
+          description: 'The reimbursement status<br/> `0`: Reimbursement in error, `1`: Reimbursement pending analysis, `2`:
+            Reimbursement processing analysis, `3`: Reimbursement pending payment, `4`: Reimbursement processed, `5`: Reimbursement
+            refused, `6`: Reimbursement to be completed, `7`: Duplicated reimbursement, `9`: Third party payment pending veterinary
+            validation, `10`: Third party payment canceled by veterinary, `11`: Expired third party payment, `12`: Accepted
+            third party payment, `13`: Refused third party payment, `14`: Processing third party payment, `15`: Processed
+            third party payment, `16`: Third party payment veterinary processing payment, `17`: Third party payment veterinary
+            payment terminated'
+          type: integer
+        contract_id:
+          description: The contract identifier
+          type: integer
+        origin_id:
+          description: 'The origin identifier<br/> `1`: Mobile application, `2`: Veterinary area, `3`: Veterinary software,
+            `4`: Client area, `5`: Paper'
+          type: integer
+        coverage_id:
+          description: The coverage identifier, (identifiant demande prise en charge)
+          type: integer
+          nullable: true
+        file_path:
+          description: The file path
+          type: string
+          example: treatment-forms/496735/1609843279
+          nullable: true
+        amount_spent:
+          description: The reimbursement amount spent
+          type: number
+          format: float
+          nullable: true
+        amount_reimbursed:
+          description: The reimbursement amount reimbursed
+          type: number
+          format: float
+          nullable: true
+        outstanding_amount:
+          description: The reimbursement outstanding amount client has to pay for third party payment
+          type: number
+          format: float
+          nullable: true
+        clinic_id:
+          description: The clinic identifier, which must be replaced by Clinic that is now a composite with ID and Name but
+            removing the ID has impacts we don't have time to handle now.
+          type: integer
+          nullable: true
+        clinic:
+          title: Clinic is now a composite with ID and Name but removing the ID has impacts we don't have time to handle now.
+          description: The clinic
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/ApiClinic'
+        veterinary_id:
+          description: The veterinary identifier
+          type: integer
+          nullable: true
+        visit_reason:
+          description: The reason of the visit
+          type: string
+          nullable: true
+        sinister_types:
+          type: array
+          items:
+            type: integer
+          nullable: true
+        sinister_date:
+          description: The date of the sinister, also the visit date
+          type: string
+          nullable: true
+        transfer_date:
+          description: The transfer date of the reimbursement
+          type: string
+          nullable: true
+        reception_date:
+          description: The reception date of the reimbursement
+          type: string
+          nullable: true
+        typologies:
+          description: The typologies
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiTypology'
+          nullable: true
+        sinister_notification_id:
+          description: The sinister id used to download reimbursement notification file
+          type: integer
+          nullable: true
+        entry_date:
+          description: The compensation entry date
+          type: string
+          nullable: true
+        next_debit_date:
+          description: The next debit date for outstanding amount
+          type: string
+          nullable: true
+        veterinary_action_date:
+          description: The veterinary action date, date at which the veterinary received or cancelled the demand
+          type: string
+          nullable: true
+        correspondence_id:
+          description: The correspondence identifier
+          type: integer
+          nullable: true
+        has_schedule:
+          description: True if the third party payment has schedule, otherwise false, nullable for other reimbursement types
+          type: boolean
+          nullable: true
+      type: object
+    UpdateThirdPartyPaymentRequest:
+      properties:
+        first_symptom_date:
+          title: The date of first symptom
+          type: string
+          nullable: true
+        sinister_date:
+          title: The date of first symptom
+          type: string
+          nullable: true
+        visit_reason:
+          title: The visit reason
+          type: string
+          nullable: true
+        clinic_id:
+          title: The id of the clinic
+          type: integer
+          nullable: true
+        veterinary_id:
+          title: The id of the veterinary
+          type: integer
+          nullable: true
+        updated_clinic_amount:
+          title: The amount
+          type: number
+          format: float
+          minimum: 0
+          exclusiveMinimum: true
+          nullable: true
+        invoice_number:
+          title: The invoice number
+          type: string
+          nullable: true
+      type: object
+    ReimbursementIdResponse:
+      properties:
+        reimbursement_id:
+          description: The reimbursement identifier
+          type: integer
+      type: object
+    ApiReimbursement2:
+      properties:
+        id:
+          description: The reimbursement identifier
+          type: integer
+        type:
+          description: 'The reimbursement type<br/> `1`: Reimbursement claim, `2`: Third party payment, `5`: Loss quotation,
+            `6`: Death registration'
+          type: integer
+        status:
+          description: 'The reimbursement status<br/> `0`: Reimbursement in error, `1`: Reimbursement pending analysis, `2`:
+            Reimbursement processing analysis, `3`: Reimbursement pending payment, `4`: Reimbursement processed, `5`: Reimbursement
+            refused, `6`: Reimbursement to be completed, `7`: Duplicated reimbursement, `9`: Third party payment pending veterinary
+            validation, `10`: Third party payment canceled by veterinary, `11`: Expired third party payment, `12`: Accepted
+            third party payment, `13`: Refused third party payment, `14`: Processing third party payment, `15`: Processed
+            third party payment, `16`: Third party payment veterinary processing payment, `17`: Third party payment veterinary
+            payment terminated'
+          type: integer
+        contract_id:
+          description: The contract identifier
+          type: integer
+        origin_id:
+          description: 'The origin identifier<br/> `1`: Mobile application, `2`: Veterinary area, `3`: Veterinary software,
+            `4`: Client area, `5`: Paper'
+          type: integer
+        file_path:
+          description: The file path
+          type: string
+          example: treatment-forms/496735/1609843279
+          nullable: true
+        amount_spent:
+          description: The reimbursement amount spent
+          type: number
+          format: float
+          nullable: true
+        amount_reimbursed:
+          description: The reimbursement amount reimbursed
+          type: number
+          format: float
+          nullable: true
+        outstanding_amount:
+          description: The reimbursement outstanding amount client has to pay for third party payment
+          type: number
+          format: float
+          nullable: true
+        clinic_id:
+          description: The clinic identifier, which must be replaced by Clinic that is now a composite with ID and Name but
+            removing the ID has impacts we don't have time to handle now.
+          type: integer
+          nullable: true
+        clinic:
+          title: Clinic is now a composite with ID and Name but removing the ID has impacts we don't have time to handle now.
+          description: The clinic
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/ApiClinic2'
+        veterinary_id:
+          description: The veterinary identifier
+          type: integer
+          nullable: true
+        visit_reason:
+          description: The reason of the visit
+          type: string
+          nullable: true
+        sinister_types:
+          type: array
+          items:
+            type: integer
+          nullable: true
+        sinister_date:
+          description: The date of the sinister, also the visit date
+          type: string
+          nullable: true
+        transfer_date:
+          description: The transfer date of the reimbursement
+          type: string
+          nullable: true
+        reception_date:
+          description: The reception date of the reimbursement
+          type: string
+          nullable: true
+        sinister_notification_id:
+          description: The sinister id used to download reimbursement notification file
+          type: integer
+          nullable: true
+      type: object
+    ApiReimbursement3:
+      properties:
+        id:
+          description: The reimbursement identifier
+          type: integer
+        type:
+          description: 'The reimbursement type<br/> `1`: Reimbursement claim, `2`: Third party payment, `5`: Loss quotation,
+            `6`: Death registration'
+          type: integer
+        status:
+          description: 'The reimbursement status<br/> `0`: Reimbursement in error, `1`: Reimbursement pending analysis, `2`:
+            Reimbursement processing analysis, `3`: Reimbursement pending payment, `4`: Reimbursement processed, `5`: Reimbursement
+            refused, `6`: Reimbursement to be completed, `7`: Duplicated reimbursement, `9`: Third party payment pending veterinary
+            validation, `10`: Third party payment canceled by veterinary, `11`: Expired third party payment, `12`: Accepted
+            third party payment, `13`: Refused third party payment, `14`: Processing third party payment, `15`: Processed
+            third party payment, `16`: Third party payment veterinary processing payment, `17`: Third party payment veterinary
+            payment terminated'
+          type: integer
+        contract_id:
+          description: The contract identifier
+          type: integer
+        origin_id:
+          description: 'The origin identifier<br/> `1`: Mobile application, `2`: Veterinary area, `3`: Veterinary software,
+            `4`: Client area, `5`: Paper'
+          type: integer
+        file_path:
+          description: The file path
+          type: string
+          example: treatment-forms/496735/1609843279
+          nullable: true
+        amount_spent:
+          description: The reimbursement amount spent
+          type: number
+          format: float
+          nullable: true
+        amount_reimbursed:
+          description: The reimbursement amount reimbursed
+          type: number
+          format: float
+          nullable: true
+        outstanding_amount:
+          description: The reimbursement outstanding amount client has to pay for third party payment
+          type: number
+          format: float
+          nullable: true
+        clinic_id:
+          description: The clinic identifier, which must be replaced by Clinic that is now a composite with ID and Name but
+            removing the ID has impacts we don't have time to handle now.
+          type: integer
+          nullable: true
+        clinic:
+          title: Clinic is now a composite with ID and Name but removing the ID has impacts we don't have time to handle now.
+          description: The clinic
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/ApiClinic3'
+        veterinary_id:
+          description: The veterinary identifier
+          type: integer
+          nullable: true
+        animal_id:
+          description: The animal identifier
+          type: integer
+          nullable: true
+        visit_reason:
+          description: The reason of the visit
+          type: string
+          nullable: true
+        sinister_types:
+          type: array
+          items:
+            type: integer
+          nullable: true
+        sinister_date:
+          description: The date of the sinister, also the visit date
+          type: string
+          nullable: true
+        transfer_date:
+          description: The transfer date of the reimbursement
+          type: string
+          nullable: true
+        reception_date:
+          description: The reception date of the reimbursement
+          type: string
+          nullable: true
+        sinister_notification_id:
+          description: The sinister id used to download reimbursement notification file
+          type: integer
+          nullable: true
+      type: object
+    CreateReimbursementClaimRequest:
+      required:
+      - amount
+      - clinic_id
+      - invoice_file
+      - visit_reason
+      - sinister_types
+      - sinister_date
+      - contract_id
+      - origin_id
+      properties:
+        amount:
+          title: The amount of the reimbursement
+          minimum: 0
+          exclusiveMinimum: true
+          oneOf:
+          - type: integer
+          - type: number
+            format: float
+        clinic_id:
+          type: integer
+        treatment_form_file:
+          type: string
+          format: binary
+        invoice_file:
+          type: string
+          format: binary
+        veterinary_id:
+          type: integer
+        visit_reason:
+          type: string
+        sinister_types:
+          type: array
+          items:
+            type: integer
+            enum:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+            - 6
+            - 7
+            - 10
+            - 11
+            - 12
+            - 15
+            - 16
+        sinister_date:
+          title: The date of sinister
+          type: date
+          maximum: 0
+        type:
+          title: The type of the reimbursement
+          type: integer
+          enum:
+          - 1
+          - 2
+          - 5
+          - 6
+        contract_id:
+          title: The contract identifier
+          type: integer
+          minimum: 0
+          exclusiveMinimum: true
+        origin_id:
+          title: The origin identifier of the reimbursement
+          type: integer
+          minimum: 0
+          exclusiveMinimum: true
+        other_files:
+          type: array
+          items:
+            type: string
+            format: binary
+            maxItems: 5
+          maxItems: 5
+      type: object
+    CreateThirdPartyPaymentRequest:
+      required:
+      - amount
+      - clinic_id
+      - invoice_file
+      - contract_id
+      - origin_id
+      properties:
+        amount:
+          minimum: 0
+          exclusiveMinimum: true
+          oneOf:
+          - type: integer
+          - type: number
+            format: float
+        clinic_id:
+          type: integer
+        invoice_file:
+          type: string
+          format: binary
+        type:
+          title: The type of the reimbursement
+          type: integer
+          enum:
+          - 1
+          - 2
+          - 5
+          - 6
+        contract_id:
+          title: The contract identifier
+          type: integer
+          minimum: 0
+          exclusiveMinimum: true
+        origin_id:
+          title: The origin identifier of the reimbursement
+          type: integer
+          minimum: 0
+          exclusiveMinimum: true
+        other_files:
+          type: array
+          items:
+            type: string
+            format: binary
+            maxItems: 5
+          maxItems: 5
+      type: object
+    CreateLossQuotationRequest:
+      required:
+      - visit_reason
+      - contract_id
+      - origin_id
+      properties:
+        visit_reason:
+          title: The reason of the visit
+          type: string
+        type:
+          title: The type of the reimbursement
+          type: integer
+          enum:
+          - 1
+          - 2
+          - 5
+          - 6
+        contract_id:
+          title: The contract identifier
+          type: integer
+          minimum: 0
+          exclusiveMinimum: true
+        origin_id:
+          title: The origin identifier of the reimbursement
+          type: integer
+          minimum: 0
+          exclusiveMinimum: true
+        other_files:
+          type: array
+          items:
+            type: string
+            format: binary
+            maxItems: 5
+          maxItems: 5
+      type: object
+    CreateDeathRegistrationRequest:
+      required:
+      - visit_reason
+      - contract_id
+      - origin_id
+      properties:
+        visit_reason:
+          title: The reason of the visit
+          type: string
+        type:
+          title: The type of the reimbursement
+          type: integer
+          enum:
+          - 1
+          - 2
+          - 5
+          - 6
+        contract_id:
+          title: The contract identifier
+          type: integer
+          minimum: 0
+          exclusiveMinimum: true
+        origin_id:
+          title: The origin identifier of the reimbursement
+          type: integer
+          minimum: 0
+          exclusiveMinimum: true
+        other_files:
+          type: array
+          items:
+            type: string
+            format: binary
+            maxItems: 5
+          maxItems: 5
+      type: object
+    ApiSchedule:
+      properties:
+        outstanding_amount:
+          description: The dynamic outstanding amount
+          type: number
+          format: float
+        taken_amount:
+          description: The amount already reimbursed by the client
+          type: number
+          format: float
+        due_dates:
+          description: The due dates collection
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiDueDate'
+      type: object
+    ApiClinic:
+      properties:
+        id:
+          description: The clinic identifier
+          type: integer
+          nullable: true
+        name:
+          description: the clinic name
+          type: string
+          nullable: true
+      type: object
+    ApiTypology:
+      properties:
+        id:
+          description: The typology identifier
+          type: integer
+        name:
+          description: The typology name
+          type: string
+        acts:
+          description: The acts collection
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiAct'
+          nullable: true
+        upper_limit:
+          $ref: '#/components/schemas/ApiUpperLimit'
+        applied_deductible:
+          description: The applied deductible
+          type: number
+          format: float
+          nullable: true
+        total_reimbursed:
+          description: The total reimbursed
+          type: number
+          format: float
+          nullable: true
+        discount:
+          description: The discount
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/ApiDiscount'
+        non_conformities:
+          description: The non conformities
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/ApiNonConformities'
+        first_symptom_date:
+          description: The first symptom date
+          type: string
+          nullable: true
+        hexadecimal_color:
+          description: The hexadecimal color
+          type: string
+          example: 8cc63f
+          nullable: true
+      type: object
+    ApiClinic2:
+      properties:
+        id:
+          description: The clinic identifier
+          type: integer
+          nullable: true
+      type: object
+    ApiClinic3:
+      properties:
+        id:
+          description: The clinic identifier
+          type: integer
+          nullable: true
+      type: object
+    ApiDueDate:
+      properties:
+        expected_debit_date:
+          description: The expected debit date
+          type: string
+        amount:
+          description: The amount paid
+          type: number
+          format: float
+        settlement_date:
+          description: The actual debit date
+          type: string
+          nullable: true
+      type: object
+    ApiAct:
+      properties:
+        name:
+          description: The act name
+          type: string
+        sinister_date:
+          description: The sinister date
+          type: string
+        amount:
+          description: The act amount
+          type: number
+          format: float
+        is_refund:
+          description: If the act is refunded
+          type: boolean
+      type: object
+    ApiUpperLimit:
+      properties:
+        basic_ceiling:
+          description: The basic ceiling
+          type: number
+          format: float
+          nullable: true
+        remaining_ceiling:
+          description: The remaining ceiling
+          type: number
+          format: float
+          nullable: true
+      type: object
+    ApiDiscount:
+      properties:
+        code:
+          description: The discount code
+          type: string
+        quantity:
+          description: The discount quantity, the amount of the discount
+          type: string
+        description:
+          description: The discount description
+          type: string
+      type: object
+    ApiNonConformities:
+      properties:
+        name:
+          description: The non conformities name
+          type: string
+        description:
+          description: The non conformities description
+          type: string
+      type: object
+tags:
+- name: Reimbursement
+  description: Reimbursement
+externalDocs:
+  description: Find out more about Reimbursement API
+  url: https://git.santevet.com/dev-web/reimbursement-api

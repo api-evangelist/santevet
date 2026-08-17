@@ -1,0 +1,172 @@
+generated: '2026-08-17'
+method: probed
+source: live HTTP probes of every SantéVet host discovered in STEP 0b
+note: >-
+  Every /.well-known/ path probed returned 404 on every SantéVet host. No WellKnown or
+  SecurityTxt pointer is emitted in apis.yml, because a recorded absence is not a presence.
+  Two hosts (assurance.santevet.com, auth-customer.santevet.com) answer HTTP 200 with an
+  identical single-page-app HTML shell for EVERY path including /.well-known/agent-card.json;
+  those are catch-all false positives, not served documents, and are recorded as misses.
+hosts:
+- host: https://www.santevet.com
+  role: website
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /llms.txt
+    status: 404
+  - path: /robots.txt
+    status: 200
+    note: served, but robots.txt is not a /.well-known/ discovery document
+- host: https://toolkit.api.santevet.com
+  role: api
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /docs
+    status: 200
+    note: OpenAPI 3.0.0 document (not a /.well-known/ path) — harvested to openapi/
+  - path: /docs.jsonld
+    status: 200
+    note: Hydra JSON-LD API documentation — harvested to json-ld/
+- host: https://reimbursement.api.santevet.com
+  role: api
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /api/doc.json
+    status: 200
+    note: OpenAPI 3.0.3 document (not a /.well-known/ path) — harvested to openapi/
+- host: https://acquisition.api.santevet.com
+  role: api
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /api/doc
+    status: 200
+    note: NelmioApiDocBundle HTML reference — no machine-readable spec offered
+- host: https://file.api.santevet.com
+  role: api
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 401
+  - path: /.well-known/oauth-authorization-server
+    status: 401
+  - path: /.well-known/agent-card.json
+    status: 401
+    note: host returns 401 for every path, including /.well-known/*
+- host: https://courtier.santevet.com
+  role: broker-portal
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://espacepro.santevet.com
+  role: vet-portal
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://www.santevet.be
+  role: website
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /llms.txt
+    status: 404
+- host: https://www.santevet.es
+  role: website
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /llms.txt
+    status: 404
+- host: https://www.santevet.it
+  role: website
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /llms.txt
+    status: 404
+- host: https://www.santevet.de
+  role: website
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /llms.txt
+    status: 404
+rejected_false_positives:
+  note: >-
+    Four SantéVet hosts are single-page applications whose server answers HTTP 200 with the same
+    HTML shell for EVERY path. Each therefore "returns 200" for
+    /.well-known/agent-card.json, /.well-known/security.txt, /llms.txt and /openapi.json alike.
+    None of these is a served document and none earns a pointer. Detected by byte-identical
+    response size across unrelated paths plus an HTML content-type.
+  hosts:
+  - host: https://assurance.santevet.com
+    shell_bytes: 3620
+    content_type: text/html
+    paths_200: 10
+  - host: https://auth-customer.santevet.com
+    shell_bytes: 477
+    content_type: text/html
+    paths_200: 10
+  - host: https://veterinaire.santevet.com
+    shell_bytes: 4199
+    content_type: text/html;charset=utf-8
+    paths_200: 11
+    note: SVConnect, the SantéVet veterinary-practice portal.
+  - host: https://payvet.santevet.com
+    shell_bytes: 544
+    content_type: text/html
+    paths_200: 11
+    note: PayVet, the third-party-payment (tiers payant) product surface.
+summary:
+  hosts_probed: 16
+  documents_found: 0
+  well_known_pointer_emitted: false
+  security_txt_pointer_emitted: false
+  agent_card_found: false
+  spa_catch_all_hosts_rejected: 4

@@ -1,0 +1,92 @@
+generated: '2026-08-17'
+method: searched
+source: >-
+  registry.npmjs.org, pypi.org, rubygems.org, packagist.org, api.github.com, plus the SantéVet
+  B2B partner page
+package_count: 0
+official_count: 0
+note: >-
+  SantéVet ships no client libraries. Every public registry was queried and none returns a
+  first-party SantéVet package; the GitHub organisation named "santevet" exists but is empty.
+  No SDKs pointer is emitted in apis.yml, because there is no SDK. Partners integrate against
+  raw HTTP with credentials issued through a sales process.
+packages: []
+registries_searched:
+- registry: npm
+  endpoint: https://registry.npmjs.org/-/v1/search?text=santevet
+  status: 200
+  results: 0
+  version: null
+  note: zero packages match; no @santevet scope exists
+- registry: pypi
+  endpoint: https://pypi.org/pypi/santevet/json
+  status: 404
+  results: 0
+  version: null
+- registry: rubygems
+  endpoint: https://rubygems.org/api/v1/gems/santevet.json
+  status: 404
+  results: 0
+  version: null
+- registry: packagist
+  endpoint: https://packagist.org/search.json?q=santevet
+  status: 200
+  results: 0
+  version: null
+  note: >-
+    Checked specifically because the whole SantéVet estate is PHP/Symfony
+    (x-powered-by PHP/7.4.33, NelmioApiDocBundle, API Platform), which would make Packagist the
+    natural home for a first-party client. Nothing published.
+- registry: maven-central
+  status: not-searched
+  version: null
+  note: no Java surface indicated anywhere in the estate
+- registry: nuget
+  status: not-searched
+  version: null
+  note: no .NET surface indicated anywhere in the estate
+- registry: crates.io
+  status: not-searched
+  version: null
+  note: no Rust surface indicated anywhere in the estate
+- registry: pkg.go.dev
+  status: not-searched
+  version: null
+  note: no Go surface indicated anywhere in the estate
+source_control:
+- url: https://github.com/santevet
+  status: 200
+  type: Organization
+  public_repos: 0
+  name: null
+  blog: null
+  note: >-
+    An organisation account exists at this login but publishes nothing, sets no display name and
+    no website, so it cannot be confirmed as SantéVet's. No GitHubOrganization pointer is
+    emitted on the strength of an empty, unattributable account.
+- query: https://api.github.com/search/repositories?q=santevet
+  status: 200
+  total_count: 6
+  note: >-
+    All six hits are third-party — individual developers' interview exercises and hobby projects
+    (David-Rc/Santevet "Test santevet", girardthur/santevetServer,
+    clemtrib/test_symfony_santevet_2017, AlinaCalistru/santevet) plus this profile repository
+    (api-evangelist/santevet). None is first-party and none is catalogued here.
+mobile_apps:
+  note: >-
+    SantéVet ships consumer mobile apps, which are end-user products rather than developer
+    packages, so they are recorded here as context and not as packages[] entries.
+  entries:
+  - platform: android
+    package_id: com.santevet.france
+    url: https://play.google.com/store/apps/details?id=com.santevet.france
+    official: true
+    version: null
+    published: null
+    note: store listing not machine-queried in this pass; version deliberately left null rather than guessed
+  - platform: ios
+    url: https://apps.apple.com/FR/app/id1071400859
+    official: true
+    version: null
+    published: null
+    note: store listing not machine-queried in this pass; version deliberately left null rather than guessed

@@ -1,0 +1,117 @@
+generated: '2026-08-17'
+method: probed
+source: >-
+  https://acquisition.api.santevet.com/api/doc, https://reimbursement.api.santevet.com/api/doc,
+  https://toolkit.api.santevet.com/docs, and openapi/santevet-reimbursement-openapi.yml
+note: >-
+  SantéVet publishes interactive request consoles but no sandbox in the usual sense: there is no
+  test mode, no test/live key separation, no published test values, no fixtures and no test
+  clock. A staging tier exists for every microservice and is formally declared in the
+  reimbursement OpenAPI, but it is credential-gated exactly like production, so it is not a
+  self-serve trial environment. Nothing here was invented — no test card, identifier or key is
+  recorded because SantéVet publishes none.
+consoles:
+- api: acquisition
+  url: https://acquisition.api.santevet.com/api/doc
+  status: 200
+  type: NelmioApiDocBundle 2.x sandbox
+  public: true
+  interactive: true
+  capabilities:
+  - per-operation "Sandbox" try-it panel with request builder
+  - editable parameter, header and body forms
+  - request URL, request body, response headers and response body panes
+  - generated curl command line
+  - Symfony profiler link on responses
+  - 'api key field with Save/Clear, persisting the key for subsequent calls'
+  - 'body format selector (JSON), request format selector (json)'
+  requires_credentials: true
+  note: >-
+    The console renders and is fully browsable anonymously — this is where the acquisition API's
+    14 operations, their parameters and their status codes are documented — but every call it
+    builds returns 401 without a partner API key.
+- api: reimbursement
+  url: https://reimbursement.api.santevet.com/api/doc
+  status: 200
+  type: Swagger UI (NelmioApiDocBundle OpenAPI theme)
+  public: true
+  interactive: true
+  capabilities:
+  - Swagger UI "Try it out" per operation
+  - server selector across the three declared servers
+  - schema explorer over 19 component schemas
+  requires_credentials: true
+  spec_url: https://reimbursement.api.santevet.com/api/doc.json
+- api: toolkit
+  url: https://toolkit.api.santevet.com/docs
+  status: 200
+  type: API Platform OpenAPI document
+  public: true
+  interactive: false
+  requires_credentials: true
+  note: >-
+    Returns the raw OpenAPI 3.0.0 JSON rather than the API Platform Swagger UI shell. The Hydra
+    documentation at /docs.jsonld is likewise machine-readable rather than interactive.
+test_mode:
+  supported: false
+  key_prefixes: []
+  live_test_separation: false
+  evidence: >-
+    No test/live mode, no key prefix convention and no test-mode flag appears in either OpenAPI
+    document or in the acquisition HTML reference.
+test_values:
+  cards: []
+  bank_accounts: []
+  identifiers: []
+  animals: []
+  postal_codes: []
+  evidence: >-
+    None published. Notably absent for a rating API: GET /rates requires a postal_code, breed and
+    birth_date, and SantéVet documents no example triple that returns a known rate, so a partner
+    cannot verify an integration without live data.
+test_clocks:
+  supported: false
+fixtures:
+  supported: false
+triggers:
+  supported: false
+environments:
+- name: production
+  pattern: https://<service>.api.santevet.com
+  public_access: false
+  declared: true
+- name: staging
+  pattern: https://staging.<service>.api.santevet.com
+  public_access: false
+  declared: true
+  declared_in: openapi/santevet-reimbursement-openapi.yml
+  services_resolving:
+  - staging.acquisition.api.santevet.com
+  - staging.authentication.api.santevet.com
+  - staging.broker.api.santevet.com
+  - staging.client.api.santevet.com
+  - staging.edito.api.santevet.com
+  - staging.file.api.santevet.com
+  - staging.order.api.santevet.com
+  - staging.partner.api.santevet.com
+  - staging.reimbursement.api.santevet.com
+  - staging.review.api.santevet.com
+  - staging.toolkit.api.santevet.com
+  - staging.vet.api.santevet.com
+  - staging.webcallback.api.santevet.com
+  note: >-
+    A complete parallel staging estate exists and is discoverable in certificate transparency.
+    It is declared as a server in the public reimbursement contract, which means SantéVet
+    intends partners to use it — but no onboarding path to it is published.
+- name: development
+  pattern: https://{user}.reimbursement-api.srv-dev-web-2021.santevet.lan
+  public_access: false
+  declared: true
+  declared_in: openapi/santevet-reimbursement-openapi.yml
+  note: >-
+    Internal-only .lan hostname carrying a developer-trigram server variable. Unreachable from
+    outside SantéVet's network; recorded because it appears in a public contract.
+recommendation_for_provider: >-
+  Publishing one worked example — a postal code, breed identifier and birth date that returns a
+  known rate, plus a staging key self-serve path — would be the single highest-value addition to
+  this estate's developer experience.

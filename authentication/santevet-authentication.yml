@@ -1,0 +1,164 @@
+generated: '2026-08-17'
+method: probed
+source: >-
+  openapi/santevet-toolkit-openapi.yml (declared) plus live anonymous requests to
+  toolkit/reimbursement/acquisition/file .api.santevet.com (observed)
+upgrades: derived baseline from 0-working/derive-authentication.py, which saw only the one declared scheme
+note: >-
+  One credential, three APIs, and only one of them admits it. The toolkit API declares an apiKey
+  scheme in the Authorization header and applies it as a root-level security requirement across
+  all 58 operations. The reimbursement and acquisition APIs declare NO securityScheme and NO
+  security requirement at all, yet both reject every anonymous request with 401. No operation on
+  any of the three declares a 401 or 403 response, so an agent reading these contracts would
+  conclude they are open. That gap is the most consequential authentication finding here.
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+  oauth2_flows: []
+  oidc: false
+  mtls: false
+  basic: false
+  bearer: false
+  self_serve: false
+schemes:
+- name: apiKey
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: Value for the Authorization header parameter.
+  declared: true
+  applied: root-level security requirement
+  operations_covered: 58
+  sources:
+  - openapi/santevet-toolkit-openapi.yml
+- name: apiKey (observed, undeclared)
+  type: apiKey
+  in: header
+  parameter: Authorization
+  declared: false
+  observed: true
+  note: >-
+    Inferred from live behaviour and from the sibling toolkit API's declared scheme. The
+    reimbursement and acquisition documents publish no securityScheme whatsoever.
+  sources:
+  - openapi/santevet-reimbursement-openapi.yml
+  - acquisition.api.santevet.com/api/doc
+per_api:
+- api: toolkit
+  host: https://toolkit.api.santevet.com
+  declared_scheme: apiKey (Authorization header)
+  declared_401: false
+  observed_anonymous:
+  - request: 'GET /breeds with Accept: application/json'
+    status: 401
+    content_type: application/problem+json
+  - request: 'GET /species with Accept: application/ld+json'
+    status: 401
+    content_type: application/ld+json
+    body: >-
+      {"@context":"/contexts/Error","@type":"hydra:Error","hydra:title":"An error occurred",
+      "hydra:description":"User authentication required"}
+  - request: GET /docs
+    status: 200
+    note: the OpenAPI document itself is served anonymously
+  - request: GET /docs.jsonld
+    status: 200
+    note: the Hydra documentation is served anonymously
+  - request: GET /contexts/Entrypoint
+    status: 401
+    note: even the JSON-LD entrypoint is gated, so the API is not machine-explorable anonymously
+- api: reimbursement
+  host: https://reimbursement.api.santevet.com
+  declared_scheme: none
+  declared_401: false
+  observed_anonymous:
+  - request: GET /api/v1/reimbursements/1
+    status: 401
+    content_type: application/json
+    body: '{"message":"User authentication required"}'
+  - request: GET /api/doc
+    status: 200
+    note: Swagger UI served anonymously
+  - request: GET /api/doc.json
+    status: 200
+    note: the OpenAPI document is served anonymously
+- api: acquisition
+  host: https://acquisition.api.santevet.com
+  declared_scheme: none
+  declared_401: false
+  observed_anonymous:
+  - request: GET /status
+    status: 401
+    content_type: application/json
+    body: '{"code":401,"message":"User authentication required"}'
+  - request: GET /api/doc
+    status: 200
+    note: >-
+      NelmioApiDocBundle reference served anonymously, including an interactive sandbox with an
+      "api key" field that persists the key client-side via Save/Clear
+  documented_401_meaning: >-
+    The HTML reference documents 401 as "Returned when some datas are invalid" on the prospect and
+    quotation operations, which CONTRADICTS the observed runtime meaning (authentication
+    required). An agent following the docs would misdiagnose an auth failure as a validation
+    failure. Worth raising with the provider.
+- api: file
+  host: https://file.api.santevet.com
+  declared_scheme: none
+  observed_anonymous:
+  - request: every path probed, including /.well-known/*
+    status: 401
+    note: this host returns 401 for absolutely everything; no documentation is exposed
+- api: vet practice-management integrations
+  hosts:
+  - https://api-bourgelat.santevet.com
+  - https://api-epivet.santevet.com
+  - https://api-fuga.santevet.com
+  - https://api-gmvet.santevet.com
+  - https://api-myvetapps.santevet.com
+  - https://api-vetocom.santevet.com
+  declared_scheme: unknown
+  observed_anonymous:
+  - request: every path probed
+    status: 403
+    note: >-
+      Blocked at the edge/WAF before any application response, so no authentication scheme can be
+      observed. These are per-vendor integration endpoints for third-party veterinary
+      practice-management systems (Bourgelat, EpiVet, Fuga, GMVet, MyVetApps, VetoCom).
+credential_issuance:
+  self_serve: false
+  signup_url: null
+  portal_url: null
+  process: >-
+    Commercial. The B2B partner page (https://www.santevet.com/partenaire-btob) routes every
+    enquiry to a Typeform (https://aaxko64pztt.typeform.com/to/I7vhM5Bm) or a phone number. There
+    is no developer registration, no key-management console, and no documented key rotation,
+    expiry or scoping.
+  broker_route: https://courtier.santevet.com/login
+  developer_contact: devs-web@santevet.com
+oauth:
+  present: false
+  evidence: >-
+    derive-oauth-scopes.py found zero oauth2 schemes and zero scopes across both specifications.
+    /.well-known/oauth-authorization-server and /.well-known/openid-configuration return 404 on
+    every SantéVet host. No scopes/ artifact is emitted, correctly — there is no scope surface.
+authorization_model:
+  scopes: false
+  roles: false
+  tenancy: >-
+    Probably brand-scoped in practice — ref_id_marque (the SvMarque foreign key) threads through
+    the acquisition, toolkit and distribution models and is the natural partner boundary — but
+    SantéVet publishes no statement of what a partner key is authorised to see or do.
+  note: >-
+    A single opaque header credential with no scopes, no roles and no documented tenancy is the
+    weakest authorization posture in this estate. A partner key that can read
+    /clients/{clientId}/reimbursements has no published constraint limiting it to that partner's
+    own clients.
+gaps:
+- Two of three APIs declare no securityScheme despite enforcing authentication.
+- No operation on any API declares a 401 or 403 response.
+- The acquisition API's published meaning for 401 contradicts its runtime behaviour.
+- No scopes, no roles, no documented tenancy boundary.
+- No documented key rotation, expiry, revocation or rate-limit-per-key policy.
+- No HSTS on the API hosts (see security/santevet-domain-security.yml).

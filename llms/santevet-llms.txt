@@ -1,0 +1,112 @@
+# SantéVet
+
+> SantéVet is a French pet-insurance company, founded in 2003 and headquartered in Lyon,
+> insuring dogs, cats and small pets (NAC) across five European markets — France, Belgium,
+> Spain, Italy and Germany. Beyond direct-to-consumer cover it runs a B2B distribution business:
+> partners, brokers, retailers and veterinary practices embed SantéVet quoting and subscription
+> into their own channels over HTTP APIs. This file is an independent third-party profile
+> maintained by API Evangelist, not published by SantéVet.
+
+SantéVet publishes no developer portal, no API documentation index, no SDK and no `llms.txt` of
+its own. `/llms.txt` returns 404 on every SantéVet host. Its partner APIs are nevertheless real
+and three of them serve documentation anonymously; those are catalogued below. Access requires a
+partner API key issued through a sales process — there is no self-serve signup, no free tier and
+no published rate card.
+
+## APIs
+
+- [SantéVet Toolkit API](https://toolkit.api.santevet.com): Partner reference-data API. Species,
+  breeds and breed groups; insurance contract definitions, cover options and rate rows;
+  promotional codes; premium instalment plans; claim types and no-refund reasons; commercial
+  origins, brands, countries and languages. 58 operations, 54 of them reads. API Platform
+  implementation with Hydra/JSON-LD content negotiation.
+- [SantéVet Reimbursement API](https://reimbursement.api.santevet.com): Partner claims and
+  settlement API. Creates and retrieves pet-insurance reimbursement claims, lists claims by
+  animal or by client, and returns the third-party-payment (tiers payant / PayVet) instalment
+  schedule for a coverage — the surface behind SantéVet paying a veterinary clinic directly
+  rather than reimbursing the owner. 6 operations under `/api/v1/`.
+- [SantéVet Acquisition API](https://acquisition.api.santevet.com): Partner quote-to-subscribe
+  funnel. Prospects, quotations, the rating engine (`GET /rates`) and a health endpoint.
+  14 operations. Documented as HTML only — no machine-readable specification is published.
+
+## Specs
+
+- [Toolkit OpenAPI 3.0.0](https://toolkit.api.santevet.com/docs): live document, served
+  anonymously. Note `info.title` is an empty string and `info.version` is the framework default
+  `0.0.0`; `servers` is the relative `/`.
+- [Toolkit Hydra JSON-LD documentation](https://toolkit.api.santevet.com/docs.jsonld): live
+  Hydra `ApiDocumentation`, served anonymously, advertised by a
+  `Link: rel="http://www.w3.org/ns/hydra/core#apiDocumentation"` response header.
+- [Reimbursement OpenAPI 3.0.3](https://reimbursement.api.santevet.com/api/doc.json): live
+  document, served anonymously. The best-formed of the three — real title, version and a
+  developer contact (`devs-web@santevet.com`) — but it declares no `securityScheme` despite
+  returning 401 on every operation.
+- No AsyncAPI, no GraphQL schema, no gRPC/Protobuf, no MCP server, no A2A agent card, and no
+  JSON Schema published separately from the OpenAPI documents.
+
+## Docs
+
+- [Toolkit API reference (OpenAPI JSON)](https://toolkit.api.santevet.com/docs)
+- [Reimbursement API reference (Swagger UI)](https://reimbursement.api.santevet.com/api/doc)
+- [Acquisition API reference (Nelmio HTML, with an interactive sandbox panel)](https://acquisition.api.santevet.com/api/doc)
+- [B2B partner programme](https://www.santevet.com/partenaire-btob): the only route to
+  credentials. Names "API ou Landing Page Dédiée" as the integration options and funnels every
+  enquiry to an intake form or a phone call. No technical documentation.
+- [Legal notice](https://www.santevet.com/mentions-legales)
+- [Privacy policy](https://www.santevet.com/mes-donnees-personnelles): GDPR contact
+  `dpo@santevet.com`, supervisory authority CNIL.
+
+## Portals
+
+- [Broker extranet (courtier)](https://courtier.santevet.com/): login-gated. Brokers create
+  quotes and contracts here.
+- [Professional portal (espace pro)](https://espacepro.santevet.com/): login-gated.
+- [SVConnect — veterinary practice portal](https://veterinaire.santevet.com/): login-gated
+  single-page application.
+- [PayVet](https://payvet.santevet.com/): third-party-payment product surface, single-page
+  application.
+- [Customer portal (espace client)](https://espaceclient.santevet.com/): login-gated.
+
+## How to call these APIs
+
+- Send the partner API key in the `Authorization` request header. Every operation on all three
+  APIs returns `401 User authentication required` without it, including paths under
+  `/.well-known/`.
+- On the Toolkit API, negotiate `application/ld+json` rather than `application/json`. The
+  plain-JSON projection returns a bare array with no envelope, no `hydra:totalItems` and no
+  pagination links, so a caller cannot tell whether a collection is complete. Also supported:
+  `application/xml` and `text/xml`.
+- Resolve breed and species identifiers from the Toolkit API before calling the rating engine —
+  `GET /rates` takes integer breed identifiers, not names, and publishes no name lookup.
+- `GET /rates` returns `204` when no product exists for that breed, age and postal code. That is
+  a business answer, not an error, and not something to retry.
+- There is no idempotency key on any write operation across all three APIs, and no
+  `RateLimit-*`, `X-RateLimit-*` or `Retry-After` header on any response. There is no request-id
+  or correlation header either.
+- Error envelopes differ per API: RFC 7807 `problem+json` and Hydra `hydra:Error` on Toolkit, a
+  flat `{"message"}` on Reimbursement, and `{"code","message"}` on Acquisition.
+- Versioning is inconsistent: `/api/v1/` on Reimbursement, unversioned on Toolkit and
+  Acquisition. No deprecation policy, no `Sunset` header, no SLA and no status page are published.
+
+## Agent notes
+
+- **Read-only is the safe posture.** The write surface binds real insurance contracts
+  (`POST /quotations/subscribe`), files claims against live policies
+  (`POST /api/v1/reimbursements`), redirects who gets paid
+  (`PATCH /api/v1/reimbursements/{id}`, whose body carries `clinic_id` and `veterinary_id`) and
+  includes an irreversible GDPR erasure operation (`POST /prospects/anonymize`). None of them
+  publishes an idempotency contract, so a retry is not safe.
+- **Eight identifier fields on a reimbursement resolve to no published operation** —
+  `contract_id`, `clinic_id`, `veterinary_id`, `sinister_notification_id`, `correspondence_id`
+  and `origin_id` among them. Report raw values rather than claiming to have resolved them.
+- **Quotations carry a second opaque identifier**, a 40–60 character alphanumeric `uniqueId`
+  addressable at `GET /quotations/{uniqueId}`. It resolves a record containing a named person's
+  address, e-mail, telephone and date of birth; treat it as a secret.
+- Four SantéVet hosts (`assurance`, `auth-customer`, `veterinaire`, `payvet`) are single-page
+  applications that answer HTTP 200 with an HTML shell for **every** path, including
+  `/.well-known/agent-card.json` and `/openapi.json`. Those 200s are not documents.
+
+## Profile
+
+- [API Evangelist profile for SantéVet](https://github.com/api-evangelist/santevet)
+- [apis.yml](https://raw.githubusercontent.com/api-evangelist/santevet/refs/heads/main/apis.yml)

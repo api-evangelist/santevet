@@ -1,0 +1,170 @@
+generated: '2026-08-17'
+method: derived
+source: >-
+  openapi/santevet-toolkit-openapi.yml, openapi/santevet-reimbursement-openapi.yml,
+  json-ld/santevet-toolkit-hydra-docs.jsonld, live responses, and public SantéVet legal pages
+note: >-
+  Standards conformance is derived from the published contracts and observed responses. No
+  Compliance pointer is emitted in apis.yml: SantéVet publishes no certification programme,
+  no trust centre and no named audit (SOC 2, ISO 27001, PCI DSS), and probe-security-programs.py
+  found neither a trust centre nor a vulnerability-disclosure programme. GDPR obligations are
+  acknowledged in the consumer privacy policy — that is a legal duty every EU insurer carries,
+  not a published compliance attestation, and it is recorded below without a Compliance pointer.
+standards:
+- id: openapi-3.0
+  conforms: true
+  evidence: >-
+    Two documents parse as OpenAPI 3.x — reimbursement 3.0.3 (6 operations) and toolkit 3.0.0
+    (58 operations). The acquisition API publishes HTML only.
+  detail: openapi/
+- id: openapi-3.1
+  conforms: false
+  evidence: no 3.1 document published
+- id: json-ld
+  conforms: true
+  evidence: >-
+    toolkit serves application/ld+json with @context/@type on every resource and error, and
+    publishes a JSON-LD context tree under /contexts/
+  detail: json-ld/santevet-toolkit-hydra-docs.jsonld
+- id: hydra-core
+  conforms: true
+  evidence: >-
+    GET https://toolkit.api.santevet.com/docs.jsonld returns 200 with a Hydra ApiDocumentation
+    (60,078 bytes); collections carry hydra:member, hydra:totalItems and a hydra:view with
+    hydra:first/last/previous/next; errors are @type hydra:Error. Advertised via a
+    Link: rel="http://www.w3.org/ns/hydra/core#apiDocumentation" response header.
+- id: rfc7807-problem-details
+  conforms: partial
+  evidence: >-
+    toolkit returns application/problem+json with type/title/detail on content-negotiation
+    failure, but does not list problem+json among its supported response MIME types, so the
+    envelope is not reliably reachable. reimbursement returns a flat {"message"} and acquisition
+    a {"code","message"} — neither is RFC 7807.
+  detail: errors/santevet-problem-types.yml
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    The problem document observed cites RFC 2616 section 10 as its type URI, which is the
+    obsoleted HTTP/1.1 specification — it predates both RFC 7807 and RFC 9457.
+- id: rest
+  conforms: true
+  evidence: >-
+    Resource-oriented paths, correct method semantics (GET/POST/PATCH/PUT/DELETE), 204 on
+    delete, path-parameter item addressing across all three APIs.
+- id: content-negotiation
+  conforms: true
+  evidence: >-
+    toolkit negotiates application/json, application/ld+json, application/xml and text/xml, and
+    returns a descriptive error naming the supported set on an unsupported Accept.
+- id: api-key-authentication
+  conforms: true
+  evidence: >-
+    apiKey securityScheme in the Authorization header, applied as a root-level security
+    requirement across all 58 toolkit operations; enforced live with 401 on all three APIs.
+  detail: authentication/santevet-authentication.yml
+- id: oauth2
+  conforms: false
+  evidence: >-
+    No oauth2 securityScheme in either document; derive-oauth-scopes.py found zero oauth2
+    schemes and zero scopes. No /.well-known/oauth-authorization-server on any host.
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration returns 404 on every SantéVet host probed
+- id: fapi
+  conforms: false
+  evidence: no FAPI security profile, no mTLS, no PAR, no proof-of-possession
+- id: mtls
+  conforms: false
+  evidence: no mutualTLS securityScheme declared
+- id: idempotency
+  conforms: false
+  evidence: >-
+    Zero occurrences of "idempoten" across 218KB of combined specification; no idempotency key
+    documented on any write operation, including POST /quotations/subscribe and
+    POST /api/v1/reimbursements.
+  detail: conventions/santevet-conventions.yml
+- id: pagination
+  conforms: partial
+  evidence: >-
+    Hydra link-based pagination on toolkit ld+json responses only; page/results_per_page on the
+    acquisition quotation search; no pagination at all on the reimbursement collections.
+  detail: conventions/santevet-conventions.yml
+- id: rfc8594-sunset
+  conforms: false
+  evidence: no Sunset or Deprecation header declared or returned
+  detail: lifecycle/santevet-lifecycle.yml
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on all 16 hosts probed
+  detail: well-known/santevet-well-known.yml
+- id: rfc8615-well-known
+  conforms: false
+  evidence: no /.well-known/ document served on any host
+  detail: well-known/santevet-well-known.yml
+- id: ratelimit-headers
+  conforms: false
+  evidence: no RateLimit-*, X-RateLimit-* or Retry-After header declared or observed
+  detail: rate-limits/santevet-rate-limits.yml
+- id: asyncapi
+  conforms: false
+  evidence: >-
+    No AsyncAPI document and no documented webhook catalogue. A host named
+    webcallback.api.santevet.com exists and is almost certainly the callback receiver, and
+    webhook-events.dev.aws.santevet.com appears in certificate transparency, but neither
+    publishes a contract and the production host returns 404 at its root. Recorded as an
+    undocumented event surface, not as an AsyncAPI or Webhooks claim. No AsyncAPI or Webhooks
+    pointer is emitted.
+  detail: conventions/santevet-conventions.yml
+- id: mcp
+  conforms: false
+  evidence: no MCP server; no /mcp endpoint on any host
+  detail: mcp/santevet-mcp.yml
+- id: a2a
+  conforms: false
+  evidence: >-
+    /.well-known/agent-card.json and /.well-known/agent.json return 404 on every real host; the
+    four hosts that answer 200 are SPA catch-alls serving an HTML shell for every path.
+  detail: well-known/santevet-well-known.yml
+- id: graphql
+  conforms: false
+  evidence: /graphql returns 404 or 403 on every host probed
+- id: grpc
+  conforms: false
+  evidence: no .proto published in any repository, on buf.build, or in the docs
+- id: fhir
+  conforms: false
+  evidence: not a human-health API; no FHIR resource shapes present
+- id: scim
+  conforms: false
+  evidence: no /scim paths, no SCIM schemas
+- id: psd2
+  conforms: false
+  evidence: not a payment-services provider; no PSD2 surface
+- id: json-api
+  conforms: false
+  evidence: no application/vnd.api+json; the ld+json/Hydra projection is used instead
+- id: odata
+  conforms: false
+  evidence: no $metadata, no OData query grammar
+regulatory_context:
+  note: >-
+    Recorded as context. SantéVet is a French pet-insurance distributor operating in five EU
+    markets, so EU data-protection duties apply by law. None of this is a published attestation
+    and none of it earns a Compliance pointer.
+  gdpr:
+    acknowledged: true
+    dpo_contact: dpo@santevet.com
+    dpo_address: 35 rue de Marseille - CS 50623 - 69366 LYON CEDEX 07
+    supervisory_authority: CNIL
+    regulation: EU 2016/679
+    source: https://www.santevet.com/mes-donnees-personnelles
+    api_relevance: >-
+      The acquisition API exposes an explicit erasure affordance —
+      POST /prospects/anonymize, taking a JSON filter of an e-mail plus at least one phone
+      number — which is a GDPR right-to-erasure operation exposed as a partner API call. That is
+      a genuinely notable design choice and the strongest data-protection signal in the estate.
+  markets: [France, Belgium, Spain, Italy, Germany]
+certifications: []
+certifications_note: >-
+  None published. probe-security-programs.py found no trust centre at trust.santevet.com or
+  security.santevet.com (both NXDOMAIN) and no named certification anywhere.

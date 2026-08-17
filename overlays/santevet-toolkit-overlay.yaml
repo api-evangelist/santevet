@@ -1,0 +1,151 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the SantéVet Toolkit API
+  version: 1.0.0
+extends: openapi/santevet-toolkit-openapi.yml
+x-generated: '2026-08-17'
+x-method: generated
+x-source: >-
+  Derived from live probes of https://toolkit.api.santevet.com. Every action below records
+  something observed but absent from the published document. The harvested specification is
+  never mutated — openapi/_original/santevet-toolkit-openapi-original.json is the verbatim
+  fetch.
+actions:
+- target: $.info
+  description: >-
+    The published document ships an EMPTY info.title, an empty info.description and the API
+    Platform default version 0.0.0. Supplying identity so the document is usable in a catalogue.
+  update:
+    title: SantéVet Toolkit API
+    description: >-
+      SantéVet's partner reference-data API. Publishes the enumerations and product definitions
+      every other SantéVet surface depends on — species and breeds, insurance contract
+      definitions, cover options, rate rows, promotional codes, premium instalment plans, claim
+      types and no-refund reasons, commercial origins, countries and languages. Read-mostly:
+      54 of 58 operations are reads. API Platform implementation with Hydra/JSON-LD content
+      negotiation. Requires a partner API key in the Authorization header.
+    x-apievangelist-original-title: ''
+    x-apievangelist-original-version: 0.0.0
+    contact:
+      email: devs-web@santevet.com
+      x-apievangelist-note: >-
+        Taken from the sibling SantéVet Reimbursement API document, which is the only place
+        SantéVet publishes a developer contact address.
+- target: $.servers
+  description: >-
+    The published document declares a single relative server "/" with an empty description,
+    which names no host. Recording the absolute host this document is actually served from and
+    the staging host that resolves. Recorded as an ADDITION here rather than a repair, because
+    the original servers[] block must not be overwritten.
+  update:
+    x-apievangelist-observed-servers:
+    - url: https://toolkit.api.santevet.com
+      description: Production (host the document is served from)
+    - url: https://staging.toolkit.api.santevet.com
+      description: Staging (resolves; credential-gated)
+    x-apievangelist-original-servers:
+    - url: /
+      description: ''
+- target: $.info
+  description: >-
+    Recording the authentication reality. The document does declare an apiKey scheme and a
+    root-level security requirement, which is correct — but it declares no 401 response anywhere,
+    so a reader cannot tell what a failed call looks like.
+  update:
+    x-apievangelist-auth:
+      scheme: apiKey
+      location: header
+      parameter: Authorization
+      issuance: >-
+        Not self-serve. Partner onboarding via https://www.santevet.com/partenaire-btob
+      observed_anonymous_status: 401
+      observed_anonymous_body_json: '{"detail":"...","title":"An error occurred","type":"..."}'
+      observed_anonymous_body_ldjson: >-
+        {"@context":"/contexts/Error","@type":"hydra:Error","hydra:title":"An error occurred",
+        "hydra:description":"User authentication required"}
+- target: $.info
+  description: Recording the Hydra / JSON-LD discovery surface, which the OpenAPI document does not mention.
+  update:
+    x-apievangelist-hydra:
+      api_documentation: https://toolkit.api.santevet.com/docs.jsonld
+      status: 200
+      bytes: 60078
+      link_header: '<http://toolkit.api.santevet.com/docs.jsonld>; rel="http://www.w3.org/ns/hydra/core#apiDocumentation"'
+      link_header_note: >-
+        Advertised over http:// rather than https://, which downgrades a client that follows it.
+      contexts_base: /contexts/
+      artifact: json-ld/santevet-toolkit-hydra-docs.jsonld
+- target: $.info
+  description: >-
+    Recording the pagination contract, which exists only in the ld+json projection and is
+    invisible to a caller negotiating application/json.
+  update:
+    x-apievangelist-pagination:
+      style: hydra
+      media_type: application/ld+json
+      response_fields:
+      - 'hydra:member'
+      - 'hydra:totalItems'
+      - 'hydra:view.hydra:first'
+      - 'hydra:view.hydra:last'
+      - 'hydra:view.hydra:previous'
+      - 'hydra:view.hydra:next'
+      json_projection_note: >-
+        The application/json projection returns a bare array with no envelope, no total and no
+        links. No page or itemsPerPage query parameter is declared on any operation.
+- target: $.info
+  description: >-
+    Recording the missing runtime signals so the gap is machine-visible rather than merely
+    absent.
+  update:
+    x-apievangelist-gaps:
+      rate_limit_headers: none
+      request_id_header: none
+      idempotency: none
+      declared_401_responses: 0
+      declared_403_responses: 0
+      declared_429_responses: 0
+      sunset_header: false
+      examples_in_spec: 0
+    x-apievangelist-platform:
+      x_powered_by: PHP/7.4.33
+      note: >-
+        Read from a public response header. PHP 7.4 left official security support in
+        November 2022. Recorded as a maintenance observation, not a vulnerability claim.
+- target: $.info
+  description: API Evangelist profile cross-references.
+  update:
+    x-apievangelist-artifacts:
+      authentication: authentication/santevet-authentication.yml
+      conventions: conventions/santevet-conventions.yml
+      errors: errors/santevet-problem-types.yml
+      data_model: data-model/santevet-data-model.yml
+      lifecycle: lifecycle/santevet-lifecycle.yml
+      conformance: conformance/santevet-conformance.yml
+      rate_limits: rate-limits/santevet-rate-limits.yml
+      json_ld: json-ld/santevet-toolkit-hydra-docs.jsonld
+      skills: skills/_index.yml
+- target: $.tags
+  description: >-
+    The document declares no top-level tags[] block at all, though every operation carries a tag.
+    Recording the entity-oriented tag set that is actually in use, grouped by function.
+  update:
+    x-apievangelist-tag-groups:
+    - name: Animals
+      tags: [Race, Espece, SvGroupeRace]
+    - name: Products
+      tags: [SvDefContratAssurance, SvDefOption, SvDefOptionAppliqueeAuDefContrat, TypeOption, SvTarifsContrat]
+    - name: Claims
+      tags: [TypeSinistre, MotifNonRemboursement, SinistreMotifRetour]
+    - name: Payments
+      tags: [Fractionnement, TypeReglement, MotifPeriode, QuittanceLigneType]
+    - name: Promotions
+      tags: [SvPromo, SvPromoComposant, SvDefPromoComposant]
+    - name: Distribution
+      tags: [SvMarque, SvMarqueTel, SvMarquePays, OrigineCommerciale, OrigineConnaissance, SvFormuleVenduePar]
+    - name: Partners
+      tags: [TypePartenaire, StatutSocialPartenaire, TypeIdentifiantOfficielPartenaire]
+    - name: Geography
+      tags: [Pays, SvGroupeCodePostal, SvGroupeCodePostalDepartement, SvGroupeMarqueCodePostal]
+    - name: Reference
+      tags: [Civilite, Langue, Appareil, ContratRaisonAnnulation]

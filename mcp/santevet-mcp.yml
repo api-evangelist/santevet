@@ -1,0 +1,185 @@
+generated: '2026-08-17'
+method: derived
+status: candidate
+source: >-
+  openapi/santevet-toolkit-openapi.yml, openapi/santevet-reimbursement-openapi.yml,
+  acquisition.api.santevet.com/api/doc
+note: >-
+  SantéVet ships no MCP server. This is a DERIVED CANDIDATE tool list computed from the
+  operations SantéVet actually publishes, offered as a starting point — it is not a SantéVet
+  product and nothing here is reachable by an agent today. No endpoint URL is invented.
+pointer_decision:
+  mcpserver_pointer_emitted: false
+  reason: >-
+    NO type: MCPServer pointer is wired into apis.yml. SantéVet ships no MCP server, and the
+    MCPServer pointer asserts that a provider operates one — it is worth 4 points on the
+    ergonomics facet and 12 on agent readiness. Emitting it for a derived candidate would credit
+    SantéVet with an agent surface that does not exist and would tell an agent it can reach a
+    server it cannot. The candidate list below stays as an artifact and a recommendation only.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: api-key
+  verified: derived
+  note: >-
+    mode: none because no MCP server exists in any form — no hosted endpoint, no stdio package,
+    no registry entry. Probed /mcp, /sse and /.well-known/* across all 16 SantéVet hosts;
+    searched npm (including the @modelcontextprotocol scope), PyPI and Packagist. The auth value
+    records what a server WOULD require (the partner API key in the Authorization header), since
+    every underlying operation returns 401 anonymously.
+search_evidence:
+- endpoint: https://registry.npmjs.org/-/v1/search?text=santevet
+  status: 200
+  results: 0
+- endpoint: https://packagist.org/search.json?q=santevet
+  status: 200
+  results: 0
+- endpoint: https://pypi.org/pypi/santevet/json
+  status: 404
+- endpoint: https://api.github.com/orgs/santevet/repos
+  status: 200
+  results: 0
+- probe: /graphql on every api host
+  status: 404 or 403
+server:
+  name: santevet
+  transport: null
+  url: null
+tools:
+- name: santevet_list_breeds
+  description: List the pet breeds SantéVet can insure, optionally filtered by identifier.
+  source_operation: openapi/santevet-toolkit-openapi.yml#getRaceCollection
+  read_only: true
+- name: santevet_get_breed
+  description: Retrieve one breed by identifier.
+  source_operation: openapi/santevet-toolkit-openapi.yml#getRaceItem
+  read_only: true
+- name: santevet_list_species
+  description: List the animal species SantéVet covers (dogs, cats and small pets).
+  source_operation: openapi/santevet-toolkit-openapi.yml#getEspeceCollection
+  read_only: true
+- name: santevet_list_breeds_for_species
+  description: List the breeds belonging to one species.
+  source_operation: openapi/santevet-toolkit-openapi.yml#get_species_breedsRaceCollection
+  read_only: true
+- name: santevet_list_insurance_products
+  description: List the insurance contract definitions available for sale.
+  source_operation: openapi/santevet-toolkit-openapi.yml#getSvDefContratAssuranceCollection
+  read_only: true
+- name: santevet_list_rates_for_species
+  description: List the contract definitions and rates applicable to one species.
+  source_operation: openapi/santevet-toolkit-openapi.yml#get_rates_by_speciesSvDefContratAssuranceCollection
+  read_only: true
+- name: santevet_search_rates
+  description: Search contract rate rows.
+  source_operation: openapi/santevet-toolkit-openapi.yml#searchSvTarifsContratCollection
+  read_only: true
+- name: santevet_list_options
+  description: List the cover options that can be applied to a contract definition.
+  source_operation: openapi/santevet-toolkit-openapi.yml#getSvDefOptionAppliqueeAuDefContratCollection
+  read_only: true
+- name: santevet_search_options
+  description: Search cover options applied to contract definitions.
+  source_operation: openapi/santevet-toolkit-openapi.yml#searchSvDefOptionAppliqueeAuDefContratCollection
+  read_only: true
+- name: santevet_list_promotional_codes
+  description: >-
+    List promotional codes, filterable by code, active flag, insurance component, maximum animal
+    age and validity window.
+  source_operation: openapi/santevet-toolkit-openapi.yml#getSvPromoCollection
+  read_only: true
+- name: santevet_list_payment_divisions
+  description: List the premium instalment plans (fractionnement) available.
+  source_operation: openapi/santevet-toolkit-openapi.yml#getFractionnementCollection
+  read_only: true
+- name: santevet_list_claim_types
+  description: List the claim types (types de sinistre) used when filing a reimbursement.
+  source_operation: openapi/santevet-toolkit-openapi.yml#getTypeSinistreCollection
+  read_only: true
+- name: santevet_list_no_refund_reasons
+  description: List the reasons a claim may not be reimbursed.
+  source_operation: openapi/santevet-toolkit-openapi.yml#getMotifNonRemboursementCollection
+  read_only: true
+- name: santevet_list_countries
+  description: List supported countries.
+  source_operation: openapi/santevet-toolkit-openapi.yml#getPaysCollection
+  read_only: true
+- name: santevet_list_languages
+  description: List supported languages and locales.
+  source_operation: openapi/santevet-toolkit-openapi.yml#getLangueCollection
+  read_only: true
+- name: santevet_get_reimbursement
+  description: Retrieve one reimbursement claim by identifier.
+  source_operation: openapi/santevet-reimbursement-openapi.yml#findReimbursement
+  read_only: true
+- name: santevet_list_reimbursements_by_animal
+  description: List all reimbursement claims for one insured animal.
+  source_operation: openapi/santevet-reimbursement-openapi.yml#findAllReimbursementsByAnimal
+  read_only: true
+- name: santevet_list_reimbursements_by_client
+  description: List all reimbursement claims for one client.
+  source_operation: openapi/santevet-reimbursement-openapi.yml#findAllReimbursementsByClient
+  read_only: true
+- name: santevet_get_third_party_payment_schedule
+  description: Retrieve the third-party-payment (tiers payant) schedule for a coverage.
+  source_operation: openapi/santevet-reimbursement-openapi.yml#findSchedule
+  read_only: true
+- name: santevet_get_quote
+  description: Retrieve a pet-insurance quotation by identifier.
+  source_operation: 'acquisition: GET /quotations/{id}'
+  read_only: true
+  note: acquisition API is HTML-documented only; no operationId is published
+- name: santevet_get_quote_rates
+  description: Retrieve the rates attached to a quotation.
+  source_operation: 'acquisition: GET /quotations/{id}/rates'
+  read_only: true
+- name: santevet_quote_rates
+  description: >-
+    Quote pet-insurance rates and options for a postal code, breed and animal birth date.
+  source_operation: 'acquisition: GET /rates'
+  read_only: true
+  note: >-
+    The single most agent-useful operation in the estate — a rating engine with five scalar
+    inputs. Returns 204 when no rate exists for the combination, which a tool must surface as a
+    business answer rather than an error.
+- name: santevet_search_quotes
+  description: Search quotations with prospects and animals, paginated.
+  source_operation: 'acquisition: POST /quotations/search'
+  read_only: true
+- name: santevet_api_status
+  description: Check acquisition API health.
+  source_operation: 'acquisition: GET /status'
+  read_only: true
+excluded_from_candidate_tools:
+  note: >-
+    Deliberately omitted. These are consequential writes touching personal data, money or
+    insurance contracts, and should not be handed to an agent as a default tool without an
+    explicit human-in-the-loop contract. Recorded so the omission is visible rather than
+    accidental.
+  operations:
+  - 'acquisition: POST /prospects (creates a person record with name, address, email, phone, birth date)'
+  - 'acquisition: PATCH /prospects/{id}'
+  - 'acquisition: POST /prospects/anonymize (irreversible GDPR erasure)'
+  - 'acquisition: POST /quotations'
+  - 'acquisition: PATCH /quotations/{id}'
+  - 'acquisition: PATCH /quotations/{id}/to-validate'
+  - 'acquisition: POST /quotations/subscribe (binds an insurance contract)'
+  - 'acquisition: POST /quotations/{id}/subscribe (binds an insurance contract)'
+  - openapi/santevet-reimbursement-openapi.yml#createReimbursement
+  - openapi/santevet-reimbursement-openapi.yml#updateReimbursement
+  - openapi/santevet-toolkit-openapi.yml#putSvGroupeRaceItem
+  - openapi/santevet-toolkit-openapi.yml#deleteSvGroupeRaceItem
+  - openapi/santevet-toolkit-openapi.yml#putSvTarifsContratItem
+  - openapi/santevet-toolkit-openapi.yml#deleteSvTarifsContratItem
+coverage:
+  candidate_tools: 24
+  read_only: 24
+  writes_excluded: 14
+  operations_published: 78
+  note: >-
+    78 = 58 toolkit + 6 reimbursement + 14 acquisition. Candidate tools cover the read surface
+    plus the rating engine; the reference-data long tail (civilities, referral sources, partner
+    types, telephone numbers, primary systems and the remaining lookup collections) is left out
+    of the candidate set as too granular to be useful as individual agent tools.

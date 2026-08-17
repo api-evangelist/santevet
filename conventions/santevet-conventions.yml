@@ -1,0 +1,169 @@
+generated: '2026-08-17'
+method: derived
+source: >-
+  openapi/santevet-toolkit-openapi.yml, openapi/santevet-reimbursement-openapi.yml,
+  json-ld/santevet-toolkit-hydra-docs.jsonld, and live probes of
+  acquisition/toolkit/reimbursement.api.santevet.com
+note: >-
+  SantéVet runs three independently built partner APIs on one domain and they do NOT share
+  conventions. The toolkit API is API Platform (Hydra/JSON-LD, content negotiation, filter
+  grammar). The reimbursement API is hand-written Symfony with NelmioApiDocBundle and a flat
+  JSON envelope. The acquisition API is an older Symfony service documented only as HTML with
+  bracket-notation form parameters. Anything an agent learns on one does not transfer to the
+  others; that divergence is the single most important convention fact about this estate.
+authentication:
+  style: api-key
+  transport: Authorization request header
+  declared_in: openapi/santevet-toolkit-openapi.yml (components.securitySchemes.apiKey)
+  scope: >-
+    Root-level security requirement on the toolkit API applies the key to all 58 operations.
+    The reimbursement and acquisition documents declare no securityScheme at all, yet both
+    return 401 "User authentication required" anonymously — the requirement is real and
+    undocumented.
+  issuance: >-
+    Not self-serve. Keys are issued through the B2B partner process at
+    https://www.santevet.com/partenaire-btob, which funnels to a Typeform and a sales call.
+  oauth: false
+  detail: authentication/santevet-authentication.yml
+idempotency:
+  supported: false
+  header: null
+  evidence: >-
+    Zero occurrences of "idempoten" across both OpenAPI documents (218KB combined) and no
+    idempotency key documented in the acquisition HTML reference. No Idempotency pointer is
+    emitted in apis.yml.
+  risk: >-
+    POST /quotations/subscribe and POST /api/v1/reimbursements are both money-adjacent
+    non-idempotent writes — a retried subscription or reimbursement claim has no published
+    deduplication contract.
+pagination:
+  toolkit:
+    style: hydra
+    media_type: application/ld+json
+    response_fields:
+    - 'hydra:member'
+    - 'hydra:totalItems'
+    - 'hydra:view.@id'
+    - 'hydra:view.hydra:first'
+    - 'hydra:view.hydra:last'
+    - 'hydra:view.hydra:previous'
+    - 'hydra:view.hydra:next'
+    params: []
+    note: >-
+      Pagination is expressed only as Hydra link IRIs in the ld+json projection. The
+      application/json projection returns a bare array with no envelope, no total and no links,
+      so a caller who negotiates plain JSON loses pagination entirely. No page or itemsPerPage
+      query parameter is declared on any of the 58 operations.
+  acquisition:
+    style: page-number
+    params:
+    - name: page
+      description: number of page for Paginator
+      type: integer
+    - name: results_per_page
+      description: number of results per page
+      type: integer
+    applies_to: POST /quotations/search
+  reimbursement:
+    style: none
+    note: >-
+      findAllReimbursementsByAnimal and findAllReimbursementsByClient return unbounded arrays
+      with no pagination parameters or envelope.
+filtering:
+  toolkit:
+    style: api-platform-filter-grammar
+    patterns:
+    - 'exact: ?id=, ?code=, ?locale=, ?is_active='
+    - 'multi-value: ?id[]=, ?code[]=, ?locale[]='
+    - 'nested property: ?components.insurance='
+    - 'range: ?maximumAgeInMonth[gt|gte|lt|lte|between]='
+    - 'date: ?start_date[before|strictly_before|after|strictly_after]='
+    richest_operation: getSvPromoCollection (20 declared query parameters)
+  acquisition:
+    style: bracket-notation form fields
+    patterns:
+    - 'filters[quotation_id], filters[prospect_id], filters[name], filters[firstname]'
+    - 'filters[status], filters[min_date], filters[max_date], filters[extra_fields]'
+    - 'nested writes: prospect[name], prospect[animals][][breed]'
+content_negotiation:
+  toolkit:
+    supported:
+    - application/json
+    - application/ld+json
+    - application/xml
+    - text/xml
+    default: application/json
+    hydra_documentation: https://toolkit.api.santevet.com/docs.jsonld
+    link_header: '<http://toolkit.api.santevet.com/docs.jsonld>; rel="http://www.w3.org/ns/hydra/core#apiDocumentation"'
+    note: >-
+      Unsupported types produce an RFC 7807 problem document naming the supported set. Note the
+      advertised Link header uses http:// not https://, which downgrades a following client.
+  reimbursement:
+    supported:
+    - application/json
+    - multipart/form-data (createReimbursement request only)
+  acquisition:
+    supported:
+    - application/json
+    request_format: json (declared in the Nelmio reference header)
+versioning:
+  scheme: mixed
+  detail:
+  - 'reimbursement: URI path prefix /api/v1/ — info.version 1.0.0'
+  - 'toolkit: unversioned paths, info.version 0.0.0 (placeholder, never set)'
+  - 'acquisition: unversioned paths, no version published'
+  note: >-
+    No version negotiation header, no date-based versioning, no version train, and no published
+    policy for how a breaking change would be introduced.
+  detail_artifact: lifecycle/santevet-lifecycle.yml
+error_envelope:
+  shape: divergent-per-api
+  detail: errors/santevet-problem-types.yml
+  summary: >-
+    RFC 7807 problem+json and Hydra hydra:Error on toolkit; flat {"message"} on reimbursement;
+    {"code","message"} on acquisition.
+rate_limit_signaling:
+  headers: []
+  status_on_exhaustion: null
+  evidence: >-
+    No X-RateLimit-*, RateLimit-* or Retry-After header appears in either OpenAPI document, and
+    none was observed on live 200 or 401 responses from toolkit.api.santevet.com.
+  detail: rate-limits/santevet-rate-limits.yml
+request_tracing:
+  request_id_header: null
+  evidence: >-
+    No request-id, X-Request-Id, traceparent or correlation header is declared or returned. An
+    integrator has no published handle to quote back to SantéVet support for a failed call.
+metadata:
+  extension_field: extra_fields
+  apis: [acquisition]
+  note: >-
+    The acquisition API accepts a free-form extra_fields array on prospects and quotations and
+    accepts it as a filter on /quotations/search. Its schema is undocumented.
+field_expansion:
+  supported: false
+  note: >-
+    No expand, include, or fields parameter on any operation. The toolkit API instead ships
+    purpose-built serialization groups baked into schema names
+    (e.g. Race-breeds_get_species_get_translations_get), so the projection is fixed per
+    operation and not caller-selectable.
+observed_response_headers:
+  source: 'HEAD https://toolkit.api.santevet.com/docs'
+  security:
+  - 'x-content-type-options: nosniff'
+  - 'x-frame-options: deny'
+  caching:
+  - 'cache-control: no-cache, private'
+  - 'vary: Accept, Accept-Encoding'
+  disclosure:
+  - 'x-powered-by: PHP/7.4.33'
+  note: >-
+    x-powered-by leaks PHP 7.4.33, which reached end of security support in November 2022. This
+    is a hardening observation from a public response header, not a vulnerability claim.
+cross_references:
+  authentication: authentication/santevet-authentication.yml
+  errors: errors/santevet-problem-types.yml
+  lifecycle: lifecycle/santevet-lifecycle.yml
+  rate_limits: rate-limits/santevet-rate-limits.yml
+  data_model: data-model/santevet-data-model.yml
+  conformance: conformance/santevet-conformance.yml

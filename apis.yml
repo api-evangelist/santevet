@@ -1,19 +1,123 @@
 aid: santevet
 name: SantéVet
-description: 'SantéVet is a company surfaced as a portfolio company of serena and added to the API Evangelist
-  network as a stub for enrichment. Sector: consumer. This profile is a lead awaiting the enrichment pipeline.'
+description: >-
+  SantéVet is a French pet-insurance company, founded in 2003 and headquartered in Lyon, that
+  insures dogs, cats and small pets (NAC) across five European markets — France, Belgium, Spain,
+  Italy and Germany. Alongside its direct-to-consumer business it runs a B2B distribution
+  network: brokers, retailers, affinity partners and veterinary practices embed SantéVet quoting,
+  subscription and claims into their own channels over HTTP APIs. Three of those partner APIs
+  serve documentation anonymously — a reference-data Toolkit API (58 operations, API Platform,
+  Hydra/JSON-LD), a Reimbursement API behind the PayVet third-party-payment product (6
+  operations, OpenAPI 3.0.3), and an Acquisition API carrying the quote-to-subscribe funnel and
+  the rating engine (14 operations, HTML reference only). SantéVet publishes no developer portal,
+  no SDK, no pricing and no self-serve signup; credentials are issued through a sales process.
 url: https://raw.githubusercontent.com/api-evangelist/santevet/refs/heads/main/apis.yml
 x-type: company
 x-source: serena-portfolio
-x-tier: stub
-x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-08-17'
 modified: '2026-08-17'
 tags:
-- Company
+- Insurance
+- Insurtech
+- Pet Insurance
+- Veterinary
 - Consumer
-apis: []
+- Embedded Insurance
+- Claims
+- Payments
+- France
+- Europe
+- Company
+apis:
+- aid: santevet-toolkit
+  name: SantéVet Toolkit API
+  description: >-
+    SantéVet's partner reference-data API and the registry every other SantéVet surface depends
+    on. Publishes species, breeds and breed groups; insurance contract definitions, cover options
+    and rate rows; promotional codes; premium instalment plans (fractionnement); claim types,
+    no-refund reasons and claim return reasons; commercial origins, brands, telephone numbers,
+    partner types, countries and languages. 58 operations, 54 of them reads, over 40 base
+    entities. API Platform implementation with Hydra/JSON-LD content negotiation and a rich
+    filter grammar. Requires a partner API key in the Authorization header.
+  humanURL: https://toolkit.api.santevet.com/docs
+  baseURL: https://toolkit.api.santevet.com
+  tags:
+  - Reference Data
+  - Insurance
+  - Pet Insurance
+  - Breeds
+  - Rates
+  - JSON-LD
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-toolkit-openapi.yml
+  - type: APIReference
+    url: https://toolkit.api.santevet.com/docs
+  - type: JSONLDContext
+    url: json-ld/santevet-toolkit-hydra-docs.jsonld
+  - type: Overlay
+    url: overlays/santevet-toolkit-overlay.yaml
+  x-note: >-
+    The published document declares an empty info.title, the framework-default info.version
+    0.0.0, and a single relative server "/". The harvested spec is left verbatim; the absolute
+    production host and the real identity are recorded in the Overlay rather than written into
+    the contract.
+- aid: santevet-reimbursement
+  name: SantéVet Reimbursement API
+  description: >-
+    SantéVet's partner claims and settlement API. Creates and retrieves pet-insurance
+    reimbursement claims, lists every claim for an insured animal or for a client, and returns
+    the third-party-payment (tiers payant) instalment schedule for a coverage — the surface
+    behind PayVet, where SantéVet settles directly with the veterinary clinic instead of
+    reimbursing the owner afterwards. 6 operations under /api/v1/, 19 component schemas.
+    The best-formed of SantéVet's three contracts, though it declares no security scheme despite
+    returning 401 on every operation.
+  humanURL: https://reimbursement.api.santevet.com/api/doc
+  baseURL: https://reimbursement.api.santevet.com
+  tags:
+  - Claims
+  - Reimbursement
+  - Insurance
+  - Payments
+  - Veterinary
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-reimbursement-openapi.yml
+  - type: APIReference
+    url: https://reimbursement.api.santevet.com/api/doc
+  - type: Overlay
+    url: overlays/santevet-reimbursement-overlay.yaml
+  - type: Sandbox
+    url: https://reimbursement.api.santevet.com/api/doc
+- aid: santevet-acquisition
+  name: SantéVet Acquisition API
+  description: >-
+    SantéVet's partner quote-to-subscribe funnel and rating engine. Creates and updates prospects
+    (with a dedicated GDPR anonymisation operation), creates, searches, validates and subscribes
+    quotations, and exposes GET /rates — the rating engine that turns a postal code, breed and
+    animal date of birth into premiums and cover options. This is the pricing surface for a
+    company that deliberately publishes no consumer price grid. 14 operations across Prospect,
+    Quotation, Rate and Status.
+  humanURL: https://acquisition.api.santevet.com/api/doc
+  baseURL: https://acquisition.api.santevet.com
+  tags:
+  - Quotes
+  - Rating
+  - Subscription
+  - Insurance
+  - Pet Insurance
+  properties:
+  - type: APIReference
+    url: https://acquisition.api.santevet.com/api/doc
+  - type: Sandbox
+    url: https://acquisition.api.santevet.com/api/doc
+  x-note: >-
+    Documented only as a NelmioApiDocBundle 2.x HTML reference with an interactive sandbox — no
+    machine-readable specification is published, so no OpenAPI pointer is wired. The HTML
+    publishes all 14 operations with their parameters, requirements and status codes. No OpenAPI
+    document was authored from it: deriving a specification from HTML would put a
+    non-provider-authored contract in openapi/.
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -22,3 +126,146 @@ maintainers:
 common:
 - type: Website
   url: https://www.santevet.com/
+- type: Login
+  url: https://espaceclient.santevet.com/
+- type: SignUp
+  url: https://www.santevet.com/partenaire-btob
+- type: Support
+  url: https://www.santevet.com/faqs
+- type: TermsOfService
+  url: https://www.santevet.com/mentions-legales
+- type: PrivacyPolicy
+  url: https://www.santevet.com/mes-donnees-personnelles
+- type: Authentication
+  url: authentication/santevet-authentication.yml
+- type: Conventions
+  url: conventions/santevet-conventions.yml
+- type: ErrorCatalog
+  url: errors/santevet-problem-types.yml
+- type: DataModel
+  url: data-model/santevet-data-model.yml
+- type: Lifecycle
+  url: lifecycle/santevet-lifecycle.yml
+- type: Conformance
+  url: conformance/santevet-conformance.yml
+- type: DomainSecurity
+  url: security/santevet-domain-security.yml
+- type: RateLimits
+  url: rate-limits/santevet-rate-limits.yml
+- type: Plans
+  url: plans/santevet-plans-pricing.yml
+- type: Packages
+  url: packages/santevet-packages.yml
+- type: Sandbox
+  url: sandbox/santevet-sandbox.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/santevet-llms.txt
+- type: AgenticAccess
+  url: agentic-access/santevet-agentic-access.yml
+x-pointers-deliberately-not-emitted:
+  note: >-
+    Recorded so a reader can tell an absent pointer from an unchecked one. Each of these was
+    probed or searched, missed, and is therefore NOT wired — emitting any of them would credit
+    SantéVet with a surface it does not publish.
+  MCPServer: >-
+    No MCP server in any form — no hosted endpoint, no stdio package, no registry entry. The
+    derived candidate tool list in mcp/santevet-mcp.yml carries deployment.mode = none.
+  AgentCard: >-
+    /.well-known/agent-card.json and /.well-known/agent.json return 404 on every real host. Four
+    hosts answer 200 with an SPA HTML shell for every path; those are rejected as false
+    positives. Nothing written to a2a/.
+  WellKnown: Every /.well-known/ path returned 404 on all 16 hosts probed.
+  SecurityTxt: /.well-known/security.txt returns 404 on all 16 hosts probed.
+  Security: No vulnerability-disclosure programme, policy page or bug bounty found.
+  VulnerabilityDisclosure: Same — probe-security-programs.py recorded no hit.
+  TrustCenter: trust.santevet.com and security.santevet.com are both NXDOMAIN.
+  Compliance: No published certification programme or named audit (SOC 2, ISO 27001, PCI DSS).
+  Idempotency: >-
+    Zero occurrences of "idempoten" across 218KB of specification. No write operation publishes a
+    deduplication contract.
+  SDKs: No first-party client library on npm, PyPI, RubyGems or Packagist.
+  StatusPage: status.santevet.com is NXDOMAIN; the acquisition /status endpoint is 401-gated.
+  Deprecation: No deprecation policy, no Sunset or Deprecation header, zero deprecated operations.
+  AsyncAPI: No AsyncAPI document published.
+  Webhooks: >-
+    No documented webhook catalogue. webcallback.api.santevet.com exists and returns 404 at its
+    root; an event surface is implied but nothing is published.
+  OAuthScopes: No oauth2 scheme and zero scopes; derive-oauth-scopes.py found nothing.
+  ChangeLog: No dated changelog on any host.
+  CLI: No first-party CLI.
+  Postman: No public Postman collection or workspace found.
+  DeveloperPortal: >-
+    None exists. The three /api/doc endpoints are per-service references, wired as APIReference on
+    their own api entries; there is no portal that indexes them.
+  GettingStarted: No quickstart or getting-started page.
+  Roadmap: No public roadmap.
+  Pricing: >-
+    No API rate card and no consumer price grid — SantéVet quotes per animal by design. See
+    plans/santevet-plans-pricing.yml (plan_count 0).
+  GitHubOrganization: >-
+    github.com/santevet exists but publishes zero repositories, sets no display name and no
+    website, so it cannot be attributed to this company.
+  Blog: >-
+    /articles/<slug> pages exist, but no verified blog index or feed URL was reachable before the
+    marketing host began refusing connections from this run.
+  ToolCrosswalk: Precondition not met — no MCP server and no GraphQL surface to cross-walk.
+x-image-note: >-
+  image is intentionally unset. https://www.santevet.com and the .be/.es/.it/.de sites stopped
+  completing TLS connections from this run partway through the pass (an edge throttle on the
+  marketing CDN), so no logo or og:image URL could be verified. Left blank rather than guessed.
+x-surface-inventory:
+  note: >-
+    Full host inventory from certificate-transparency and DNS enumeration, with the status each
+    returned. Recorded because SantéVet publishes no index of its own API estate.
+  documented_apis: 3
+  operations_published: 78
+  api_hosts_live_no_docs:
+  - authentication.api.santevet.com
+  - broker.api.santevet.com
+  - client.api.santevet.com
+  - edito.api.santevet.com
+  - order.api.santevet.com
+  - partner.api.santevet.com
+  - review.api.santevet.com
+  - vet.api.santevet.com
+  - webcallback.api.santevet.com
+  api_hosts_fully_gated:
+  - host: file.api.santevet.com
+    status: 401
+  vet_pms_integration_hosts_waf_blocked:
+  - api-bourgelat.santevet.com
+  - api-epivet.santevet.com
+  - api-fuga.santevet.com
+  - api-gmvet.santevet.com
+  - api-myvetapps.santevet.com
+  - api-vetocom.santevet.com
+  vet_pms_note: >-
+    One endpoint per third-party veterinary practice-management vendor (Bourgelat, EpiVet, Fuga,
+    GMVet, MyVetApps, VetoCom). All return 403 at the edge to anonymous requests. This is
+    SantéVet's real integration footprint into clinic software and none of it is documented.
+  login_gated_portals:
+  - url: https://courtier.santevet.com/
+    role: broker extranet
+    status: 302
+  - url: https://espacepro.santevet.com/
+    role: professional portal
+    status: 302
+  - url: https://veterinaire.santevet.com/
+    role: SVConnect veterinary portal
+    status: 200 (SPA)
+  - url: https://payvet.santevet.com/
+    role: PayVet third-party payment
+    status: 200 (SPA)
+  - url: https://espaceclient.santevet.com/
+    role: customer portal
+  staging_estate: >-
+    A complete parallel staging tier exists (staging.<service>.api.santevet.com for all 13
+    services) and is formally declared as a server in the public reimbursement contract, but no
+    onboarding path to it is published.
+x-enrichment:
+  date: '2026-08-17'
+  status: enriched
+  artifacts_added: 26
+  pass: local-v1

@@ -1,0 +1,103 @@
+generated: '2026-08-17'
+method: derived
+source: >-
+  openapi/santevet-reimbursement-openapi.yml, openapi/santevet-toolkit-openapi.yml,
+  acquisition.api.santevet.com/api/doc, and live host probes
+note: >-
+  SantéVet publishes no versioning policy, no deprecation policy, no SLA and no status page for
+  any of its three partner APIs. No StatusPage or Deprecation pointer is emitted in apis.yml,
+  because neither exists. This is a genuine absence recorded from probes, not a gap in the pass.
+versioning:
+  scheme: mixed
+  policy_url: null
+  detail:
+  - api: reimbursement
+    scheme: uri-path
+    current: v1
+    info_version: 1.0.0
+    evidence: all six operations sit under /api/v1/
+  - api: toolkit
+    scheme: none
+    current: null
+    info_version: 0.0.0
+    evidence: >-
+      info.version is the API Platform default 0.0.0 and info.title is an empty string — the
+      document was published without ever being filled in. All 58 paths are unversioned.
+  - api: acquisition
+    scheme: none
+    current: null
+    info_version: null
+    evidence: unversioned paths (/prospects, /quotations, /rates, /status); no version published
+  negotiation_header: null
+deprecation:
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  evidence: >-
+    No Sunset or Deprecation response header is declared in either OpenAPI document, and no
+    deprecation policy page exists on any SantéVet host.
+deprecated_operations: []
+deprecated_operations_note: >-
+  Zero operations carry deprecated: true across the 64 published operations
+  (58 toolkit + 6 reimbursement). The 129 occurrences of the string "deprecated" in the toolkit
+  document are all JSON Schema keyword scaffolding emitted by API Platform, not operation-level
+  deprecation flags.
+sla:
+  url: null
+  uptime_target: null
+  evidence: >-
+    No SLA is published. The B2B partner page (https://www.santevet.com/partenaire-btob) markets
+    "reporting en temps réel" but commits to no availability target.
+status_page: null
+status_page_evidence:
+  probed:
+  - url: https://status.santevet.com/
+    status: NXDOMAIN
+  - url: https://trust.santevet.com/
+    status: NXDOMAIN
+  note: >-
+    The acquisition API does expose a machine health endpoint —
+    GET https://acquisition.api.santevet.com/status, documented as "Get the API status" — but it
+    returns 401 anonymously, so it is a partner-only healthcheck rather than a public status
+    page. It does not satisfy status_page_present.
+support:
+  developer_contact: devs-web@santevet.com
+  source: openapi/santevet-reimbursement-openapi.yml info.contact.email
+  note: >-
+    The only developer-facing contact address SantéVet publishes anywhere. It appears in the
+    reimbursement OpenAPI document and nowhere on the marketing site.
+  data_protection_officer: dpo@santevet.com
+  commercial_phone: '+33 4 78 17 38 00'
+environments:
+  note: >-
+    A staging tier exists for every microservice (staging.<service>.api.santevet.com) and the
+    reimbursement OpenAPI declares it as a formal server, but staging is credential-gated the
+    same as production, so it is not a public sandbox.
+  tiers:
+  - name: production
+    pattern: https://<service>.api.santevet.com
+    declared: true
+  - name: staging
+    pattern: https://staging.<service>.api.santevet.com
+    declared: true
+    declared_in: openapi/santevet-reimbursement-openapi.yml
+  - name: development
+    pattern: https://{user}.reimbursement-api.srv-dev-web-2021.santevet.lan
+    declared: true
+    declared_in: openapi/santevet-reimbursement-openapi.yml
+    note: >-
+      An internal .lan hostname with a developer-trigram server variable enumerating four
+      values (xch, gle, mau, tpe) is published in the public OpenAPI document. Harmless to
+      outsiders — unresolvable outside SantéVet's network — but it is internal topology leaking
+      into a public contract, and worth flagging to the provider.
+observed_platform:
+  note: >-
+    Read from public response headers. Recorded as lifecycle/maintenance signal, not as a
+    vulnerability claim.
+  toolkit_x_powered_by: PHP/7.4.33
+  toolkit_note: >-
+    PHP 7.4 reached end of official security support in November 2022. The framework generating
+    the acquisition API's documentation (NelmioApiDocBundle 2.x HTML theme) is likewise a
+    generation behind the OpenAPI-based theme used on the reimbursement API.
+  doc_generated_stamp: 'Mon, 17 Aug 26 16:29:41 +0200 (acquisition /api/doc footer — regenerated per request)'

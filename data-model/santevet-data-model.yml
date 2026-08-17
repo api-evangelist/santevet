@@ -1,0 +1,416 @@
+generated: '2026-08-17'
+method: derived
+source: >-
+  openapi/santevet-toolkit-openapi.yml (components.schemas $ref graph),
+  openapi/santevet-reimbursement-openapi.yml (components.schemas id-reference fields),
+  acquisition.api.santevet.com/api/doc (documented parameter tree)
+note: >-
+  Three APIs, three disconnected models, joined only by shared integer identifiers that no
+  single API resolves. The toolkit API publishes a fully $ref-linked reference-data graph
+  (40 base entities). The reimbursement API publishes flat DTOs whose eight *_id fields point at
+  entities it does not expose. The acquisition API publishes a nested write tree
+  (prospect -> animals) with no read model for the entities it creates. Naming is mixed
+  French/English throughout: Race means breed, Espece means species, Marque means brand,
+  Sinistre means claim, Fractionnement means payment instalment plan.
+domains:
+- name: reference-data
+  api: toolkit
+  base: https://toolkit.api.santevet.com
+  entity_count: 40
+  note: >-
+    Read-mostly catalogue that every other SantéVet surface depends on for its enumerations —
+    breeds, species, countries, languages, claim types, cancellation reasons, payment types,
+    promotional codes and the rate/formula definitions.
+- name: acquisition
+  api: acquisition
+  base: https://acquisition.api.santevet.com
+  entity_count: 4
+  note: Prospect, Quotation, Rate, Status. Write-oriented quote-to-subscribe funnel.
+- name: claims-and-reimbursement
+  api: reimbursement
+  base: https://reimbursement.api.santevet.com
+  entity_count: 12
+  note: >-
+    Reimbursement claims, third-party-payment (tiers payant) schedules, clinics, veterinary
+    acts and coverage upper limits.
+entities:
+- name: SvMarque
+  label: Brand
+  api: toolkit
+  role: hub
+  note: >-
+    The most connected entity in the estate — five outbound has_many edges. SantéVet's
+    white-label/partner distribution model is expressed as a brand, which is why partner
+    integrations start by resolving ref_id_marque.
+- name: Race
+  label: Breed
+  api: toolkit
+  paths: ['/breeds', '/breeds/{id}', '/species/{id}/breeds']
+- name: Espece
+  label: Species
+  api: toolkit
+  paths: ['/species', '/species/{id}']
+- name: SvGroupeRace
+  label: Breed group
+  api: toolkit
+  paths: ['/breeds/groups/search', '/sv_groupe_races/{id}']
+  note: One of only two toolkit entities with PUT and DELETE — the rest are read-only.
+- name: SvDefContratAssurance
+  label: Insurance contract definition
+  api: toolkit
+  paths: ['/insurances', '/insurances/{id}', '/species/{id}/rates']
+  variants: 8
+  note: Richest entity in the graph (8 serialization variants).
+- name: SvDefOptionAppliqueeAuDefContrat
+  label: Option applied to a contract definition
+  api: toolkit
+  paths: ['/options', '/options/{id}', '/options/search']
+- name: SvTarifsContrat
+  label: Contract rate
+  api: toolkit
+  paths: ['/rates/search', '/sv_tarifs_contrats/{id}']
+- name: SvPromo
+  label: Promotional code
+  api: toolkit
+  paths: ['/promotional-codes', '/promotional-codes/{id}']
+  note: 20 declared query filters — the most filterable collection in the estate.
+- name: SvGroupeCodePostal
+  label: Postal-code group
+  api: toolkit
+  note: >-
+    Geographic rating zones. Not directly exposed as a path but reachable through the $ref graph
+    and referenced by the acquisition API's postal_code rating input.
+- name: Prospect
+  label: Prospect
+  api: acquisition
+  paths: ['/prospects', '/prospects/{id}', '/prospects/anonymize']
+  identifier: integer id (\d+)
+  fields:
+  - ref_id_marque
+  - name
+  - married_name
+  - first_name
+  - birth_date
+  - street_number
+  - adress_1
+  - adress_2
+  - postal_code
+  - city
+  - email
+  - telephone
+  - cellphone
+  - dogs_number
+  - cats_number
+  - veterinary_name
+  - veterinary_city
+  - extra_fields
+  note: >-
+    Carries direct personal data (name, address, email, phone, birth date). A dedicated
+    POST /prospects/anonymize operation exists, which is a GDPR erasure affordance exposed as an
+    API operation — unusual and worth noting for a French insurer under GDPR.
+- name: Animal
+  label: Insured animal
+  api: acquisition
+  parent: Prospect
+  via: 'prospect[animals][]'
+  fields:
+  - breed
+  - father_breed
+  - mother_breed
+  - birth_date
+  - name
+  - gender
+  - chip
+  - tattoo
+  - color
+  - description
+  - is_castrated
+  note: >-
+    breed, father_breed and mother_breed are integers that resolve against the toolkit API's
+    Race collection, but the acquisition API does not document that binding.
+- name: Quotation
+  label: Quote
+  api: acquisition
+  paths:
+  - /quotations
+  - /quotations/{id}
+  - /quotations/{uniqueId}
+  - /quotations/search
+  - /quotations/subscribe
+  - /quotations/{id}/subscribe
+  - /quotations/{id}/rates
+  - /quotations/{id}/to-validate
+  identifiers:
+  - name: id
+    pattern: \d+
+    type: integer
+  - name: uniqueId
+    pattern: ([a-zA-Z0-9]{40,60})
+    type: string
+    note: >-
+      A second, opaque 40-60 character identifier addressable at GET /quotations/{uniqueId} —
+      almost certainly the unguessable handle used in customer-facing quote resume links.
+- name: ApiReimbursement
+  label: Reimbursement claim
+  api: reimbursement
+  paths:
+  - /api/v1/reimbursements
+  - /api/v1/reimbursements/{reimbursementId}
+  - /api/v1/animals/{animalId}/reimbursements
+  - /api/v1/clients/{clientId}/reimbursements
+  properties: 25
+  variants: 3
+  note: >-
+    Three near-duplicate schemas (ApiReimbursement, ApiReimbursement2, ApiReimbursement3) with
+    25/18/19 properties differ only by response context and are not named for it — a caller
+    cannot tell from the name which one a given operation returns.
+- name: ApiSchedule
+  label: Third-party-payment schedule
+  api: reimbursement
+  paths: ['/api/v1/third-party-payments/{coverageId}/schedule']
+- name: ApiClinic
+  label: Veterinary clinic
+  api: reimbursement
+  variants: 3
+- name: ApiTypology
+  label: Claim typology
+  api: reimbursement
+- name: ApiAct
+  label: Veterinary act
+  api: reimbursement
+- name: ApiUpperLimit
+  label: Coverage upper limit
+  api: reimbursement
+- name: ApiDueDate
+  label: Payment due date
+  api: reimbursement
+relationships:
+- from: Race
+  type: has_one
+  to: Espece
+  via: species
+  api: toolkit
+- from: SvMarque
+  type: has_many
+  to: SvFormuleVenduePar
+  via: sv_formules_vendues_par
+  api: toolkit
+- from: SvMarque
+  type: has_many
+  to: SvGroupeMarqueCodePostal
+  via: sv_groupes_marques_codes_postaux
+  api: toolkit
+- from: SvMarque
+  type: has_many
+  to: SvGroupeRaceMarque
+  via: sv_groupes_races_marques
+  api: toolkit
+- from: SvMarque
+  type: has_many
+  to: SvMarquePays
+  via: sv_marque_pays
+  api: toolkit
+- from: SvMarque
+  type: has_many
+  to: OrigineConnaissanceMarque
+  via: ref_origine_connaissance_marques
+  api: toolkit
+- from: OrigineConnaissanceMarque
+  type: has_one
+  to: SvMarque
+  via: ref_id_marque
+  api: toolkit
+- from: SvDefContratAssurance
+  type: has_many
+  to: SvDefOptionAppliqueeAuDefContrat
+  via: def_options_appliquee_aux_def_contrats
+  api: toolkit
+- from: SvDefContratAssurance
+  type: has_many
+  to: SvFormuleVenduePar
+  via: sold_by
+  api: toolkit
+- from: SvDefOptionAppliqueeAuDefContrat
+  type: has_one
+  to: SvDefContratAssurance
+  via: rate
+  api: toolkit
+- from: SvDefOptionAppliqueeAuDefContrat
+  type: has_one
+  to: SvDefOption
+  via: option
+  api: toolkit
+- from: SvDefOption
+  type: has_many
+  to: SvFormuleVenduePar
+  via: ref_formule_vendue_par
+  api: toolkit
+- from: SvFormuleVenduePar
+  type: has_many
+  to: SvDefOption
+  via: sv_def_options
+  api: toolkit
+- from: SvFormuleVenduePar
+  type: has_one
+  to: SvMarque
+  via: ref_id_marque
+  api: toolkit
+- from: QuittanceLigneType
+  type: has_many
+  to: SvDefOption
+  via: type_quittances
+  api: toolkit
+- from: SvTarifsContrat
+  type: has_one
+  to: SvDefContratAssurance
+  via: rate
+  api: toolkit
+- from: SvTarifsContrat
+  type: has_one
+  to: SvMarque
+  via: ref_id_marque
+  api: toolkit
+- from: SvPromo
+  type: has_many
+  to: SvPromoComposant
+  via: components
+  api: toolkit
+- from: SvPromoComposant
+  type: has_one
+  to: SvDefPromoComposant
+  via: ref_id_def_promo_composant
+  api: toolkit
+- from: SvGroupeCodePostal
+  type: has_many
+  to: SvGroupeCodePostalDepartement
+  via: sv_groupes_codes_postaux_departements
+  api: toolkit
+- from: SvGroupeCodePostal
+  type: has_many
+  to: SvGroupeMarqueCodePostal
+  via: sv_groupes_marques_codes_postaux
+  api: toolkit
+- from: SvGroupeCodePostalDepartement
+  type: has_one
+  to: SvGroupeCodePostal
+  via: ref_id_groupe_code_postal
+  api: toolkit
+- from: SvGroupeMarqueCodePostal
+  type: has_one
+  to: SvGroupeCodePostal
+  via: ref_id_groupe_code_postal
+  api: toolkit
+- from: SvGroupeMarqueCodePostal
+  type: has_one
+  to: SvMarque
+  via: ref_id_marque
+  api: toolkit
+- from: SvGroupeRace
+  type: has_many
+  to: SvGroupeRaceMarque
+  via: sv_groupes_races_marques
+  api: toolkit
+- from: SvGroupeRaceMarque
+  type: has_one
+  to: SvMarque
+  via: ref_id_marque
+  api: toolkit
+- from: Prospect
+  type: has_many
+  to: Animal
+  via: 'prospect[animals][]'
+  api: acquisition
+- from: Quotation
+  type: has_one
+  to: Prospect
+  via: 'prospect[...]'
+  api: acquisition
+- from: ApiReimbursement
+  type: has_many
+  to: ApiTypology
+  via: typologies
+  api: reimbursement
+- from: ApiTypology
+  type: has_many
+  to: ApiAct
+  via: acts
+  api: reimbursement
+- from: ApiTypology
+  type: has_one
+  to: ApiUpperLimit
+  via: upper_limit
+  api: reimbursement
+- from: ApiSchedule
+  type: has_many
+  to: ApiDueDate
+  via: due_dates
+  api: reimbursement
+dangling_references:
+  note: >-
+    These id fields are declared on reimbursement DTOs but resolve to no operation in any
+    published SantéVet contract. An agent handed a reimbursement cannot follow any of them.
+  fields:
+  - field: contract_id
+    on: [ApiReimbursement, ApiReimbursement2, ApiReimbursement3, CreateReimbursementClaimRequest, CreateThirdPartyPaymentRequest, CreateLossQuotationRequest, CreateDeathRegistrationRequest]
+    resolves_to: no published operation
+  - field: coverage_id
+    on: [ApiReimbursement]
+    resolves_to: >-
+      partially — usable as the path parameter of
+      GET /api/v1/third-party-payments/{coverageId}/schedule, but no coverage resource exists
+  - field: clinic_id
+    on: [ApiReimbursement, ApiReimbursement2, ApiReimbursement3, UpdateThirdPartyPaymentRequest, CreateReimbursementClaimRequest, CreateThirdPartyPaymentRequest]
+    resolves_to: no published operation (ApiClinic appears only nested in responses)
+  - field: veterinary_id
+    on: [ApiReimbursement, ApiReimbursement2, ApiReimbursement3, UpdateThirdPartyPaymentRequest, CreateReimbursementClaimRequest]
+    resolves_to: no published operation
+  - field: origin_id
+    on: [ApiReimbursement, ApiReimbursement2, ApiReimbursement3, CreateReimbursementClaimRequest, CreateThirdPartyPaymentRequest, CreateLossQuotationRequest, CreateDeathRegistrationRequest]
+    resolves_to: >-
+      probably toolkit OrigineCommerciale (/commercial-origins), but the binding is undocumented
+  - field: sinister_notification_id
+    on: [ApiReimbursement, ApiReimbursement2, ApiReimbursement3]
+    resolves_to: no published operation
+  - field: correspondence_id
+    on: [ApiReimbursement]
+    resolves_to: no published operation
+  - field: animal_id
+    on: [ApiReimbursement3]
+    resolves_to: >-
+      usable as the path parameter of GET /api/v1/animals/{animalId}/reimbursements, but no
+      animal resource is exposed by the reimbursement API
+  - field: clientId
+    on: 'path parameter of findAllReimbursementsByClient'
+    resolves_to: no client/customer resource is published by any SantéVet API
+cross_api_joins:
+  note: >-
+    The estate's real integration seams. Each is inferred from naming and type agreement, not
+    from a documented link — no SantéVet contract states any of them.
+  joins:
+  - from: 'acquisition Animal.breed / father_breed / mother_breed (integer)'
+    to: 'toolkit Race.id (/breeds/{id})'
+    confidence: high
+    basis: integer breed identifiers with no local enumeration; toolkit is the breed registry
+  - from: 'acquisition Prospect.ref_id_marque (integer)'
+    to: 'toolkit SvMarque (via /commercial-origins, /telephone-numbers)'
+    confidence: high
+    basis: identical field name ref_id_marque used as the SvMarque foreign key across toolkit
+  - from: 'acquisition Prospect.postal_code'
+    to: toolkit SvGroupeCodePostal
+    confidence: medium
+    basis: postal code is a declared rating input on GET /rates and toolkit models postal-code rating groups
+  - from: 'reimbursement origin_id'
+    to: 'toolkit OrigineCommerciale.id (/commercial-origins/{id})'
+    confidence: medium
+    basis: name agreement (origine commerciale) and integer type
+  - from: 'reimbursement ApiTypology / claim classification'
+    to: 'toolkit TypeSinistre (/claims/types), MotifNonRemboursement (/claims/no-refund-reasons)'
+    confidence: medium
+    basis: toolkit publishes the claim-type and no-refund-reason enumerations the claims domain needs
+identifier_conventions:
+  style: opaque integers, no prefixes
+  note: >-
+    Every identifier in the estate is a bare auto-increment integer except the acquisition
+    quotation uniqueId (40-60 char alphanumeric). No type-prefixed identifiers anywhere, so an
+    id carries no information about what it identifies and cannot be validated client-side.
+render: null

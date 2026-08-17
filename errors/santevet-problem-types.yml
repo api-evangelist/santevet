@@ -1,0 +1,122 @@
+generated: '2026-08-17'
+method: derived
+source: openapi/santevet-toolkit-openapi.yml, openapi/santevet-reimbursement-openapi.yml, live 401 responses
+format: rfc7807
+note: >-
+  The toolkit API (API Platform / Symfony) returns a genuine RFC 7807 problem document with
+  type/title/detail on content-negotiation failure, and a Hydra error document
+  (@context /contexts/Error, @type hydra:Error, hydra:title, hydra:description) for
+  application/ld+json. It advertises application/problem+json in its Accept handling but does
+  NOT list problem+json among its supported response MIME types, so the envelope a caller gets
+  depends on the negotiated format. The reimbursement API returns a flat {"message": "..."}
+  envelope. The acquisition API documents status codes in HTML but publishes no error schema.
+  Three different error envelopes across three APIs is the finding, not a defect to paper over.
+envelopes:
+- api: toolkit
+  media_type: application/problem+json
+  shape:
+    type: URI reference for the problem type
+    title: short human-readable summary
+    detail: human-readable explanation
+  observed: 'GET https://toolkit.api.santevet.com/breeds with Accept: application/problem+json'
+  example_observed: >-
+    {"type":"https://tools.ietf.org/html/rfc2616#section-10","title":"An error occurred",
+    "detail":"Requested format \"application/problem+json\" is not supported. Supported MIME
+    types are \"application/json\", \"application/ld+json\", \"application/xml\", \"text/xml\"."}
+- api: toolkit
+  media_type: application/ld+json
+  shape:
+    '@context': /contexts/Error
+    '@type': 'hydra:Error'
+    'hydra:title': short human-readable summary
+    'hydra:description': human-readable explanation
+  observed: 'GET https://toolkit.api.santevet.com/species with Accept: application/ld+json'
+- api: reimbursement
+  media_type: application/json
+  shape:
+    message: human-readable explanation
+  observed: GET https://reimbursement.api.santevet.com/api/v1/reimbursements/1
+  example_observed: '{"message":"User authentication required"}'
+- api: acquisition
+  media_type: application/json
+  shape:
+    code: numeric HTTP status
+    message: human-readable explanation
+  observed: GET https://acquisition.api.santevet.com/status
+  example_observed: '{"code":401,"message":"User authentication required"}'
+problems:
+- status: 400
+  title: Bad request
+  detail: Invalid identifier supplied
+  apis: [reimbursement, toolkit, acquisition]
+  source_operations:
+  - openapi/santevet-reimbursement-openapi.yml#findReimbursement
+  - openapi/santevet-toolkit-openapi.yml#searchSvGroupeRaceCollection
+  - openapi/santevet-toolkit-openapi.yml#searchSvDefOptionAppliqueeAuDefContratCollection
+  - openapi/santevet-toolkit-openapi.yml#searchSvTarifsContratCollection
+  - openapi/santevet-toolkit-openapi.yml#putSvGroupeRaceItem
+  - openapi/santevet-toolkit-openapi.yml#putSvTarifsContratItem
+  remediation: >-
+    Correct the request payload or path identifier. On the acquisition API the documented cause
+    is "Returned when some serializer errors".
+- status: 401
+  title: Unauthorized
+  detail: User authentication required
+  apis: [reimbursement, toolkit, acquisition, file]
+  source: live probe (not declared in either OpenAPI document)
+  remediation: >-
+    Supply the partner API key in the Authorization request header. Note the acquisition API's
+    HTML reference documents 401 as "Returned when some datas are invalid", which conflicts with
+    the observed runtime meaning (authentication required) — worth raising with the provider.
+- status: 403
+  title: Forbidden
+  detail: Request blocked at the edge
+  apis: [vet-practice-management-integrations]
+  source: live probe of api-bourgelat / api-epivet / api-fuga / api-gmvet / api-myvetapps / api-vetocom
+  remediation: These hosts reject anonymous requests at the WAF before any application error is produced.
+- status: 404
+  title: Not found
+  detail: Resource not found
+  apis: [reimbursement, toolkit]
+  source_operations:
+  - openapi/santevet-reimbursement-openapi.yml#findReimbursement
+  - openapi/santevet-reimbursement-openapi.yml#findAllReimbursementsByAnimal
+  - openapi/santevet-reimbursement-openapi.yml#findAllReimbursementsByClient
+  - openapi/santevet-toolkit-openapi.yml#getRaceItem
+  - openapi/santevet-toolkit-openapi.yml#getEspeceItem
+  remediation: >-
+    The referenced reimbursement, animal, client or reference-data resource does not exist.
+    Thirty-one toolkit item operations declare a 404.
+- status: 204
+  title: No content
+  detail: Returned when no rates are available for the given parameters
+  apis: [acquisition, toolkit]
+  source_operations:
+  - 'acquisition: GET /rates'
+  - openapi/santevet-toolkit-openapi.yml#deleteSvGroupeRaceItem
+  - openapi/santevet-toolkit-openapi.yml#deleteSvTarifsContratItem
+  remediation: >-
+    On GET /rates a 204 is a business answer, not an error — no pet-insurance rate exists for the
+    supplied postal code, breed and birth date. Callers must branch on 204 separately from 200.
+- status: 422
+  title: Unprocessable entity
+  detail: Request parameters are invalid
+  apis: [acquisition, toolkit]
+  source_operations:
+  - 'acquisition: GET /rates (missing postal_code or birth_date)'
+  - openapi/santevet-toolkit-openapi.yml#searchSvGroupeRaceCollection
+  - openapi/santevet-toolkit-openapi.yml#searchSvDefOptionAppliqueeAuDefContratCollection
+  - openapi/santevet-toolkit-openapi.yml#searchSvTarifsContratCollection
+  - openapi/santevet-toolkit-openapi.yml#putSvGroupeRaceItem
+  - openapi/santevet-toolkit-openapi.yml#putSvTarifsContratItem
+  remediation: Supply the required parameters; validation failed on the submitted values.
+gaps:
+- >-
+  Neither OpenAPI document declares a 401 or 403 response on any operation, yet every operation
+  returns 401 anonymously. An agent reading the spec would not know the API requires auth.
+- >-
+  The reimbursement API declares no 4xx response at all on createReimbursement,
+  updateReimbursement or findSchedule.
+- >-
+  No error type registry, no machine-readable error code catalogue, and no stable error
+  identifiers exist on any of the three APIs.

@@ -1,0 +1,64 @@
+generated: '2026-08-17'
+method: probed
+source: >-
+  live responses from toolkit.api.santevet.com and reimbursement.api.santevet.com, plus a full
+  header scan of openapi/santevet-toolkit-openapi.yml and
+  openapi/santevet-reimbursement-openapi.yml
+limit_count: 0
+note: >-
+  SantéVet publishes no rate limits for any of its three partner APIs, and returns no
+  rate-limit signalling headers on live responses. An integrator cannot tell how much traffic
+  they are entitled to, and an agent has no runtime signal to back off on. An honest zero.
+limits: []
+response_headers:
+  ratelimit_draft: []
+  x_ratelimit: []
+  retry_after: false
+  observed_on:
+  - 'HEAD https://toolkit.api.santevet.com/docs (200)'
+  - 'GET https://toolkit.api.santevet.com/species (401)'
+  - 'GET https://reimbursement.api.santevet.com/api/v1/reimbursements/1 (401)'
+  headers_actually_returned:
+  - date
+  - content-type
+  - server
+  - vary
+  - x-powered-by
+  - x-content-type-options
+  - x-frame-options
+  - cache-control
+  - link
+status_on_exhaustion: null
+spec_scan:
+  files:
+  - openapi/santevet-toolkit-openapi.yml
+  - openapi/santevet-reimbursement-openapi.yml
+  matches:
+    X-RateLimit-*: 0
+    RateLimit-*: 0
+    Retry-After: 0
+    '429': 0
+  note: >-
+    Zero occurrences across 218KB of combined specification. No operation declares a 429
+    response.
+edge_behaviour:
+  observed: true
+  detail: >-
+    While probing, https://www.santevet.com stopped completing TCP connections after roughly
+    forty requests from a single address and stayed unreachable for several minutes. That is an
+    undocumented edge/WAF throttle on the MARKETING host, observed by this pass rather than
+    published by SantéVet, and it is not a documented API rate limit. The API hosts
+    (toolkit, reimbursement, acquisition) never throttled.
+  affected_hosts:
+  - https://www.santevet.com
+  separate_waf_block:
+    detail: >-
+      Six veterinary practice-management integration hosts return HTTP 403 to every anonymous
+      request at the edge, before any application response.
+    hosts:
+    - api-bourgelat.santevet.com
+    - api-epivet.santevet.com
+    - api-fuga.santevet.com
+    - api-gmvet.santevet.com
+    - api-myvetapps.santevet.com
+    - api-vetocom.santevet.com
