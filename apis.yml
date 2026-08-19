@@ -14,7 +14,7 @@ description: >-
 url: https://raw.githubusercontent.com/api-evangelist/santevet/refs/heads/main/apis.yml
 x-type: company
 x-source: serena-portfolio
-specificationVersion: '0.20'
+specificationVersion: '0.23'
 created: '2026-08-17'
 modified: '2026-08-17'
 tags:
