@@ -30,75 +30,14 @@ tags:
 - Europe
 - Company
 apis:
-- aid: santevet-toolkit
-  name: SantéVet Toolkit API
-  description: >-
-    SantéVet's partner reference-data API and the registry every other SantéVet surface depends
-    on. Publishes species, breeds and breed groups; insurance contract definitions, cover options
-    and rate rows; promotional codes; premium instalment plans (fractionnement); claim types,
-    no-refund reasons and claim return reasons; commercial origins, brands, telephone numbers,
-    partner types, countries and languages. 58 operations, 54 of them reads, over 40 base
-    entities. API Platform implementation with Hydra/JSON-LD content negotiation and a rich
-    filter grammar. Requires a partner API key in the Authorization header.
-  humanURL: https://toolkit.api.santevet.com/docs
-  baseURL: https://toolkit.api.santevet.com
-  tags:
-  - Reference Data
-  - Insurance
-  - Pet Insurance
-  - Breeds
-  - Rates
-  - JSON-LD
-  properties:
-  - type: OpenAPI
-    url: openapi/santevet-toolkit-openapi.yml
-  - type: APIReference
-    url: https://toolkit.api.santevet.com/docs
-  - type: JSONLDContext
-    url: json-ld/santevet-toolkit-hydra-docs.jsonld
-  - type: Overlay
-    url: overlays/santevet-toolkit-overlay.yaml
-  x-note: >-
-    The published document declares an empty info.title, the framework-default info.version
-    0.0.0, and a single relative server "/". The harvested spec is left verbatim; the absolute
-    production host and the real identity are recorded in the Overlay rather than written into
-    the contract.
-- aid: santevet-reimbursement
-  name: SantéVet Reimbursement API
-  description: >-
-    SantéVet's partner claims and settlement API. Creates and retrieves pet-insurance
-    reimbursement claims, lists every claim for an insured animal or for a client, and returns
-    the third-party-payment (tiers payant) instalment schedule for a coverage — the surface
-    behind PayVet, where SantéVet settles directly with the veterinary clinic instead of
-    reimbursing the owner afterwards. 6 operations under /api/v1/, 19 component schemas.
-    The best-formed of SantéVet's three contracts, though it declares no security scheme despite
-    returning 401 on every operation.
-  humanURL: https://reimbursement.api.santevet.com/api/doc
-  baseURL: https://reimbursement.api.santevet.com
-  tags:
-  - Claims
-  - Reimbursement
-  - Insurance
-  - Payments
-  - Veterinary
-  properties:
-  - type: OpenAPI
-    url: openapi/santevet-reimbursement-openapi.yml
-  - type: APIReference
-    url: https://reimbursement.api.santevet.com/api/doc
-  - type: Overlay
-    url: overlays/santevet-reimbursement-overlay.yaml
-  - type: Sandbox
-    url: https://reimbursement.api.santevet.com/api/doc
 - aid: santevet-acquisition
   name: SantéVet Acquisition API
   description: >-
-    SantéVet's partner quote-to-subscribe funnel and rating engine. Creates and updates prospects
-    (with a dedicated GDPR anonymisation operation), creates, searches, validates and subscribes
-    quotations, and exposes GET /rates — the rating engine that turns a postal code, breed and
-    animal date of birth into premiums and cover options. This is the pricing surface for a
-    company that deliberately publishes no consumer price grid. 14 operations across Prospect,
-    Quotation, Rate and Status.
+    SantéVet's partner quote-to-subscribe funnel and rating engine. Creates and updates prospects (with
+    a dedicated GDPR anonymisation operation), creates, searches, validates and subscribes quotations,
+    and exposes GET /rates — the rating engine that turns a postal code, breed and animal date of birth
+    into premiums and cover options. This is the pricing surface for a company that deliberately publishes
+    no consumer price grid. 14 operations across Prospect, Quotation, Rate and Status.
   humanURL: https://acquisition.api.santevet.com/api/doc
   baseURL: https://acquisition.api.santevet.com
   tags:
@@ -113,17 +52,492 @@ apis:
   - type: Sandbox
     url: https://acquisition.api.santevet.com/api/doc
   x-note: >-
-    Documented only as a NelmioApiDocBundle 2.x HTML reference with an interactive sandbox — no
-    machine-readable specification is published, so no OpenAPI pointer is wired. The HTML
-    publishes all 14 operations with their parameters, requirements and status codes. No OpenAPI
-    document was authored from it: deriving a specification from HTML would put a
-    non-provider-authored contract in openapi/.
+    Documented only as a NelmioApiDocBundle 2.x HTML reference with an interactive sandbox — no machine-readable
+    specification is published, so no OpenAPI pointer is wired. The HTML publishes all 14 operations with
+    their parameters, requirements and status codes. No OpenAPI document was authored from it: deriving
+    a specification from HTML would put a non-provider-authored contract in openapi/.
+- aid: santevet:santevet-appareil-api
+  name: SantéVet Appareil API
+  description: The Appareil API from SantéVet — 2 operation(s) for appareil.
+  humanURL: https://toolkit.api.santevet.com/docs
+  baseURL: https://toolkit.api.santevet.com
+  tags:
+  - Appareil
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-appareil-api-openapi.yml
+  - type: APIReference
+    url: https://toolkit.api.santevet.com/docs
+  - type: JSONLDContext
+    url: json-ld/santevet-toolkit-hydra-docs.jsonld
+  - type: APIReference
+    url: https://reimbursement.api.santevet.com/api/doc
+  - type: Sandbox
+    url: https://reimbursement.api.santevet.com/api/doc
+- aid: santevet:santevet-civilite-api
+  name: SantéVet Civilite API
+  description: The Civilite API from SantéVet — 2 operation(s) for civilite.
+  humanURL: https://toolkit.api.santevet.com/docs
+  baseURL: https://toolkit.api.santevet.com
+  tags:
+  - Civilite
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-civilite-api-openapi.yml
+  - type: APIReference
+    url: https://toolkit.api.santevet.com/docs
+  - type: JSONLDContext
+    url: json-ld/santevet-toolkit-hydra-docs.jsonld
+  - type: APIReference
+    url: https://reimbursement.api.santevet.com/api/doc
+  - type: Sandbox
+    url: https://reimbursement.api.santevet.com/api/doc
+- aid: santevet:santevet-contratraisonannulation-api
+  name: SantéVet Contrat Raison Annulation API
+  description: >-
+    The ContratRaisonAnnulation API from SantéVet — 2 operation(s) for contratraisonannulation.
+  humanURL: https://toolkit.api.santevet.com/docs
+  baseURL: https://toolkit.api.santevet.com
+  tags:
+  - ContratRaisonAnnulation
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-contratraisonannulation-api-openapi.yml
+  - type: APIReference
+    url: https://toolkit.api.santevet.com/docs
+  - type: JSONLDContext
+    url: json-ld/santevet-toolkit-hydra-docs.jsonld
+  - type: APIReference
+    url: https://reimbursement.api.santevet.com/api/doc
+  - type: Sandbox
+    url: https://reimbursement.api.santevet.com/api/doc
+- aid: santevet:santevet-espece-api
+  name: SantéVet Espece API
+  description: The Espece API from SantéVet — 2 operation(s) for espece.
+  humanURL: https://toolkit.api.santevet.com/docs
+  baseURL: https://toolkit.api.santevet.com
+  tags:
+  - Espece
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-espece-api-openapi.yml
+  - type: APIReference
+    url: https://toolkit.api.santevet.com/docs
+  - type: JSONLDContext
+    url: json-ld/santevet-toolkit-hydra-docs.jsonld
+  - type: APIReference
+    url: https://reimbursement.api.santevet.com/api/doc
+  - type: Sandbox
+    url: https://reimbursement.api.santevet.com/api/doc
+- aid: santevet:santevet-fractionnement-api
+  name: SantéVet Fractionnement API
+  description: The Fractionnement API from SantéVet — 2 operation(s) for fractionnement.
+  humanURL: https://toolkit.api.santevet.com/docs
+  baseURL: https://toolkit.api.santevet.com
+  tags:
+  - Fractionnement
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-fractionnement-api-openapi.yml
+  - type: APIReference
+    url: https://toolkit.api.santevet.com/docs
+  - type: JSONLDContext
+    url: json-ld/santevet-toolkit-hydra-docs.jsonld
+  - type: APIReference
+    url: https://reimbursement.api.santevet.com/api/doc
+  - type: Sandbox
+    url: https://reimbursement.api.santevet.com/api/doc
+- aid: santevet:santevet-langue-api
+  name: SantéVet Langue API
+  description: The Langue API from SantéVet — 2 operation(s) for langue.
+  humanURL: https://toolkit.api.santevet.com/docs
+  baseURL: https://toolkit.api.santevet.com
+  tags:
+  - Langue
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-langue-api-openapi.yml
+  - type: APIReference
+    url: https://toolkit.api.santevet.com/docs
+  - type: JSONLDContext
+    url: json-ld/santevet-toolkit-hydra-docs.jsonld
+  - type: APIReference
+    url: https://reimbursement.api.santevet.com/api/doc
+  - type: Sandbox
+    url: https://reimbursement.api.santevet.com/api/doc
+- aid: santevet:santevet-motifnonremboursement-api
+  name: SantéVet Motif Non Remboursement API
+  description: The MotifNonRemboursement API from SantéVet — 2 operation(s) for motifnonremboursement.
+  humanURL: https://toolkit.api.santevet.com/docs
+  baseURL: https://toolkit.api.santevet.com
+  tags:
+  - MotifNonRemboursement
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-motifnonremboursement-api-openapi.yml
+  - type: APIReference
+    url: https://toolkit.api.santevet.com/docs
+  - type: JSONLDContext
+    url: json-ld/santevet-toolkit-hydra-docs.jsonld
+  - type: APIReference
+    url: https://reimbursement.api.santevet.com/api/doc
+  - type: Sandbox
+    url: https://reimbursement.api.santevet.com/api/doc
+- aid: santevet:santevet-motifperiode-api
+  name: SantéVet Motif Periode API
+  description: The MotifPeriode API from SantéVet — 2 operation(s) for motifperiode.
+  humanURL: https://toolkit.api.santevet.com/docs
+  baseURL: https://toolkit.api.santevet.com
+  tags:
+  - MotifPeriode
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-motifperiode-api-openapi.yml
+  - type: APIReference
+    url: https://toolkit.api.santevet.com/docs
+  - type: JSONLDContext
+    url: json-ld/santevet-toolkit-hydra-docs.jsonld
+  - type: APIReference
+    url: https://reimbursement.api.santevet.com/api/doc
+  - type: Sandbox
+    url: https://reimbursement.api.santevet.com/api/doc
+- aid: santevet:santevet-originecommerciale-api
+  name: SantéVet Origine Commerciale API
+  description: The OrigineCommerciale API from SantéVet — 2 operation(s) for originecommerciale.
+  humanURL: https://toolkit.api.santevet.com/docs
+  baseURL: https://toolkit.api.santevet.com
+  tags:
+  - OrigineCommerciale
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-originecommerciale-api-openapi.yml
+  - type: APIReference
+    url: https://toolkit.api.santevet.com/docs
+  - type: JSONLDContext
+    url: json-ld/santevet-toolkit-hydra-docs.jsonld
+  - type: APIReference
+    url: https://reimbursement.api.santevet.com/api/doc
+  - type: Sandbox
+    url: https://reimbursement.api.santevet.com/api/doc
+- aid: santevet:santevet-origineconnaissance-api
+  name: SantéVet Origine Connaissance API
+  description: The OrigineConnaissance API from SantéVet — 2 operation(s) for origineconnaissance.
+  humanURL: https://toolkit.api.santevet.com/docs
+  baseURL: https://toolkit.api.santevet.com
+  tags:
+  - OrigineConnaissance
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-origineconnaissance-api-openapi.yml
+  - type: APIReference
+    url: https://toolkit.api.santevet.com/docs
+  - type: JSONLDContext
+    url: json-ld/santevet-toolkit-hydra-docs.jsonld
+  - type: APIReference
+    url: https://reimbursement.api.santevet.com/api/doc
+  - type: Sandbox
+    url: https://reimbursement.api.santevet.com/api/doc
+- aid: santevet:santevet-pays-api
+  name: SantéVet Pays API
+  description: The Pays API from SantéVet — 2 operation(s) for pays.
+  humanURL: https://toolkit.api.santevet.com/docs
+  baseURL: https://toolkit.api.santevet.com
+  tags:
+  - Pays
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-pays-api-openapi.yml
+  - type: APIReference
+    url: https://toolkit.api.santevet.com/docs
+  - type: JSONLDContext
+    url: json-ld/santevet-toolkit-hydra-docs.jsonld
+  - type: APIReference
+    url: https://reimbursement.api.santevet.com/api/doc
+  - type: Sandbox
+    url: https://reimbursement.api.santevet.com/api/doc
+- aid: santevet:santevet-race-api
+  name: SantéVet Race API
+  description: The Race API from SantéVet — 3 operation(s) for race.
+  humanURL: https://toolkit.api.santevet.com/docs
+  baseURL: https://toolkit.api.santevet.com
+  tags:
+  - Race
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-race-api-openapi.yml
+  - type: APIReference
+    url: https://toolkit.api.santevet.com/docs
+  - type: JSONLDContext
+    url: json-ld/santevet-toolkit-hydra-docs.jsonld
+  - type: APIReference
+    url: https://reimbursement.api.santevet.com/api/doc
+  - type: Sandbox
+    url: https://reimbursement.api.santevet.com/api/doc
+- aid: santevet:santevet-reimbursement-api
+  name: SantéVet Reimbursement API
+  description: Reimbursement
+  humanURL: https://toolkit.api.santevet.com/docs
+  baseURL: https://toolkit.api.santevet.com
+  tags:
+  - Reimbursement
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-reimbursement-api-openapi.yml
+  - type: APIReference
+    url: https://toolkit.api.santevet.com/docs
+  - type: JSONLDContext
+    url: json-ld/santevet-toolkit-hydra-docs.jsonld
+  - type: APIReference
+    url: https://reimbursement.api.santevet.com/api/doc
+  - type: Sandbox
+    url: https://reimbursement.api.santevet.com/api/doc
+- aid: santevet:santevet-sinistremotifretour-api
+  name: SantéVet Sinistre Motif Retour API
+  description: The SinistreMotifRetour API from SantéVet — 2 operation(s) for sinistremotifretour.
+  humanURL: https://toolkit.api.santevet.com/docs
+  baseURL: https://toolkit.api.santevet.com
+  tags:
+  - SinistreMotifRetour
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-sinistremotifretour-api-openapi.yml
+  - type: APIReference
+    url: https://toolkit.api.santevet.com/docs
+  - type: JSONLDContext
+    url: json-ld/santevet-toolkit-hydra-docs.jsonld
+  - type: APIReference
+    url: https://reimbursement.api.santevet.com/api/doc
+  - type: Sandbox
+    url: https://reimbursement.api.santevet.com/api/doc
+- aid: santevet:santevet-statutsocialpartenaire-api
+  name: SantéVet Statut Social Partenaire API
+  description: >-
+    The StatutSocialPartenaire API from SantéVet — 2 operation(s) for statutsocialpartenaire.
+  humanURL: https://toolkit.api.santevet.com/docs
+  baseURL: https://toolkit.api.santevet.com
+  tags:
+  - StatutSocialPartenaire
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-statutsocialpartenaire-api-openapi.yml
+  - type: APIReference
+    url: https://toolkit.api.santevet.com/docs
+  - type: JSONLDContext
+    url: json-ld/santevet-toolkit-hydra-docs.jsonld
+  - type: APIReference
+    url: https://reimbursement.api.santevet.com/api/doc
+  - type: Sandbox
+    url: https://reimbursement.api.santevet.com/api/doc
+- aid: santevet:santevet-svdefcontratassurance-api
+  name: SantéVet Sv Def Contrat Assurance API
+  description: The SvDefContratAssurance API from SantéVet — 3 operation(s) for svdefcontratassurance.
+  humanURL: https://toolkit.api.santevet.com/docs
+  baseURL: https://toolkit.api.santevet.com
+  tags:
+  - SvDefContratAssurance
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-svdefcontratassurance-api-openapi.yml
+  - type: APIReference
+    url: https://toolkit.api.santevet.com/docs
+  - type: JSONLDContext
+    url: json-ld/santevet-toolkit-hydra-docs.jsonld
+  - type: APIReference
+    url: https://reimbursement.api.santevet.com/api/doc
+  - type: Sandbox
+    url: https://reimbursement.api.santevet.com/api/doc
+- aid: santevet:santevet-svdefoptionappliqueeaudefcontrat-api
+  name: SantéVet Sv Def Option Appliquee Au Def Contrat API
+  description: >-
+    The SvDefOptionAppliqueeAuDefContrat API from SantéVet — 3 operation(s) for svdefoptionappliqueeaudefcontrat.
+  humanURL: https://toolkit.api.santevet.com/docs
+  baseURL: https://toolkit.api.santevet.com
+  tags:
+  - SvDefOptionAppliqueeAuDefContrat
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-svdefoptionappliqueeaudefcontrat-api-openapi.yml
+  - type: APIReference
+    url: https://toolkit.api.santevet.com/docs
+  - type: JSONLDContext
+    url: json-ld/santevet-toolkit-hydra-docs.jsonld
+  - type: APIReference
+    url: https://reimbursement.api.santevet.com/api/doc
+  - type: Sandbox
+    url: https://reimbursement.api.santevet.com/api/doc
+- aid: santevet:santevet-svgrouperace-api
+  name: SantéVet Sv Groupe Race API
+  description: The SvGroupeRace API from SantéVet — 2 operation(s) for svgrouperace.
+  humanURL: https://toolkit.api.santevet.com/docs
+  baseURL: https://toolkit.api.santevet.com
+  tags:
+  - SvGroupeRace
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-svgrouperace-api-openapi.yml
+  - type: APIReference
+    url: https://toolkit.api.santevet.com/docs
+  - type: JSONLDContext
+    url: json-ld/santevet-toolkit-hydra-docs.jsonld
+  - type: APIReference
+    url: https://reimbursement.api.santevet.com/api/doc
+  - type: Sandbox
+    url: https://reimbursement.api.santevet.com/api/doc
+- aid: santevet:santevet-svmarquetel-api
+  name: SantéVet Sv Marque Tel API
+  description: The SvMarqueTel API from SantéVet — 3 operation(s) for svmarquetel.
+  humanURL: https://toolkit.api.santevet.com/docs
+  baseURL: https://toolkit.api.santevet.com
+  tags:
+  - SvMarqueTel
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-svmarquetel-api-openapi.yml
+  - type: APIReference
+    url: https://toolkit.api.santevet.com/docs
+  - type: JSONLDContext
+    url: json-ld/santevet-toolkit-hydra-docs.jsonld
+  - type: APIReference
+    url: https://reimbursement.api.santevet.com/api/doc
+  - type: Sandbox
+    url: https://reimbursement.api.santevet.com/api/doc
+- aid: santevet:santevet-svpromo-api
+  name: SantéVet Sv Promo API
+  description: The SvPromo API from SantéVet — 2 operation(s) for svpromo.
+  humanURL: https://toolkit.api.santevet.com/docs
+  baseURL: https://toolkit.api.santevet.com
+  tags:
+  - SvPromo
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-svpromo-api-openapi.yml
+  - type: APIReference
+    url: https://toolkit.api.santevet.com/docs
+  - type: JSONLDContext
+    url: json-ld/santevet-toolkit-hydra-docs.jsonld
+  - type: APIReference
+    url: https://reimbursement.api.santevet.com/api/doc
+  - type: Sandbox
+    url: https://reimbursement.api.santevet.com/api/doc
+- aid: santevet:santevet-svtarifscontrat-api
+  name: SantéVet Sv Tarifs Contrat API
+  description: The SvTarifsContrat API from SantéVet — 2 operation(s) for svtarifscontrat.
+  humanURL: https://toolkit.api.santevet.com/docs
+  baseURL: https://toolkit.api.santevet.com
+  tags:
+  - SvTarifsContrat
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-svtarifscontrat-api-openapi.yml
+  - type: APIReference
+    url: https://toolkit.api.santevet.com/docs
+  - type: JSONLDContext
+    url: json-ld/santevet-toolkit-hydra-docs.jsonld
+  - type: APIReference
+    url: https://reimbursement.api.santevet.com/api/doc
+  - type: Sandbox
+    url: https://reimbursement.api.santevet.com/api/doc
+- aid: santevet:santevet-typeidentifiantofficielpartenaire-api
+  name: SantéVet Type Identifiant Officiel Partenaire API
+  description: >-
+    The TypeIdentifiantOfficielPartenaire API from SantéVet — 2 operation(s) for typeidentifiantofficielpartenaire.
+  humanURL: https://toolkit.api.santevet.com/docs
+  baseURL: https://toolkit.api.santevet.com
+  tags:
+  - TypeIdentifiantOfficielPartenaire
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-typeidentifiantofficielpartenaire-api-openapi.yml
+  - type: APIReference
+    url: https://toolkit.api.santevet.com/docs
+  - type: JSONLDContext
+    url: json-ld/santevet-toolkit-hydra-docs.jsonld
+  - type: APIReference
+    url: https://reimbursement.api.santevet.com/api/doc
+  - type: Sandbox
+    url: https://reimbursement.api.santevet.com/api/doc
+- aid: santevet:santevet-typeoption-api
+  name: SantéVet Type Option API
+  description: The TypeOption API from SantéVet — 2 operation(s) for typeoption.
+  humanURL: https://toolkit.api.santevet.com/docs
+  baseURL: https://toolkit.api.santevet.com
+  tags:
+  - TypeOption
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-typeoption-api-openapi.yml
+  - type: APIReference
+    url: https://toolkit.api.santevet.com/docs
+  - type: JSONLDContext
+    url: json-ld/santevet-toolkit-hydra-docs.jsonld
+  - type: APIReference
+    url: https://reimbursement.api.santevet.com/api/doc
+  - type: Sandbox
+    url: https://reimbursement.api.santevet.com/api/doc
+- aid: santevet:santevet-typepartenaire-api
+  name: SantéVet Type Partenaire API
+  description: The TypePartenaire API from SantéVet — 2 operation(s) for typepartenaire.
+  humanURL: https://toolkit.api.santevet.com/docs
+  baseURL: https://toolkit.api.santevet.com
+  tags:
+  - TypePartenaire
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-typepartenaire-api-openapi.yml
+  - type: APIReference
+    url: https://toolkit.api.santevet.com/docs
+  - type: JSONLDContext
+    url: json-ld/santevet-toolkit-hydra-docs.jsonld
+  - type: APIReference
+    url: https://reimbursement.api.santevet.com/api/doc
+  - type: Sandbox
+    url: https://reimbursement.api.santevet.com/api/doc
+- aid: santevet:santevet-typereglement-api
+  name: SantéVet Type Reglement API
+  description: The TypeReglement API from SantéVet — 2 operation(s) for typereglement.
+  humanURL: https://toolkit.api.santevet.com/docs
+  baseURL: https://toolkit.api.santevet.com
+  tags:
+  - TypeReglement
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-typereglement-api-openapi.yml
+  - type: APIReference
+    url: https://toolkit.api.santevet.com/docs
+  - type: JSONLDContext
+    url: json-ld/santevet-toolkit-hydra-docs.jsonld
+  - type: APIReference
+    url: https://reimbursement.api.santevet.com/api/doc
+  - type: Sandbox
+    url: https://reimbursement.api.santevet.com/api/doc
+- aid: santevet:santevet-typesinistre-api
+  name: SantéVet Type Sinistre API
+  description: The TypeSinistre API from SantéVet — 2 operation(s) for typesinistre.
+  humanURL: https://toolkit.api.santevet.com/docs
+  baseURL: https://toolkit.api.santevet.com
+  tags:
+  - TypeSinistre
+  properties:
+  - type: OpenAPI
+    url: openapi/santevet-typesinistre-api-openapi.yml
+  - type: APIReference
+    url: https://toolkit.api.santevet.com/docs
+  - type: JSONLDContext
+    url: json-ld/santevet-toolkit-hydra-docs.jsonld
+  - type: APIReference
+    url: https://reimbursement.api.santevet.com/api/doc
+  - type: Sandbox
+    url: https://reimbursement.api.santevet.com/api/doc
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/santevet-toolkit-overlay.yaml
+- type: Overlay
+  url: overlays/santevet-reimbursement-overlay.yaml
 - type: Website
   url: https://www.santevet.com/
 - type: Login
