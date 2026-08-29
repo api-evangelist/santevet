@@ -1,0 +1,26 @@
+slug: santevet
+provider: SantéVet
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Healthcare Providers
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: SvPromo
+  spec_file: santevet-svpromo-api-openapi.yml
+  capability_id: BC-440.30
+  capability_id_l1: BC-440
+  capability_name: Discount & Promotion Management
+  confidence: 0.78
+  evidence: GET /promotional-codes getSvPromoCollection Retrieves the collection of SvPromo resources;
+    schemas SvPromoComposant, SvDefPromoComposant
+  reason: The operations expose promotional codes and their components, i.e. the promotion/discount catalogue
+    used at quoting and subscription time — Discount & Promotion Management. Read-only surface, hence
+    0.78 rather than higher.
