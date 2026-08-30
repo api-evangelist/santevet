@@ -1,0 +1,309 @@
+openapi: 3.2.0
+info:
+  title: Santevet Pays API
+  description: ''
+  version: 0.0.0
+servers:
+- url: /
+  description: ''
+security:
+- apiKey: []
+tags:
+- name: Pays
+paths:
+  /countries:
+    parameters: []
+    get:
+      operationId: getPaysCollection
+      tags:
+      - Pays
+      responses:
+        '200':
+          description: Pays collection
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pays-countries_get_translations_get'
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  hydra:member:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Pays.jsonld-countries_get_translations_get'
+                  hydra:totalItems:
+                    type: integer
+                    minimum: 0
+                  hydra:view:
+                    type: object
+                    properties:
+                      '@id':
+                        type: string
+                        format: iri-reference
+                      '@type':
+                        type: string
+                      hydra:first:
+                        type: string
+                        format: iri-reference
+                      hydra:last:
+                        type: string
+                        format: iri-reference
+                      hydra:previous:
+                        type: string
+                        format: iri-reference
+                      hydra:next:
+                        type: string
+                        format: iri-reference
+                    example:
+                      '@id': string
+                      type: string
+                      hydra:first: string
+                      hydra:last: string
+                      hydra:previous: string
+                      hydra:next: string
+                  hydra:search:
+                    type: object
+                    properties:
+                      '@type':
+                        type: string
+                      hydra:template:
+                        type: string
+                      hydra:variableRepresentation:
+                        type: string
+                      hydra:mapping:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            '@type':
+                              type: string
+                            variable:
+                              type: string
+                            property:
+                              type:
+                              - string
+                              - 'null'
+                            required:
+                              type: boolean
+                required:
+                - hydra:member
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pays-countries_get_translations_get'
+            text/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pays-countries_get_translations_get'
+      summary: Retrieves the collection of Pays resources.
+      description: Retrieves the collection of Pays resources.
+      parameters:
+      - name: code
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: string
+        style: form
+        explode: false
+        allowReserved: false
+      - name: code[]
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: array
+          items:
+            type: string
+        style: form
+        explode: true
+        allowReserved: false
+      deprecated: false
+  /countries/{id}:
+    parameters: []
+    get:
+      operationId: getPaysItem
+      tags:
+      - Pays
+      responses:
+        '200':
+          description: Pays resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pays-countries_get_translations_get'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Pays.jsonld-countries_get_translations_get'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pays-countries_get_translations_get'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Pays-countries_get_translations_get'
+        '404':
+          description: Resource not found
+      summary: Retrieves a Pays resource.
+      description: Retrieves a Pays resource.
+      parameters:
+      - name: id
+        in: path
+        description: Resource identifier
+        required: true
+        deprecated: false
+        allowEmptyValue: false
+        schema:
+          type: string
+        style: simple
+        explode: false
+        allowReserved: false
+      deprecated: false
+components:
+  schemas:
+    ValeurChamp-countries_get_translations_get:
+      type: object
+      description: ''
+      properties:
+        fr:
+          type:
+          - string
+          - 'null'
+        nl:
+          type:
+          - string
+          - 'null'
+        es:
+          type:
+          - string
+          - 'null'
+        be:
+          type:
+          - string
+          - 'null'
+        de:
+          type:
+          - string
+          - 'null'
+        it:
+          type:
+          - string
+          - 'null'
+    Pays-countries_get_translations_get:
+      type: object
+      description: Pays
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        translations:
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp-countries_get_translations_get'
+        code:
+          type:
+          - string
+          - 'null'
+    Pays.jsonld-countries_get_translations_get:
+      type: object
+      description: Pays
+      properties:
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        '@context':
+          readOnly: true
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              '@vocab':
+                type: string
+              hydra:
+                type: string
+                enum:
+                - http://www.w3.org/ns/hydra/core#
+            required:
+            - '@vocab'
+            - hydra
+            additionalProperties: true
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        translations:
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp.jsonld-countries_get_translations_get'
+        code:
+          type:
+          - string
+          - 'null'
+    ValeurChamp.jsonld-countries_get_translations_get:
+      type: object
+      description: ''
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              '@vocab':
+                type: string
+              hydra:
+                type: string
+                enum:
+                - http://www.w3.org/ns/hydra/core#
+            required:
+            - '@vocab'
+            - hydra
+            additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        fr:
+          type:
+          - string
+          - 'null'
+        nl:
+          type:
+          - string
+          - 'null'
+        es:
+          type:
+          - string
+          - 'null'
+        be:
+          type:
+          - string
+          - 'null'
+        de:
+          type:
+          - string
+          - 'null'
+        it:
+          type:
+          - string
+          - 'null'
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      description: Value for the Authorization header parameter.
+      name: Authorization
+      in: header

@@ -1,0 +1,193 @@
+openapi: 3.2.0
+info:
+  title: Santevet Statut Social Partenaire API
+  description: ''
+  version: 0.0.0
+servers:
+- url: /
+  description: ''
+security:
+- apiKey: []
+tags:
+- name: StatutSocialPartenaire
+paths:
+  /partners/social-statuses:
+    parameters: []
+    get:
+      operationId: getStatutSocialPartenaireCollection
+      tags:
+      - StatutSocialPartenaire
+      responses:
+        '200':
+          description: StatutSocialPartenaire collection
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StatutSocialPartenaire-partners_social_statuses_get'
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  hydra:member:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/StatutSocialPartenaire.jsonld-partners_social_statuses_get'
+                  hydra:totalItems:
+                    type: integer
+                    minimum: 0
+                  hydra:view:
+                    type: object
+                    properties:
+                      '@id':
+                        type: string
+                        format: iri-reference
+                      '@type':
+                        type: string
+                      hydra:first:
+                        type: string
+                        format: iri-reference
+                      hydra:last:
+                        type: string
+                        format: iri-reference
+                      hydra:previous:
+                        type: string
+                        format: iri-reference
+                      hydra:next:
+                        type: string
+                        format: iri-reference
+                    example:
+                      '@id': string
+                      type: string
+                      hydra:first: string
+                      hydra:last: string
+                      hydra:previous: string
+                      hydra:next: string
+                  hydra:search:
+                    type: object
+                    properties:
+                      '@type':
+                        type: string
+                      hydra:template:
+                        type: string
+                      hydra:variableRepresentation:
+                        type: string
+                      hydra:mapping:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            '@type':
+                              type: string
+                            variable:
+                              type: string
+                            property:
+                              type:
+                              - string
+                              - 'null'
+                            required:
+                              type: boolean
+                required:
+                - hydra:member
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StatutSocialPartenaire-partners_social_statuses_get'
+            text/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StatutSocialPartenaire-partners_social_statuses_get'
+      summary: Retrieves the collection of StatutSocialPartenaire resources.
+      description: Retrieves the collection of StatutSocialPartenaire resources.
+      parameters: []
+      deprecated: false
+  /partners/social-statuses/{id}:
+    parameters: []
+    get:
+      operationId: getStatutSocialPartenaireItem
+      tags:
+      - StatutSocialPartenaire
+      responses:
+        '200':
+          description: StatutSocialPartenaire resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatutSocialPartenaire-partners_social_statuses_get'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/StatutSocialPartenaire.jsonld-partners_social_statuses_get'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/StatutSocialPartenaire-partners_social_statuses_get'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/StatutSocialPartenaire-partners_social_statuses_get'
+        '404':
+          description: Resource not found
+      summary: Retrieves a StatutSocialPartenaire resource.
+      description: Retrieves a StatutSocialPartenaire resource.
+      parameters:
+      - name: id
+        in: path
+        description: Resource identifier
+        required: true
+        deprecated: false
+        allowEmptyValue: false
+        schema:
+          type: string
+        style: simple
+        explode: false
+        allowReserved: false
+      deprecated: false
+components:
+  schemas:
+    StatutSocialPartenaire-partners_social_statuses_get:
+      type: object
+      description: Class StatutSocialPartenaire
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+    StatutSocialPartenaire.jsonld-partners_social_statuses_get:
+      type: object
+      description: Class StatutSocialPartenaire
+      properties:
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        '@context':
+          readOnly: true
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              '@vocab':
+                type: string
+              hydra:
+                type: string
+                enum:
+                - http://www.w3.org/ns/hydra/core#
+            required:
+            - '@vocab'
+            - hydra
+            additionalProperties: true
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      description: Value for the Authorization header parameter.
+      name: Authorization
+      in: header

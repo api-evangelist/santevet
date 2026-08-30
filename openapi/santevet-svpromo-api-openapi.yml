@@ -1,0 +1,598 @@
+openapi: 3.2.0
+info:
+  title: Santevet Sv Promo API
+  description: ''
+  version: 0.0.0
+servers:
+- url: /
+  description: ''
+security:
+- apiKey: []
+tags:
+- name: SvPromo
+paths:
+  /promotional-codes:
+    parameters: []
+    get:
+      operationId: getSvPromoCollection
+      tags:
+      - SvPromo
+      responses:
+        '200':
+          description: SvPromo collection
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SvPromo-promotional_codes_get'
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  hydra:member:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SvPromo.jsonld-promotional_codes_get'
+                  hydra:totalItems:
+                    type: integer
+                    minimum: 0
+                  hydra:view:
+                    type: object
+                    properties:
+                      '@id':
+                        type: string
+                        format: iri-reference
+                      '@type':
+                        type: string
+                      hydra:first:
+                        type: string
+                        format: iri-reference
+                      hydra:last:
+                        type: string
+                        format: iri-reference
+                      hydra:previous:
+                        type: string
+                        format: iri-reference
+                      hydra:next:
+                        type: string
+                        format: iri-reference
+                    example:
+                      '@id': string
+                      type: string
+                      hydra:first: string
+                      hydra:last: string
+                      hydra:previous: string
+                      hydra:next: string
+                  hydra:search:
+                    type: object
+                    properties:
+                      '@type':
+                        type: string
+                      hydra:template:
+                        type: string
+                      hydra:variableRepresentation:
+                        type: string
+                      hydra:mapping:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            '@type':
+                              type: string
+                            variable:
+                              type: string
+                            property:
+                              type:
+                              - string
+                              - 'null'
+                            required:
+                              type: boolean
+                required:
+                - hydra:member
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SvPromo-promotional_codes_get'
+            text/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SvPromo-promotional_codes_get'
+      summary: Retrieves the collection of SvPromo resources.
+      description: Retrieves the collection of SvPromo resources.
+      parameters:
+      - name: code
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: string
+        style: form
+        explode: false
+        allowReserved: false
+      - name: code[]
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: array
+          items:
+            type: string
+        style: form
+        explode: true
+        allowReserved: false
+      - name: is_active
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: boolean
+        style: form
+        explode: false
+        allowReserved: false
+      - name: is_active[]
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: array
+          items:
+            type: boolean
+        style: form
+        explode: true
+        allowReserved: false
+      - name: components.insurance
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: string
+        style: form
+        explode: false
+        allowReserved: false
+      - name: components.insurance[]
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: array
+          items:
+            type: string
+        style: form
+        explode: true
+        allowReserved: false
+      - name: maximumAgeInMonth[between]
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: string
+        style: form
+        explode: false
+        allowReserved: false
+      - name: maximumAgeInMonth[gt]
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: string
+        style: form
+        explode: false
+        allowReserved: false
+      - name: maximumAgeInMonth[gte]
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: string
+        style: form
+        explode: false
+        allowReserved: false
+      - name: maximumAgeInMonth[lt]
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: string
+        style: form
+        explode: false
+        allowReserved: false
+      - name: maximumAgeInMonth[lte]
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: string
+        style: form
+        explode: false
+        allowReserved: false
+      - name: maximumAgeInMonth[lten]
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: string
+        style: form
+        explode: false
+        allowReserved: false
+      - name: start_date[before]
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: string
+        style: form
+        explode: false
+        allowReserved: false
+      - name: start_date[strictly_before]
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: string
+        style: form
+        explode: false
+        allowReserved: false
+      - name: start_date[after]
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: string
+        style: form
+        explode: false
+        allowReserved: false
+      - name: start_date[strictly_after]
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: string
+        style: form
+        explode: false
+        allowReserved: false
+      - name: end_date[before]
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: string
+        style: form
+        explode: false
+        allowReserved: false
+      - name: end_date[strictly_before]
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: string
+        style: form
+        explode: false
+        allowReserved: false
+      - name: end_date[after]
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: string
+        style: form
+        explode: false
+        allowReserved: false
+      - name: end_date[strictly_after]
+        in: query
+        description: ''
+        required: false
+        deprecated: false
+        allowEmptyValue: true
+        schema:
+          type: string
+        style: form
+        explode: false
+        allowReserved: false
+      deprecated: false
+  /promotional-codes/{id}:
+    parameters: []
+    get:
+      operationId: getSvPromoItem
+      tags:
+      - SvPromo
+      responses:
+        '200':
+          description: SvPromo resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SvPromo-promotional_codes_get'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/SvPromo.jsonld-promotional_codes_get'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/SvPromo-promotional_codes_get'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/SvPromo-promotional_codes_get'
+        '404':
+          description: Resource not found
+      summary: Retrieves a SvPromo resource.
+      description: Retrieves a SvPromo resource.
+      parameters:
+      - name: id
+        in: path
+        description: Resource identifier
+        required: true
+        deprecated: false
+        allowEmptyValue: false
+        schema:
+          type: string
+        style: simple
+        explode: false
+        allowReserved: false
+      deprecated: false
+components:
+  schemas:
+    ValeurChamp.jsonld-promotional_codes_get:
+      type: object
+      description: ''
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              '@vocab':
+                type: string
+              hydra:
+                type: string
+                enum:
+                - http://www.w3.org/ns/hydra/core#
+            required:
+            - '@vocab'
+            - hydra
+            additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+    SvPromoComposant.jsonld-promotional_codes_get:
+      type: object
+      description: ''
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              '@vocab':
+                type: string
+              hydra:
+                type: string
+                enum:
+                - http://www.w3.org/ns/hydra/core#
+            required:
+            - '@vocab'
+            - hydra
+            additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          type: integer
+        quantite:
+          type: string
+        ref_id_def_promo_composant:
+          $ref: '#/components/schemas/SvDefPromoComposant.jsonld-promotional_codes_get'
+    SvPromoComposant-promotional_codes_get:
+      type: object
+      description: ''
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        quantite:
+          type: string
+        ref_id_def_promo_composant:
+          $ref: '#/components/schemas/SvDefPromoComposant-promotional_codes_get'
+    SvDefPromoComposant-promotional_codes_get:
+      type: object
+      description: ''
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        nom:
+          type: string
+        nom_table_composant:
+          type: string
+        ref_id_valeur_champ_nom:
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp-promotional_codes_get'
+    ValeurChamp-promotional_codes_get:
+      type: object
+      description: ''
+    SvDefPromoComposant.jsonld-promotional_codes_get:
+      type: object
+      description: ''
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              '@vocab':
+                type: string
+              hydra:
+                type: string
+                enum:
+                - http://www.w3.org/ns/hydra/core#
+            required:
+            - '@vocab'
+            - hydra
+            additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          type: integer
+        nom:
+          type: string
+        nom_table_composant:
+          type: string
+        ref_id_valeur_champ_nom:
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp.jsonld-promotional_codes_get'
+    SvPromo.jsonld-promotional_codes_get:
+      type: object
+      description: Class SvPromo
+      properties:
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        '@context':
+          readOnly: true
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              '@vocab':
+                type: string
+              hydra:
+                type: string
+                enum:
+                - http://www.w3.org/ns/hydra/core#
+            required:
+            - '@vocab'
+            - hydra
+            additionalProperties: true
+        id:
+          readOnly: true
+          type: integer
+        code:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        is_active:
+          type:
+          - boolean
+          - 'null'
+        start_date:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        end_date:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        maximum_age_in_month:
+          type:
+          - integer
+          - 'null'
+        components:
+          type: array
+          items:
+            $ref: '#/components/schemas/SvPromoComposant.jsonld-promotional_codes_get'
+    SvPromo-promotional_codes_get:
+      type: object
+      description: Class SvPromo
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        code:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        is_active:
+          type:
+          - boolean
+          - 'null'
+        start_date:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        end_date:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        maximum_age_in_month:
+          type:
+          - integer
+          - 'null'
+        components:
+          type: array
+          items:
+            $ref: '#/components/schemas/SvPromoComposant-promotional_codes_get'
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      description: Value for the Authorization header parameter.
+      name: Authorization
+      in: header
