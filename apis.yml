@@ -67,6 +67,12 @@ apis:
   baseURL: https://acquisition.api.santevet.com
   tags:
   - Quotes
+  - Ratings
+  - Subscription
+  - Insurance
+  - Pet Insurance
+  tags_raw:
+  - Quotes
   - Rating
   - Subscription
   - Insurance
