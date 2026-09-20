@@ -1,31 +1,29 @@
-# Kin Score artifact — santevet — 2026-08-19T114122
+# Kin Score artifact — santevet — 2026-09-19T165737
 # The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
 ---
 kin_score:
   slug: santevet
-  schema_version: 0.12.0
-  scored_at: '2026-08-19'
-  run_ts: 2026-08-19T114122
-  composite: 38.1
+  schema_version: 0.22.0
+  scored_at: '2026-09-19'
+  run_ts: 2026-09-19T165737
+  composite: 37.3
   band: thin
   facets:
     discoverability: 77.8
-    contract_quality: 54.5
-    governance: 16.7
+    contract_quality: 54.4
+    contract_governance: 4.5
     operational_transparency: 0.0
-    developer_ergonomics: 25.6
-    commercial_clarity: 34.2
-    contract_governance: 16.7
+    developer_ergonomics: 32.7
     access_clarity: 34.2
   agent_readiness:
-    score: 38.6
-    band: agent-ready
+    score: 27.8
+    band: agent-aware
     dimensions:
       spec_presence: true
       agentic_access: derived
       reversibility_documented: documented
       mcp_server: false
-      auth_clarity: true
+      auth_clarity: bearer
       idempotency: false
       error_semantics: documented
       openapi_examples: partial
@@ -36,6 +34,10 @@ kin_score:
       consent_identity: false
       agent_card: false
       dry_run_mode: false
+      delegated_identity: false
+      protected_resource_metadata: false
+      dynamic_client_registration: false
+      agentic_commerce: false
   regulatory:
     applies: true
     regime: Insurance
@@ -48,7 +50,7 @@ kin_score:
     agentic_access: derived
     conformance: derived
     contracts:
-      total: 2
+      total: 26
       derived: 0
       coverage: 0.0
-      callable: 50.0
+      callable: 3.8
