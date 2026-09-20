@@ -11,8 +11,41 @@ capability_model:
   attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
     CC BY 4.0
   notice: NOTICE
-edge_count: 1
+edge_count: 5
 edges:
+- tag: Reimbursement
+  spec_file: santevet-reimbursement-api-openapi.yml
+  capability_id: BC-2160.50
+  capability_id_l1: BC-2160
+  capability_name: Claims Settlement & Payment
+  confidence: 0.85
+  evidence: POST /api/v1/reimbursements createReimbursement Create a new reimbursement ... GET /api/v1/third-party-payments/{coverageId}/schedule
+    Retrieve schedule for a Third Party Payment by its Coverage identifier
+  reason: Creates, updates and retrieves reimbursements against animals, clients and coverages, plus third-party
+    (direct-to-clinic) payment schedules, with schemas CreateReimbursementClaimRequest, ApiAct, ApiUpperLimit,
+    ApiDiscount — this is claim indemnity settlement and payment.
+  recovered_from: vertical-insurance-edges.json
+- tag: SvDefContratAssurance
+  spec_file: santevet-svdefcontratassurance-api-openapi.yml
+  capability_id: BC-2100.10
+  capability_id_l1: BC-2100
+  capability_name: Insurance Product Catalogue Management
+  confidence: 0.8
+  evidence: GET /insurances getSvDefContratAssuranceCollection ... GET /species/{id}/rates get_rates_by_speciesSvDefContratAssuranceCollection
+  reason: Exposes the insurance contract definitions (product/formula master data) with their attached
+    options and species-based rates — the insurance product catalogue for this pet insurer.
+  recovered_from: vertical-insurance-edges.json
+- tag: SvTarifsContrat
+  spec_file: santevet-svtarifscontrat-api-openapi.yml
+  capability_id: BC-2100.20
+  capability_id_l1: BC-2100
+  capability_name: Product Rating & Pricing Configuration
+  confidence: 0.8
+  evidence: POST /rates/search searchSvTarifsContratCollection ... PUT /sv_tarifs_contrats/{id} Replaces
+    the SvTarifsContrat resource
+  reason: Full CRUD plus search over contract rate records (tarifs) with rating-dimension schemas (SvGroupeCodePostal,
+    SvGroupeRaceMarque, SvFormuleVenduePar) — configuration of insurance product rating tables and factors.
+  recovered_from: vertical-insurance-edges.json
 - tag: SvPromo
   spec_file: santevet-svpromo-api-openapi.yml
   capability_id: BC-440.30
@@ -24,3 +57,14 @@ edges:
   reason: The operations expose promotional codes and their components, i.e. the promotion/discount catalogue
     used at quoting and subscription time — Discount & Promotion Management. Read-only surface, hence
     0.78 rather than higher.
+- tag: SvDefOptionAppliqueeAuDefContrat
+  spec_file: santevet-svdefoptionappliqueeaudefcontrat-api-openapi.yml
+  capability_id: BC-2100.10
+  capability_id_l1: BC-2100
+  capability_name: Insurance Product Catalogue Management
+  confidence: 0.7
+  evidence: GET /options getSvDefOptionAppliqueeAuDefContratCollection ... schemas SvDefOption, SvDefContratAssurance,
+    TypeOption
+  reason: Catalogue of optional covers/options attached to insurance contract definitions — product and
+    coverage definition master data. Which sub-capability (catalogue vs rating config) is somewhat ambiguous.
+  recovered_from: vertical-insurance-edges.json
