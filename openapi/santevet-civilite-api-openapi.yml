@@ -100,7 +100,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Civilite-civilities_get_translations_get'
-      summary: Retrieves the collection of Civilite resources.
+      summary: Retrieves the collection of Civilite resources
       description: Retrieves the collection of Civilite resources.
       parameters:
       - name: id
@@ -152,7 +152,7 @@ paths:
                 $ref: '#/components/schemas/Civilite-civilities_get_translations_get'
         '404':
           description: Resource not found
-      summary: Retrieves a Civilite resource.
+      summary: Retrieves a Civilite resource
       description: Retrieves a Civilite resource.
       parameters:
       - name: id
@@ -169,6 +169,56 @@ paths:
       deprecated: false
 components:
   schemas:
+    ValeurChamp.jsonld-civilities_get_translations_get:
+      type: object
+      description: ''
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              '@vocab':
+                type: string
+              hydra:
+                type: string
+                enum:
+                - http://www.w3.org/ns/hydra/core#
+            required:
+            - '@vocab'
+            - hydra
+            additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        fr:
+          type:
+          - string
+          - 'null'
+        nl:
+          type:
+          - string
+          - 'null'
+        es:
+          type:
+          - string
+          - 'null'
+        be:
+          type:
+          - string
+          - 'null'
+        de:
+          type:
+          - string
+          - 'null'
+        it:
+          type:
+          - string
+          - 'null'
     Civilite.jsonld-civilities_get_translations_get:
       type: object
       description: Class Civilite
@@ -203,34 +253,6 @@ components:
         translations:
           anyOf:
           - $ref: '#/components/schemas/ValeurChamp.jsonld-civilities_get_translations_get'
-    ValeurChamp-civilities_get_translations_get:
-      type: object
-      description: ''
-      properties:
-        fr:
-          type:
-          - string
-          - 'null'
-        nl:
-          type:
-          - string
-          - 'null'
-        es:
-          type:
-          - string
-          - 'null'
-        be:
-          type:
-          - string
-          - 'null'
-        de:
-          type:
-          - string
-          - 'null'
-        it:
-          type:
-          - string
-          - 'null'
     Civilite-civilities_get_translations_get:
       type: object
       description: Class Civilite
@@ -243,32 +265,10 @@ components:
         translations:
           anyOf:
           - $ref: '#/components/schemas/ValeurChamp-civilities_get_translations_get'
-    ValeurChamp.jsonld-civilities_get_translations_get:
+    ValeurChamp-civilities_get_translations_get:
       type: object
       description: ''
       properties:
-        '@context':
-          readOnly: true
-          oneOf:
-          - type: string
-          - type: object
-            properties:
-              '@vocab':
-                type: string
-              hydra:
-                type: string
-                enum:
-                - http://www.w3.org/ns/hydra/core#
-            required:
-            - '@vocab'
-            - hydra
-            additionalProperties: true
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
         fr:
           type:
           - string

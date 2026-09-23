@@ -100,7 +100,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TypeReglement-payment_types_get_translations_get'
-      summary: Retrieves the collection of TypeReglement resources.
+      summary: Retrieves the collection of TypeReglement resources
       description: Retrieves the collection of TypeReglement resources.
       parameters: []
       deprecated: false
@@ -128,7 +128,7 @@ paths:
                 $ref: '#/components/schemas/TypeReglement-payment_types_get_translations_get'
         '404':
           description: Resource not found
-      summary: Retrieves a TypeReglement resource.
+      summary: Retrieves a TypeReglement resource
       description: Retrieves a TypeReglement resource.
       parameters:
       - name: id
@@ -207,6 +207,34 @@ components:
         translations:
           anyOf:
           - $ref: '#/components/schemas/ValeurChamp-payment_types_get_translations_get'
+    ValeurChamp-payment_types_get_translations_get:
+      type: object
+      description: ''
+      properties:
+        fr:
+          type:
+          - string
+          - 'null'
+        nl:
+          type:
+          - string
+          - 'null'
+        es:
+          type:
+          - string
+          - 'null'
+        be:
+          type:
+          - string
+          - 'null'
+        de:
+          type:
+          - string
+          - 'null'
+        it:
+          type:
+          - string
+          - 'null'
     TypeReglement.jsonld-payment_types_get_translations_get:
       type: object
       description: Class TypeReglement
@@ -241,34 +269,6 @@ components:
         translations:
           anyOf:
           - $ref: '#/components/schemas/ValeurChamp.jsonld-payment_types_get_translations_get'
-    ValeurChamp-payment_types_get_translations_get:
-      type: object
-      description: ''
-      properties:
-        fr:
-          type:
-          - string
-          - 'null'
-        nl:
-          type:
-          - string
-          - 'null'
-        es:
-          type:
-          - string
-          - 'null'
-        be:
-          type:
-          - string
-          - 'null'
-        de:
-          type:
-          - string
-          - 'null'
-        it:
-          type:
-          - string
-          - 'null'
   securitySchemes:
     apiKey:
       type: apiKey

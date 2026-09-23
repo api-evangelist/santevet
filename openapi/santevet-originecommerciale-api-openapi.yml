@@ -100,7 +100,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/OrigineCommerciale-commercial_origins_get_translations_get'
-      summary: Retrieves the collection of OrigineCommerciale resources.
+      summary: Retrieves the collection of OrigineCommerciale resources
       description: Retrieves the collection of OrigineCommerciale resources.
       parameters: []
       deprecated: false
@@ -128,7 +128,7 @@ paths:
                 $ref: '#/components/schemas/OrigineCommerciale-commercial_origins_get_translations_get'
         '404':
           description: Resource not found
-      summary: Retrieves a OrigineCommerciale resource.
+      summary: Retrieves a OrigineCommerciale resource
       description: Retrieves a OrigineCommerciale resource.
       parameters:
       - name: id
@@ -145,18 +145,6 @@ paths:
       deprecated: false
 components:
   schemas:
-    OrigineCommerciale-commercial_origins_get_translations_get:
-      type: object
-      description: Class OrigineCommerciale
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        parent:
-          anyOf:
-          - $ref: '#/components/schemas/OrigineCommerciale-commercial_origins_get_translations_get'
     OrigineCommerciale.jsonld-commercial_origins_get_translations_get:
       type: object
       description: Class OrigineCommerciale
@@ -191,6 +179,18 @@ components:
         parent:
           anyOf:
           - $ref: '#/components/schemas/OrigineCommerciale.jsonld-commercial_origins_get_translations_get'
+    OrigineCommerciale-commercial_origins_get_translations_get:
+      type: object
+      description: Class OrigineCommerciale
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        parent:
+          anyOf:
+          - $ref: '#/components/schemas/OrigineCommerciale-commercial_origins_get_translations_get'
   securitySchemes:
     apiKey:
       type: apiKey

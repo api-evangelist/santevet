@@ -100,7 +100,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TypeSinistre-claim_types_get_translations_get'
-      summary: Retrieves the collection of TypeSinistre resources.
+      summary: Retrieves the collection of TypeSinistre resources
       description: Retrieves the collection of TypeSinistre resources.
       parameters: []
       deprecated: false
@@ -128,7 +128,7 @@ paths:
                 $ref: '#/components/schemas/TypeSinistre-claim_types_get_translations_get'
         '404':
           description: Resource not found
-      summary: Retrieves a TypeSinistre resource.
+      summary: Retrieves a TypeSinistre resource
       description: Retrieves a TypeSinistre resource.
       parameters:
       - name: id
@@ -195,34 +195,6 @@ components:
           type:
           - string
           - 'null'
-    ValeurChamp-claim_types_get_translations_get:
-      type: object
-      description: ''
-      properties:
-        fr:
-          type:
-          - string
-          - 'null'
-        nl:
-          type:
-          - string
-          - 'null'
-        es:
-          type:
-          - string
-          - 'null'
-        be:
-          type:
-          - string
-          - 'null'
-        de:
-          type:
-          - string
-          - 'null'
-        it:
-          type:
-          - string
-          - 'null'
     TypeSinistre.jsonld-claim_types_get_translations_get:
       type: object
       description: Class TypeSinistre
@@ -257,6 +229,34 @@ components:
         translations:
           anyOf:
           - $ref: '#/components/schemas/ValeurChamp.jsonld-claim_types_get_translations_get'
+    ValeurChamp-claim_types_get_translations_get:
+      type: object
+      description: ''
+      properties:
+        fr:
+          type:
+          - string
+          - 'null'
+        nl:
+          type:
+          - string
+          - 'null'
+        es:
+          type:
+          - string
+          - 'null'
+        be:
+          type:
+          - string
+          - 'null'
+        de:
+          type:
+          - string
+          - 'null'
+        it:
+          type:
+          - string
+          - 'null'
     TypeSinistre-claim_types_get_translations_get:
       type: object
       description: Class TypeSinistre

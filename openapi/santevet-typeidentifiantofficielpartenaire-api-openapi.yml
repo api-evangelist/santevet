@@ -100,7 +100,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TypeIdentifiantOfficielPartenaire-partners_official_identifier_types_get'
-      summary: Retrieves the collection of TypeIdentifiantOfficielPartenaire resources.
+      summary: Retrieves the collection of TypeIdentifiantOfficielPartenaire resources
       description: Retrieves the collection of TypeIdentifiantOfficielPartenaire resources.
       parameters: []
       deprecated: false
@@ -128,7 +128,7 @@ paths:
                 $ref: '#/components/schemas/TypeIdentifiantOfficielPartenaire-partners_official_identifier_types_get'
         '404':
           description: Resource not found
-      summary: Retrieves a TypeIdentifiantOfficielPartenaire resource.
+      summary: Retrieves a TypeIdentifiantOfficielPartenaire resource
       description: Retrieves a TypeIdentifiantOfficielPartenaire resource.
       parameters:
       - name: id
@@ -145,6 +145,15 @@ paths:
       deprecated: false
 components:
   schemas:
+    TypeIdentifiantOfficielPartenaire-partners_official_identifier_types_get:
+      type: object
+      description: Class TypeIdentifiantOfficielPartenaire
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
     TypeIdentifiantOfficielPartenaire.jsonld-partners_official_identifier_types_get:
       type: object
       description: Class TypeIdentifiantOfficielPartenaire
@@ -171,15 +180,6 @@ components:
             - '@vocab'
             - hydra
             additionalProperties: true
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-    TypeIdentifiantOfficielPartenaire-partners_official_identifier_types_get:
-      type: object
-      description: Class TypeIdentifiantOfficielPartenaire
-      properties:
         id:
           readOnly: true
           type: integer

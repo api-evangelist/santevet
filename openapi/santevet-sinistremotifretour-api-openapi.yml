@@ -100,7 +100,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SinistreMotifRetour-claim_return_reason_get_translations_get'
-      summary: Retrieves the collection of SinistreMotifRetour resources.
+      summary: Retrieves the collection of SinistreMotifRetour resources
       description: Retrieves the collection of SinistreMotifRetour resources.
       parameters: []
       deprecated: false
@@ -128,7 +128,7 @@ paths:
                 $ref: '#/components/schemas/SinistreMotifRetour-claim_return_reason_get_translations_get'
         '404':
           description: Resource not found
-      summary: Retrieves a SinistreMotifRetour resource.
+      summary: Retrieves a SinistreMotifRetour resource
       description: Retrieves a SinistreMotifRetour resource.
       parameters:
       - name: id
@@ -145,18 +145,6 @@ paths:
       deprecated: false
 components:
   schemas:
-    SinistreMotifRetour-claim_return_reason_get_translations_get:
-      type: object
-      description: Class SinistreMotifRetour
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        translations:
-          anyOf:
-          - $ref: '#/components/schemas/ValeurChamp-claim_return_reason_get_translations_get'
     ValeurChamp.jsonld-claim_return_reason_get_translations_get:
       type: object
       description: ''
@@ -269,6 +257,18 @@ components:
         translations:
           anyOf:
           - $ref: '#/components/schemas/ValeurChamp.jsonld-claim_return_reason_get_translations_get'
+    SinistreMotifRetour-claim_return_reason_get_translations_get:
+      type: object
+      description: Class SinistreMotifRetour
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        translations:
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp-claim_return_reason_get_translations_get'
   securitySchemes:
     apiKey:
       type: apiKey

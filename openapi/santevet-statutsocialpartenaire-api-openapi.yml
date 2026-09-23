@@ -100,7 +100,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/StatutSocialPartenaire-partners_social_statuses_get'
-      summary: Retrieves the collection of StatutSocialPartenaire resources.
+      summary: Retrieves the collection of StatutSocialPartenaire resources
       description: Retrieves the collection of StatutSocialPartenaire resources.
       parameters: []
       deprecated: false
@@ -128,7 +128,7 @@ paths:
                 $ref: '#/components/schemas/StatutSocialPartenaire-partners_social_statuses_get'
         '404':
           description: Resource not found
-      summary: Retrieves a StatutSocialPartenaire resource.
+      summary: Retrieves a StatutSocialPartenaire resource
       description: Retrieves a StatutSocialPartenaire resource.
       parameters:
       - name: id
@@ -145,15 +145,6 @@ paths:
       deprecated: false
 components:
   schemas:
-    StatutSocialPartenaire-partners_social_statuses_get:
-      type: object
-      description: Class StatutSocialPartenaire
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
     StatutSocialPartenaire.jsonld-partners_social_statuses_get:
       type: object
       description: Class StatutSocialPartenaire
@@ -180,6 +171,15 @@ components:
             - '@vocab'
             - hydra
             additionalProperties: true
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+    StatutSocialPartenaire-partners_social_statuses_get:
+      type: object
+      description: Class StatutSocialPartenaire
+      properties:
         id:
           readOnly: true
           type: integer

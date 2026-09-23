@@ -100,7 +100,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Langue-languages_get_translations_get'
-      summary: Retrieves the collection of Langue resources.
+      summary: Retrieves the collection of Langue resources
       description: Retrieves the collection of Langue resources.
       parameters:
       - name: code
@@ -176,7 +176,7 @@ paths:
                 $ref: '#/components/schemas/Langue-languages_get_translations_get'
         '404':
           description: Resource not found
-      summary: Retrieves a Langue resource.
+      summary: Retrieves a Langue resource
       description: Retrieves a Langue resource.
       parameters:
       - name: id
@@ -193,19 +193,6 @@ paths:
       deprecated: false
 components:
   schemas:
-    Langue-languages_get_translations_get:
-      type: object
-      description: Class Langue
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        code:
-          type: string
-        locale:
-          type: string
     Langue.jsonld-languages_get_translations_get:
       type: object
       description: Class Langue
@@ -232,6 +219,19 @@ components:
             - '@vocab'
             - hydra
             additionalProperties: true
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        code:
+          type: string
+        locale:
+          type: string
+    Langue-languages_get_translations_get:
+      type: object
+      description: Class Langue
+      properties:
         id:
           readOnly: true
           type: integer

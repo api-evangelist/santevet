@@ -100,7 +100,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SvDefContratAssurance-insurances_get_options_get'
-      summary: Retrieves the collection of SvDefContratAssurance resources.
+      summary: Retrieves the collection of SvDefContratAssurance resources
       description: Retrieves the collection of SvDefContratAssurance resources.
       parameters:
       - name: id
@@ -152,7 +152,7 @@ paths:
                 $ref: '#/components/schemas/SvDefContratAssurance-insurances_get_options_get'
         '404':
           description: Resource not found
-      summary: Retrieves a SvDefContratAssurance resource.
+      summary: Retrieves a SvDefContratAssurance resource
       description: Retrieves a SvDefContratAssurance resource.
       parameters:
       - name: id
@@ -256,7 +256,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SvDefContratAssurance-insurances_get_options_get'
-      summary: Retrieves the collection of SvDefContratAssurance resources.
+      summary: Retrieves the collection of SvDefContratAssurance resources
       description: Retrieves the collection of SvDefContratAssurance resources.
       parameters:
       - name: id
@@ -286,280 +286,6 @@ paths:
       deprecated: false
 components:
   schemas:
-    ValeurChamp.jsonld-insurances_get_options_get:
-      type: object
-      description: ''
-      properties:
-        '@context':
-          readOnly: true
-          oneOf:
-          - type: string
-          - type: object
-            properties:
-              '@vocab':
-                type: string
-              hydra:
-                type: string
-                enum:
-                - http://www.w3.org/ns/hydra/core#
-            required:
-            - '@vocab'
-            - hydra
-            additionalProperties: true
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
-    SvDefOptionAppliqueeAuDefContrat-insurances_get_options_get:
-      type: object
-      description: Class SvDefOptionAppliqueeAuDefContrat
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        amount:
-          type: number
-        additional_annual_upper_limit:
-          type:
-          - number
-          - 'null'
-        required:
-          type: boolean
-        excluded_options:
-          type:
-          - string
-          - 'null'
-        option:
-          $ref: '#/components/schemas/SvDefOption-insurances_get_options_get'
-        rate:
-          $ref: '#/components/schemas/SvDefContratAssurance-insurances_get_options_get'
-    ValeurChamp-insurances_get_options_get:
-      type: object
-      description: ''
-    SvDefOptionAppliqueeAuDefContrat.jsonld-insurances_get_options_get:
-      type: object
-      description: Class SvDefOptionAppliqueeAuDefContrat
-      properties:
-        '@context':
-          readOnly: true
-          oneOf:
-          - type: string
-          - type: object
-            properties:
-              '@vocab':
-                type: string
-              hydra:
-                type: string
-                enum:
-                - http://www.w3.org/ns/hydra/core#
-            required:
-            - '@vocab'
-            - hydra
-            additionalProperties: true
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
-        id:
-          readOnly: true
-          type: integer
-        amount:
-          type: number
-        additional_annual_upper_limit:
-          type:
-          - number
-          - 'null'
-        required:
-          type: boolean
-        excluded_options:
-          type:
-          - string
-          - 'null'
-        option:
-          $ref: '#/components/schemas/SvDefOption.jsonld-insurances_get_options_get'
-        rate:
-          $ref: '#/components/schemas/SvDefContratAssurance.jsonld-insurances_get_options_get'
-    TypeOption-insurances_get_options_get:
-      type: object
-      description: Class TypeOption
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        translations:
-          readOnly: true
-          anyOf:
-          - $ref: '#/components/schemas/ValeurChamp-insurances_get_options_get'
-    SvDefContratAssurance-insurances_get_options_get:
-      type: object
-      description: SvDefContratAssurance
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        contract_duration:
-          type:
-          - integer
-          - 'null'
-        support_rate:
-          type: number
-        excess:
-          type: string
-        annual_excess:
-          type: number
-        illness_waiting_period:
-          type: integer
-        accident_waiting_period:
-          type: integer
-        vaccination_waiting_period:
-          type: integer
-        surgery_waiting_period:
-          type: integer
-        annual_upper_limit:
-          type:
-          - number
-          - 'null'
-        accident_annual_upper_limit:
-          type:
-          - number
-          - 'null'
-        illness_annual_upper_limit:
-          type:
-          - number
-          - 'null'
-        doghouse_annual_upper_limit:
-          type: string
-        prevention_annual_upper_limit:
-          type: number
-        application_fee:
-          type: number
-        illness_acceptance:
-          type: boolean
-        accident_acceptance:
-          type: boolean
-        prevention_pack_acceptance:
-          type: boolean
-        vaccination_acceptance:
-          type: boolean
-        death_acceptance:
-          type: boolean
-        surgery_acceptance:
-          type: boolean
-        is_freemium:
-          type: boolean
-        death_compensation_amount:
-          type: number
-        end_of_life_compensation_amount:
-          type: number
-        display_order:
-          type:
-          - integer
-          - 'null'
-        color_code:
-          type:
-          - string
-          - 'null'
-        def_options_appliquee_aux_def_contrats:
-          type: array
-          items:
-            $ref: '#/components/schemas/SvDefOptionAppliqueeAuDefContrat-insurances_get_options_get'
-    SvDefOption-insurances_get_options_get:
-      type: object
-      description: ''
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        display_order:
-          type:
-          - integer
-          - 'null'
-        type_option:
-          anyOf:
-          - $ref: '#/components/schemas/TypeOption-insurances_get_options_get'
-    TypeOption.jsonld-insurances_get_options_get:
-      type: object
-      description: Class TypeOption
-      properties:
-        '@context':
-          readOnly: true
-          oneOf:
-          - type: string
-          - type: object
-            properties:
-              '@vocab':
-                type: string
-              hydra:
-                type: string
-                enum:
-                - http://www.w3.org/ns/hydra/core#
-            required:
-            - '@vocab'
-            - hydra
-            additionalProperties: true
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        translations:
-          readOnly: true
-          anyOf:
-          - $ref: '#/components/schemas/ValeurChamp.jsonld-insurances_get_options_get'
-    SvDefOption.jsonld-insurances_get_options_get:
-      type: object
-      description: ''
-      properties:
-        '@context':
-          readOnly: true
-          oneOf:
-          - type: string
-          - type: object
-            properties:
-              '@vocab':
-                type: string
-              hydra:
-                type: string
-                enum:
-                - http://www.w3.org/ns/hydra/core#
-            required:
-            - '@vocab'
-            - hydra
-            additionalProperties: true
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        display_order:
-          type:
-          - integer
-          - 'null'
-        type_option:
-          anyOf:
-          - $ref: '#/components/schemas/TypeOption.jsonld-insurances_get_options_get'
     SvDefContratAssurance.jsonld-insurances_get_options_get:
       type: object
       description: SvDefContratAssurance
@@ -657,6 +383,280 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SvDefOptionAppliqueeAuDefContrat.jsonld-insurances_get_options_get'
+    TypeOption.jsonld-insurances_get_options_get:
+      type: object
+      description: Class TypeOption
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              '@vocab':
+                type: string
+              hydra:
+                type: string
+                enum:
+                - http://www.w3.org/ns/hydra/core#
+            required:
+            - '@vocab'
+            - hydra
+            additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        translations:
+          readOnly: true
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp.jsonld-insurances_get_options_get'
+    SvDefOption-insurances_get_options_get:
+      type: object
+      description: ''
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        display_order:
+          type:
+          - integer
+          - 'null'
+        type_option:
+          anyOf:
+          - $ref: '#/components/schemas/TypeOption-insurances_get_options_get'
+    SvDefOption.jsonld-insurances_get_options_get:
+      type: object
+      description: ''
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              '@vocab':
+                type: string
+              hydra:
+                type: string
+                enum:
+                - http://www.w3.org/ns/hydra/core#
+            required:
+            - '@vocab'
+            - hydra
+            additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        display_order:
+          type:
+          - integer
+          - 'null'
+        type_option:
+          anyOf:
+          - $ref: '#/components/schemas/TypeOption.jsonld-insurances_get_options_get'
+    ValeurChamp.jsonld-insurances_get_options_get:
+      type: object
+      description: ''
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              '@vocab':
+                type: string
+              hydra:
+                type: string
+                enum:
+                - http://www.w3.org/ns/hydra/core#
+            required:
+            - '@vocab'
+            - hydra
+            additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+    SvDefOptionAppliqueeAuDefContrat-insurances_get_options_get:
+      type: object
+      description: Class SvDefOptionAppliqueeAuDefContrat
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        amount:
+          type: number
+        additional_annual_upper_limit:
+          type:
+          - number
+          - 'null'
+        required:
+          type: boolean
+        excluded_options:
+          type:
+          - string
+          - 'null'
+        option:
+          $ref: '#/components/schemas/SvDefOption-insurances_get_options_get'
+        rate:
+          $ref: '#/components/schemas/SvDefContratAssurance-insurances_get_options_get'
+    SvDefContratAssurance-insurances_get_options_get:
+      type: object
+      description: SvDefContratAssurance
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        contract_duration:
+          type:
+          - integer
+          - 'null'
+        support_rate:
+          type: number
+        excess:
+          type: string
+        annual_excess:
+          type: number
+        illness_waiting_period:
+          type: integer
+        accident_waiting_period:
+          type: integer
+        vaccination_waiting_period:
+          type: integer
+        surgery_waiting_period:
+          type: integer
+        annual_upper_limit:
+          type:
+          - number
+          - 'null'
+        accident_annual_upper_limit:
+          type:
+          - number
+          - 'null'
+        illness_annual_upper_limit:
+          type:
+          - number
+          - 'null'
+        doghouse_annual_upper_limit:
+          type: string
+        prevention_annual_upper_limit:
+          type: number
+        application_fee:
+          type: number
+        illness_acceptance:
+          type: boolean
+        accident_acceptance:
+          type: boolean
+        prevention_pack_acceptance:
+          type: boolean
+        vaccination_acceptance:
+          type: boolean
+        death_acceptance:
+          type: boolean
+        surgery_acceptance:
+          type: boolean
+        is_freemium:
+          type: boolean
+        death_compensation_amount:
+          type: number
+        end_of_life_compensation_amount:
+          type: number
+        display_order:
+          type:
+          - integer
+          - 'null'
+        color_code:
+          type:
+          - string
+          - 'null'
+        def_options_appliquee_aux_def_contrats:
+          type: array
+          items:
+            $ref: '#/components/schemas/SvDefOptionAppliqueeAuDefContrat-insurances_get_options_get'
+    SvDefOptionAppliqueeAuDefContrat.jsonld-insurances_get_options_get:
+      type: object
+      description: Class SvDefOptionAppliqueeAuDefContrat
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              '@vocab':
+                type: string
+              hydra:
+                type: string
+                enum:
+                - http://www.w3.org/ns/hydra/core#
+            required:
+            - '@vocab'
+            - hydra
+            additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          type: integer
+        amount:
+          type: number
+        additional_annual_upper_limit:
+          type:
+          - number
+          - 'null'
+        required:
+          type: boolean
+        excluded_options:
+          type:
+          - string
+          - 'null'
+        option:
+          $ref: '#/components/schemas/SvDefOption.jsonld-insurances_get_options_get'
+        rate:
+          $ref: '#/components/schemas/SvDefContratAssurance.jsonld-insurances_get_options_get'
+    TypeOption-insurances_get_options_get:
+      type: object
+      description: Class TypeOption
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        translations:
+          readOnly: true
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp-insurances_get_options_get'
+    ValeurChamp-insurances_get_options_get:
+      type: object
+      description: ''
   securitySchemes:
     apiKey:
       type: apiKey

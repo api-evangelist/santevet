@@ -100,7 +100,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SvMarqueTel-brand_telephones_get'
-      summary: Retrieves the collection of SvMarqueTel resources.
+      summary: Retrieves the collection of SvMarqueTel resources
       description: Retrieves the collection of SvMarqueTel resources.
       parameters: []
       deprecated: false
@@ -193,7 +193,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SvMarqueTel-brand_telephones_get'
-      summary: Retrieves the collection of SvMarqueTel resources.
+      summary: Retrieves the collection of SvMarqueTel resources
       description: Retrieves the collection of SvMarqueTel resources.
       parameters: []
       deprecated: false
@@ -221,7 +221,7 @@ paths:
                 $ref: '#/components/schemas/SvMarqueTel-brand_telephones_get'
         '404':
           description: Resource not found
-      summary: Retrieves a SvMarqueTel resource.
+      summary: Retrieves a SvMarqueTel resource
       description: Retrieves a SvMarqueTel resource.
       parameters:
       - name: id
