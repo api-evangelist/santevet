@@ -191,308 +191,6 @@ paths:
       deprecated: false
 components:
   schemas:
-    QuittanceLigneType.jsonld:
-      type: object
-      description: ''
-      properties:
-        '@context':
-          readOnly: true
-          oneOf:
-          - type: string
-          - type: object
-            properties:
-              '@vocab':
-                type: string
-              hydra:
-                type: string
-                enum:
-                - http://www.w3.org/ns/hydra/core#
-            required:
-            - '@vocab'
-            - hydra
-            additionalProperties: true
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
-        id:
-          readOnly: true
-          type: integer
-        nom:
-          readOnly: true
-          type: string
-        ordre:
-          readOnly: true
-          type: integer
-        taxe_sante:
-          readOnly: true
-          type: boolean
-        taux_tva:
-          readOnly: true
-          type: string
-        commission_applicable:
-          readOnly: true
-          type: boolean
-        est_remboursable:
-          readOnly: true
-          type: boolean
-        est_remboursable_force:
-          readOnly: true
-          type: boolean
-        a_conserver_en_recalcul:
-          readOnly: true
-          type: boolean
-        prise_en_compte_plus_ou_moins_percu:
-          readOnly: true
-          type: boolean
-        priorite_remboursement:
-          readOnly: true
-          type: boolean
-        est_fractionnable:
-          readOnly: true
-          type: boolean
-        ref_id_valeur_champ:
-          readOnly: true
-          anyOf:
-          - $ref: '#/components/schemas/ValeurChamp.jsonld'
-        type_quittances:
-          readOnly: true
-          type: array
-          items:
-            $ref: '#/components/schemas/SvDefOption.jsonld'
-    SvDefOption.jsonld:
-      type: object
-      description: ''
-      properties:
-        '@context':
-          readOnly: true
-          oneOf:
-          - type: string
-          - type: object
-            properties:
-              '@vocab':
-                type: string
-              hydra:
-                type: string
-                enum:
-                - http://www.w3.org/ns/hydra/core#
-            required:
-            - '@vocab'
-            - hydra
-            additionalProperties: true
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        display_order:
-          type:
-          - integer
-          - 'null'
-        valeur_commerciale_ajoutee:
-          readOnly: true
-          type: string
-        type_option:
-          type:
-          - string
-          - 'null'
-          format: iri-reference
-        ref_id_quittance_ligne_type:
-          readOnly: true
-          anyOf:
-          - $ref: '#/components/schemas/QuittanceLigneType.jsonld'
-        def_options_appliquee_aux_def_contrats:
-          readOnly: true
-          type: array
-          items:
-            type: string
-            format: iri-reference
-        ref_formule_vendue_par:
-          readOnly: true
-          type: array
-          items:
-            $ref: '#/components/schemas/SvFormuleVenduePar.jsonld'
-    SvGroupeCodePostalDepartement:
-      type: object
-      description: ''
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        numero_dept:
-          readOnly: true
-          type: string
-        ref_id_pays:
-          readOnly: true
-          type: integer
-        ref_id_groupe_code_postal:
-          readOnly: true
-          $ref: '#/components/schemas/SvGroupeCodePostal'
-    SvTarifsContrat:
-      type: object
-      description: Class SvTarifsContrat
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        age_min_en_mois:
-          readOnly: true
-          type:
-          - integer
-          - 'null'
-        age_max_en_mois:
-          readOnly: true
-          type:
-          - integer
-          - 'null'
-        amount:
-          type: number
-        maximum_amount:
-          type: number
-        ref_id_marque:
-          readOnly: true
-          $ref: '#/components/schemas/SvMarque'
-        rate:
-          type: string
-          format: iri-reference
-        ref_id_groupe_race:
-          readOnly: true
-          type: string
-          format: iri-reference
-        ref_id_groupe_code_postal:
-          readOnly: true
-          anyOf:
-          - $ref: '#/components/schemas/SvGroupeCodePostal'
-    SvGroupeCodePostal:
-      type: object
-      description: ''
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        nom:
-          readOnly: true
-          type:
-          - string
-          - 'null'
-        sv_groupes_codes_postaux_departements:
-          readOnly: true
-          type: array
-          items:
-            $ref: '#/components/schemas/SvGroupeCodePostalDepartement'
-        sv_groupes_marques_codes_postaux:
-          readOnly: true
-          type: array
-          items:
-            $ref: '#/components/schemas/SvGroupeMarqueCodePostal'
-        sv_tarifs_contrats:
-          readOnly: true
-          type: array
-          items:
-            type: string
-            format: iri-reference
-    SvGroupeRaceMarque.jsonld:
-      type: object
-      description: ''
-      properties:
-        '@context':
-          readOnly: true
-          oneOf:
-          - type: string
-          - type: object
-            properties:
-              '@vocab':
-                type: string
-              hydra:
-                type: string
-                enum:
-                - http://www.w3.org/ns/hydra/core#
-            required:
-            - '@vocab'
-            - hydra
-            additionalProperties: true
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
-        ref_id_marque:
-          readOnly: true
-          $ref: '#/components/schemas/SvMarque.jsonld'
-        ref_id_groupe_race:
-          readOnly: true
-          type:
-          - string
-          - 'null'
-          format: iri-reference
-        ref_id_race:
-          readOnly: true
-          type: string
-          format: iri-reference
-    SvFormuleVenduePar:
-      type: object
-      description: ''
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        is_optional:
-          type:
-          - boolean
-          - 'null'
-        date_debut:
-          readOnly: true
-          type: string
-          format: date-time
-        date_fin:
-          readOnly: true
-          type:
-          - string
-          - 'null'
-          format: date-time
-        ref_id_def_contrat_assurance:
-          readOnly: true
-          type: string
-          format: iri-reference
-        ref_id_origine_commerciale:
-          readOnly: true
-          type:
-          - string
-          - 'null'
-          format: iri-reference
-        ref_id_marque:
-          readOnly: true
-          $ref: '#/components/schemas/SvMarque'
-        ref_id_gamme:
-          readOnly: true
-          type:
-          - integer
-          - 'null'
-        sv_def_options:
-          readOnly: true
-          type: array
-          items:
-            $ref: '#/components/schemas/SvDefOption'
-    SvTarifsContrat-rates_search_post:
-      type: object
-      description: Class SvTarifsContrat
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        amount:
-          type: number
-        rate:
-          $ref: '#/components/schemas/SvDefContratAssurance-rates_search_post'
     SvFormuleVenduePar.jsonld:
       type: object
       description: ''
@@ -559,472 +257,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SvDefOption.jsonld'
-    ValeurChamp:
-      type: object
-      description: ''
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        fr:
-          type:
-          - string
-          - 'null'
-        en:
-          type:
-          - string
-          - 'null'
-        nl:
-          type:
-          - string
-          - 'null'
-        es:
-          type:
-          - string
-          - 'null'
-        be:
-          type:
-          - string
-          - 'null'
-        de:
-          type:
-          - string
-          - 'null'
-        it:
-          type:
-          - string
-          - 'null'
-    SvGroupeMarqueCodePostal:
-      type: object
-      description: ''
-      properties:
-        code_postal:
-          readOnly: true
-          type: string
-        ref_id_marque:
-          readOnly: true
-          $ref: '#/components/schemas/SvMarque'
-        ref_id_groupe_code_postal:
-          readOnly: true
-          $ref: '#/components/schemas/SvGroupeCodePostal'
-    SvTarifsContrat.jsonld-rates_search_post:
-      type: object
-      description: Class SvTarifsContrat
-      properties:
-        '@context':
-          readOnly: true
-          oneOf:
-          - type: string
-          - type: object
-            properties:
-              '@vocab':
-                type: string
-              hydra:
-                type: string
-                enum:
-                - http://www.w3.org/ns/hydra/core#
-            required:
-            - '@vocab'
-            - hydra
-            additionalProperties: true
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
-        id:
-          readOnly: true
-          type: integer
-        amount:
-          type: number
-        rate:
-          $ref: '#/components/schemas/SvDefContratAssurance.jsonld-rates_search_post'
-    QuittanceLigneType:
-      type: object
-      description: ''
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        nom:
-          readOnly: true
-          type: string
-        ordre:
-          readOnly: true
-          type: integer
-        taxe_sante:
-          readOnly: true
-          type: boolean
-        taux_tva:
-          readOnly: true
-          type: string
-        commission_applicable:
-          readOnly: true
-          type: boolean
-        est_remboursable:
-          readOnly: true
-          type: boolean
-        est_remboursable_force:
-          readOnly: true
-          type: boolean
-        a_conserver_en_recalcul:
-          readOnly: true
-          type: boolean
-        prise_en_compte_plus_ou_moins_percu:
-          readOnly: true
-          type: boolean
-        priorite_remboursement:
-          readOnly: true
-          type: boolean
-        est_fractionnable:
-          readOnly: true
-          type: boolean
-        ref_id_valeur_champ:
-          readOnly: true
-          anyOf:
-          - $ref: '#/components/schemas/ValeurChamp'
-        type_quittances:
-          readOnly: true
-          type: array
-          items:
-            $ref: '#/components/schemas/SvDefOption'
-    SvGroupeCodePostalDepartement.jsonld:
-      type: object
-      description: ''
-      properties:
-        '@context':
-          readOnly: true
-          oneOf:
-          - type: string
-          - type: object
-            properties:
-              '@vocab':
-                type: string
-              hydra:
-                type: string
-                enum:
-                - http://www.w3.org/ns/hydra/core#
-            required:
-            - '@vocab'
-            - hydra
-            additionalProperties: true
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
-        id:
-          readOnly: true
-          type: integer
-        numero_dept:
-          readOnly: true
-          type: string
-        ref_id_pays:
-          readOnly: true
-          type: integer
-        ref_id_groupe_code_postal:
-          readOnly: true
-          $ref: '#/components/schemas/SvGroupeCodePostal.jsonld'
-    SvFormuleVenduePar-rates_search_post:
-      type: object
-      description: ''
-      properties:
-        is_optional:
-          type:
-          - boolean
-          - 'null'
-    OrigineConnaissanceMarque.jsonld:
-      type: object
-      description: ''
-      properties:
-        '@context':
-          readOnly: true
-          oneOf:
-          - type: string
-          - type: object
-            properties:
-              '@vocab':
-                type: string
-              hydra:
-                type: string
-                enum:
-                - http://www.w3.org/ns/hydra/core#
-            required:
-            - '@vocab'
-            - hydra
-            additionalProperties: true
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
-        id:
-          readOnly: true
-          type: integer
-        ordre:
-          readOnly: true
-          type:
-          - integer
-          - 'null'
-        ref_id_origine_connaissance:
-          readOnly: true
-          type: string
-          format: iri-reference
-        ref_id_marque:
-          readOnly: true
-          $ref: '#/components/schemas/SvMarque.jsonld'
-    SvDefOption:
-      type: object
-      description: ''
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        display_order:
-          type:
-          - integer
-          - 'null'
-        valeur_commerciale_ajoutee:
-          readOnly: true
-          type: string
-        type_option:
-          type:
-          - string
-          - 'null'
-          format: iri-reference
-        ref_id_quittance_ligne_type:
-          readOnly: true
-          anyOf:
-          - $ref: '#/components/schemas/QuittanceLigneType'
-        def_options_appliquee_aux_def_contrats:
-          readOnly: true
-          type: array
-          items:
-            type: string
-            format: iri-reference
-        ref_formule_vendue_par:
-          readOnly: true
-          type: array
-          items:
-            $ref: '#/components/schemas/SvFormuleVenduePar'
-    SvMarque:
-      type: object
-      description: ''
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        nom:
-          readOnly: true
-          type: string
-        nom_abrege:
-          readOnly: true
-          type: string
-        tag:
-          readOnly: true
-          type:
-          - string
-          - 'null'
-        nom_edition:
-          readOnly: true
-          type: string
-        logo:
-          readOnly: true
-          type: string
-        accepter_promo:
-          readOnly: true
-          type: boolean
-        accepter_rc:
-          readOnly: true
-          type: boolean
-        accepter_parrainage:
-          readOnly: true
-          type: boolean
-        accepter_animal_croise:
-          readOnly: true
-          type: boolean
-        ident_animal_obligatoire:
-          readOnly: true
-          type:
-          - boolean
-          - 'null'
-        accepter_date_effet_anterieur:
-          readOnly: true
-          type:
-          - boolean
-          - 'null'
-        acces_ecarnet:
-          readOnly: true
-          type: boolean
-        utiliser_nom_marital:
-          readOnly: true
-          type:
-          - boolean
-          - 'null'
-        possede_centres:
-          readOnly: true
-          type:
-          - boolean
-          - 'null'
-        a_apporteur_affaire:
-          readOnly: true
-          type: boolean
-        accepter_option:
-          readOnly: true
-          type: boolean
-        taux_comm_annee1:
-          readOnly: true
-          type: string
-        taux_comm_annee2:
-          readOnly: true
-          type: string
-        site_web:
-          readOnly: true
-          type: string
-        email_emetteur:
-          readOnly: true
-          type: string
-        telephone:
-          readOnly: true
-          type: string
-        telephone_commercial:
-          readOnly: true
-          type:
-          - string
-          - 'null'
-        a_telephone_payant:
-          readOnly: true
-          type: boolean
-        adresse1:
-          readOnly: true
-          type: string
-        adresse2:
-          readOnly: true
-          type:
-          - string
-          - 'null'
-        cp:
-          readOnly: true
-          type: string
-        ville:
-          readOnly: true
-          type: string
-        cedex:
-          readOnly: true
-          type:
-          - string
-          - 'null'
-        couleur_hex_theme:
-          readOnly: true
-          type: string
-        couleur_hex_main:
-          readOnly: true
-          type: string
-        couleur_hex_main_fonce:
-          readOnly: true
-          type: string
-        autoriser_devis:
-          readOnly: true
-          type: boolean
-        autoriser_devis_online:
-          readOnly: true
-          type: boolean
-        est_actif:
-          readOnly: true
-          type: boolean
-        sms_from:
-          readOnly: true
-          type:
-          - string
-          - 'null'
-        sms_est_actif:
-          readOnly: true
-          type:
-          - boolean
-          - 'null'
-        url_devis_online:
-          readOnly: true
-          type:
-          - string
-          - 'null'
-        has_extra_fields:
-          readOnly: true
-          type:
-          - boolean
-          - 'null'
-        url_tracking_campagne:
-          readOnly: true
-          type:
-          - string
-          - 'null'
-        accepte_signature_electronique:
-          readOnly: true
-          type:
-          - boolean
-          - 'null'
-        url_redirection_signature_electronique:
-          readOnly: true
-          type:
-          - string
-          - 'null'
-        contrat_est_generer_en_agence:
-          readOnly: true
-          type:
-          - boolean
-          - 'null'
-        email_obligatoire:
-          readOnly: true
-          type:
-          - boolean
-          - 'null'
-        origines_commerciales:
-          readOnly: true
-          type: array
-          items:
-            type: string
-            format: iri-reference
-        ref_origine_connaissance_marques:
-          readOnly: true
-          type: array
-          items:
-            $ref: '#/components/schemas/OrigineConnaissanceMarque'
-        sv_formules_vendues_par:
-          readOnly: true
-          type: array
-          items:
-            $ref: '#/components/schemas/SvFormuleVenduePar'
-        sv_marque_pays:
-          readOnly: true
-          type: array
-          items:
-            $ref: '#/components/schemas/SvMarquePays'
-        sv_groupes_marques_codes_postaux:
-          readOnly: true
-          type: array
-          items:
-            $ref: '#/components/schemas/SvGroupeMarqueCodePostal'
-        sv_groupes_races_marques:
-          readOnly: true
-          type: array
-          items:
-            $ref: '#/components/schemas/SvGroupeRaceMarque'
-        sv_tarifs_contrats:
-          readOnly: true
-          type: array
-          items:
-            type: string
-            format: iri-reference
-        ref_langues:
-          readOnly: true
-          type: array
-          items:
-            type: string
-            format: iri-reference
     SvMarque.jsonld:
       type: object
       description: ''
@@ -1260,6 +492,612 @@ components:
           items:
             type: string
             format: iri-reference
+    SvGroupeMarqueCodePostal:
+      type: object
+      description: ''
+      properties:
+        code_postal:
+          readOnly: true
+          type: string
+        ref_id_marque:
+          readOnly: true
+          $ref: '#/components/schemas/SvMarque'
+        ref_id_groupe_code_postal:
+          readOnly: true
+          $ref: '#/components/schemas/SvGroupeCodePostal'
+    SvMarquePays:
+      type: object
+      description: ''
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        ref_id_marque:
+          readOnly: true
+          $ref: '#/components/schemas/SvMarque'
+        ref_id_pays:
+          readOnly: true
+          type: integer
+    SvFormuleVenduePar-rates_search_post:
+      type: object
+      description: ''
+      properties:
+        is_optional:
+          type:
+          - boolean
+          - 'null'
+    SvFormuleVenduePar.jsonld-rates_search_post:
+      type: object
+      description: ''
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              '@vocab':
+                type: string
+              hydra:
+                type: string
+                enum:
+                - http://www.w3.org/ns/hydra/core#
+            required:
+            - '@vocab'
+            - hydra
+            additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        is_optional:
+          type:
+          - boolean
+          - 'null'
+    SvGroupeCodePostal:
+      type: object
+      description: ''
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        nom:
+          readOnly: true
+          type:
+          - string
+          - 'null'
+        sv_groupes_codes_postaux_departements:
+          readOnly: true
+          type: array
+          items:
+            $ref: '#/components/schemas/SvGroupeCodePostalDepartement'
+        sv_groupes_marques_codes_postaux:
+          readOnly: true
+          type: array
+          items:
+            $ref: '#/components/schemas/SvGroupeMarqueCodePostal'
+        sv_tarifs_contrats:
+          readOnly: true
+          type: array
+          items:
+            type: string
+            format: iri-reference
+    SvGroupeRaceMarque:
+      type: object
+      description: ''
+      properties:
+        ref_id_marque:
+          readOnly: true
+          $ref: '#/components/schemas/SvMarque'
+        ref_id_groupe_race:
+          readOnly: true
+          type:
+          - string
+          - 'null'
+          format: iri-reference
+        ref_id_race:
+          readOnly: true
+          type: string
+          format: iri-reference
+    SvGroupeCodePostalDepartement.jsonld:
+      type: object
+      description: ''
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              '@vocab':
+                type: string
+              hydra:
+                type: string
+                enum:
+                - http://www.w3.org/ns/hydra/core#
+            required:
+            - '@vocab'
+            - hydra
+            additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          type: integer
+        numero_dept:
+          readOnly: true
+          type: string
+        ref_id_pays:
+          readOnly: true
+          type: integer
+        ref_id_groupe_code_postal:
+          readOnly: true
+          $ref: '#/components/schemas/SvGroupeCodePostal.jsonld'
+    SvTarifsContrat.jsonld-rates_search_post:
+      type: object
+      description: Class SvTarifsContrat
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              '@vocab':
+                type: string
+              hydra:
+                type: string
+                enum:
+                - http://www.w3.org/ns/hydra/core#
+            required:
+            - '@vocab'
+            - hydra
+            additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          type: integer
+        amount:
+          type: number
+        rate:
+          $ref: '#/components/schemas/SvDefContratAssurance.jsonld-rates_search_post'
+    ValeurChamp:
+      type: object
+      description: ''
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        fr:
+          type:
+          - string
+          - 'null'
+        en:
+          type:
+          - string
+          - 'null'
+        nl:
+          type:
+          - string
+          - 'null'
+        es:
+          type:
+          - string
+          - 'null'
+        be:
+          type:
+          - string
+          - 'null'
+        de:
+          type:
+          - string
+          - 'null'
+        it:
+          type:
+          - string
+          - 'null'
+    SvTarifsContrat:
+      type: object
+      description: Class SvTarifsContrat
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        age_min_en_mois:
+          readOnly: true
+          type:
+          - integer
+          - 'null'
+        age_max_en_mois:
+          readOnly: true
+          type:
+          - integer
+          - 'null'
+        amount:
+          type: number
+        maximum_amount:
+          type: number
+        ref_id_marque:
+          readOnly: true
+          $ref: '#/components/schemas/SvMarque'
+        rate:
+          type: string
+          format: iri-reference
+        ref_id_groupe_race:
+          readOnly: true
+          type: string
+          format: iri-reference
+        ref_id_groupe_code_postal:
+          readOnly: true
+          anyOf:
+          - $ref: '#/components/schemas/SvGroupeCodePostal'
+    SvGroupeMarqueCodePostal.jsonld:
+      type: object
+      description: ''
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              '@vocab':
+                type: string
+              hydra:
+                type: string
+                enum:
+                - http://www.w3.org/ns/hydra/core#
+            required:
+            - '@vocab'
+            - hydra
+            additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        code_postal:
+          readOnly: true
+          type: string
+        ref_id_marque:
+          readOnly: true
+          $ref: '#/components/schemas/SvMarque.jsonld'
+        ref_id_groupe_code_postal:
+          readOnly: true
+          $ref: '#/components/schemas/SvGroupeCodePostal.jsonld'
+    OrigineConnaissanceMarque:
+      type: object
+      description: ''
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        ordre:
+          readOnly: true
+          type:
+          - integer
+          - 'null'
+        ref_id_origine_connaissance:
+          readOnly: true
+          type: string
+          format: iri-reference
+        ref_id_marque:
+          readOnly: true
+          $ref: '#/components/schemas/SvMarque'
+    SvDefContratAssurance.jsonld-rates_search_post:
+      type: object
+      description: SvDefContratAssurance
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              '@vocab':
+                type: string
+              hydra:
+                type: string
+                enum:
+                - http://www.w3.org/ns/hydra/core#
+            required:
+            - '@vocab'
+            - hydra
+            additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        application_fee:
+          type: number
+        is_freemium:
+          type: boolean
+        sold_by:
+          type: array
+          items:
+            $ref: '#/components/schemas/SvFormuleVenduePar.jsonld-rates_search_post'
+    QuittanceLigneType.jsonld:
+      type: object
+      description: ''
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              '@vocab':
+                type: string
+              hydra:
+                type: string
+                enum:
+                - http://www.w3.org/ns/hydra/core#
+            required:
+            - '@vocab'
+            - hydra
+            additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          type: integer
+        nom:
+          readOnly: true
+          type: string
+        ordre:
+          readOnly: true
+          type: integer
+        taxe_sante:
+          readOnly: true
+          type: boolean
+        taux_tva:
+          readOnly: true
+          type: string
+        commission_applicable:
+          readOnly: true
+          type: boolean
+        est_remboursable:
+          readOnly: true
+          type: boolean
+        est_remboursable_force:
+          readOnly: true
+          type: boolean
+        a_conserver_en_recalcul:
+          readOnly: true
+          type: boolean
+        prise_en_compte_plus_ou_moins_percu:
+          readOnly: true
+          type: boolean
+        priorite_remboursement:
+          readOnly: true
+          type: boolean
+        est_fractionnable:
+          readOnly: true
+          type: boolean
+        ref_id_valeur_champ:
+          readOnly: true
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp.jsonld'
+        type_quittances:
+          readOnly: true
+          type: array
+          items:
+            $ref: '#/components/schemas/SvDefOption.jsonld'
+    OrigineConnaissanceMarque.jsonld:
+      type: object
+      description: ''
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              '@vocab':
+                type: string
+              hydra:
+                type: string
+                enum:
+                - http://www.w3.org/ns/hydra/core#
+            required:
+            - '@vocab'
+            - hydra
+            additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          type: integer
+        ordre:
+          readOnly: true
+          type:
+          - integer
+          - 'null'
+        ref_id_origine_connaissance:
+          readOnly: true
+          type: string
+          format: iri-reference
+        ref_id_marque:
+          readOnly: true
+          $ref: '#/components/schemas/SvMarque.jsonld'
+    QuittanceLigneType:
+      type: object
+      description: ''
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        nom:
+          readOnly: true
+          type: string
+        ordre:
+          readOnly: true
+          type: integer
+        taxe_sante:
+          readOnly: true
+          type: boolean
+        taux_tva:
+          readOnly: true
+          type: string
+        commission_applicable:
+          readOnly: true
+          type: boolean
+        est_remboursable:
+          readOnly: true
+          type: boolean
+        est_remboursable_force:
+          readOnly: true
+          type: boolean
+        a_conserver_en_recalcul:
+          readOnly: true
+          type: boolean
+        prise_en_compte_plus_ou_moins_percu:
+          readOnly: true
+          type: boolean
+        priorite_remboursement:
+          readOnly: true
+          type: boolean
+        est_fractionnable:
+          readOnly: true
+          type: boolean
+        ref_id_valeur_champ:
+          readOnly: true
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp'
+        type_quittances:
+          readOnly: true
+          type: array
+          items:
+            $ref: '#/components/schemas/SvDefOption'
+    SvDefOption:
+      type: object
+      description: ''
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        display_order:
+          type:
+          - integer
+          - 'null'
+        valeur_commerciale_ajoutee:
+          readOnly: true
+          type: string
+        type_option:
+          type:
+          - string
+          - 'null'
+          format: iri-reference
+        ref_id_quittance_ligne_type:
+          readOnly: true
+          anyOf:
+          - $ref: '#/components/schemas/QuittanceLigneType'
+        def_options_appliquee_aux_def_contrats:
+          readOnly: true
+          type: array
+          items:
+            type: string
+            format: iri-reference
+        ref_formule_vendue_par:
+          readOnly: true
+          type: array
+          items:
+            $ref: '#/components/schemas/SvFormuleVenduePar'
+    SvTarifsContrat-rates_search_post:
+      type: object
+      description: Class SvTarifsContrat
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        amount:
+          type: number
+        rate:
+          $ref: '#/components/schemas/SvDefContratAssurance-rates_search_post'
+    SvGroupeCodePostalDepartement:
+      type: object
+      description: ''
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        numero_dept:
+          readOnly: true
+          type: string
+        ref_id_pays:
+          readOnly: true
+          type: integer
+        ref_id_groupe_code_postal:
+          readOnly: true
+          $ref: '#/components/schemas/SvGroupeCodePostal'
+    SvGroupeRaceMarque.jsonld:
+      type: object
+      description: ''
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              '@vocab':
+                type: string
+              hydra:
+                type: string
+                enum:
+                - http://www.w3.org/ns/hydra/core#
+            required:
+            - '@vocab'
+            - hydra
+            additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        ref_id_marque:
+          readOnly: true
+          $ref: '#/components/schemas/SvMarque.jsonld'
+        ref_id_groupe_race:
+          readOnly: true
+          type:
+          - string
+          - 'null'
+          format: iri-reference
+        ref_id_race:
+          readOnly: true
+          type: string
+          format: iri-reference
     ValeurChamp.jsonld:
       type: object
       description: ''
@@ -1317,9 +1155,9 @@ components:
           type:
           - string
           - 'null'
-    SvDefContratAssurance.jsonld-rates_search_post:
+    SvDefOption.jsonld:
       type: object
-      description: SvDefContratAssurance
+      description: ''
       properties:
         '@context':
           readOnly: true
@@ -1348,49 +1186,290 @@ components:
           type: integer
         name:
           type: string
-        application_fee:
-          type: number
-        is_freemium:
-          type: boolean
-        sold_by:
+        display_order:
+          type:
+          - integer
+          - 'null'
+        valeur_commerciale_ajoutee:
+          readOnly: true
+          type: string
+        type_option:
+          type:
+          - string
+          - 'null'
+          format: iri-reference
+        ref_id_quittance_ligne_type:
+          readOnly: true
+          anyOf:
+          - $ref: '#/components/schemas/QuittanceLigneType.jsonld'
+        def_options_appliquee_aux_def_contrats:
+          readOnly: true
           type: array
           items:
-            $ref: '#/components/schemas/SvFormuleVenduePar.jsonld-rates_search_post'
-    SvGroupeMarqueCodePostal.jsonld:
+            type: string
+            format: iri-reference
+        ref_formule_vendue_par:
+          readOnly: true
+          type: array
+          items:
+            $ref: '#/components/schemas/SvFormuleVenduePar.jsonld'
+    SvMarque:
       type: object
       description: ''
       properties:
-        '@context':
+        id:
           readOnly: true
-          oneOf:
-          - type: string
-          - type: object
-            properties:
-              '@vocab':
-                type: string
-              hydra:
-                type: string
-                enum:
-                - http://www.w3.org/ns/hydra/core#
-            required:
-            - '@vocab'
-            - hydra
-            additionalProperties: true
-        '@id':
+          type: integer
+        nom:
           readOnly: true
           type: string
-        '@type':
+        nom_abrege:
           readOnly: true
           type: string
-        code_postal:
+        tag:
+          readOnly: true
+          type:
+          - string
+          - 'null'
+        nom_edition:
           readOnly: true
           type: string
+        logo:
+          readOnly: true
+          type: string
+        accepter_promo:
+          readOnly: true
+          type: boolean
+        accepter_rc:
+          readOnly: true
+          type: boolean
+        accepter_parrainage:
+          readOnly: true
+          type: boolean
+        accepter_animal_croise:
+          readOnly: true
+          type: boolean
+        ident_animal_obligatoire:
+          readOnly: true
+          type:
+          - boolean
+          - 'null'
+        accepter_date_effet_anterieur:
+          readOnly: true
+          type:
+          - boolean
+          - 'null'
+        acces_ecarnet:
+          readOnly: true
+          type: boolean
+        utiliser_nom_marital:
+          readOnly: true
+          type:
+          - boolean
+          - 'null'
+        possede_centres:
+          readOnly: true
+          type:
+          - boolean
+          - 'null'
+        a_apporteur_affaire:
+          readOnly: true
+          type: boolean
+        accepter_option:
+          readOnly: true
+          type: boolean
+        taux_comm_annee1:
+          readOnly: true
+          type: string
+        taux_comm_annee2:
+          readOnly: true
+          type: string
+        site_web:
+          readOnly: true
+          type: string
+        email_emetteur:
+          readOnly: true
+          type: string
+        telephone:
+          readOnly: true
+          type: string
+        telephone_commercial:
+          readOnly: true
+          type:
+          - string
+          - 'null'
+        a_telephone_payant:
+          readOnly: true
+          type: boolean
+        adresse1:
+          readOnly: true
+          type: string
+        adresse2:
+          readOnly: true
+          type:
+          - string
+          - 'null'
+        cp:
+          readOnly: true
+          type: string
+        ville:
+          readOnly: true
+          type: string
+        cedex:
+          readOnly: true
+          type:
+          - string
+          - 'null'
+        couleur_hex_theme:
+          readOnly: true
+          type: string
+        couleur_hex_main:
+          readOnly: true
+          type: string
+        couleur_hex_main_fonce:
+          readOnly: true
+          type: string
+        autoriser_devis:
+          readOnly: true
+          type: boolean
+        autoriser_devis_online:
+          readOnly: true
+          type: boolean
+        est_actif:
+          readOnly: true
+          type: boolean
+        sms_from:
+          readOnly: true
+          type:
+          - string
+          - 'null'
+        sms_est_actif:
+          readOnly: true
+          type:
+          - boolean
+          - 'null'
+        url_devis_online:
+          readOnly: true
+          type:
+          - string
+          - 'null'
+        has_extra_fields:
+          readOnly: true
+          type:
+          - boolean
+          - 'null'
+        url_tracking_campagne:
+          readOnly: true
+          type:
+          - string
+          - 'null'
+        accepte_signature_electronique:
+          readOnly: true
+          type:
+          - boolean
+          - 'null'
+        url_redirection_signature_electronique:
+          readOnly: true
+          type:
+          - string
+          - 'null'
+        contrat_est_generer_en_agence:
+          readOnly: true
+          type:
+          - boolean
+          - 'null'
+        email_obligatoire:
+          readOnly: true
+          type:
+          - boolean
+          - 'null'
+        origines_commerciales:
+          readOnly: true
+          type: array
+          items:
+            type: string
+            format: iri-reference
+        ref_origine_connaissance_marques:
+          readOnly: true
+          type: array
+          items:
+            $ref: '#/components/schemas/OrigineConnaissanceMarque'
+        sv_formules_vendues_par:
+          readOnly: true
+          type: array
+          items:
+            $ref: '#/components/schemas/SvFormuleVenduePar'
+        sv_marque_pays:
+          readOnly: true
+          type: array
+          items:
+            $ref: '#/components/schemas/SvMarquePays'
+        sv_groupes_marques_codes_postaux:
+          readOnly: true
+          type: array
+          items:
+            $ref: '#/components/schemas/SvGroupeMarqueCodePostal'
+        sv_groupes_races_marques:
+          readOnly: true
+          type: array
+          items:
+            $ref: '#/components/schemas/SvGroupeRaceMarque'
+        sv_tarifs_contrats:
+          readOnly: true
+          type: array
+          items:
+            type: string
+            format: iri-reference
+        ref_langues:
+          readOnly: true
+          type: array
+          items:
+            type: string
+            format: iri-reference
+    SvFormuleVenduePar:
+      type: object
+      description: ''
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        is_optional:
+          type:
+          - boolean
+          - 'null'
+        date_debut:
+          readOnly: true
+          type: string
+          format: date-time
+        date_fin:
+          readOnly: true
+          type:
+          - string
+          - 'null'
+          format: date-time
+        ref_id_def_contrat_assurance:
+          readOnly: true
+          type: string
+          format: iri-reference
+        ref_id_origine_commerciale:
+          readOnly: true
+          type:
+          - string
+          - 'null'
+          format: iri-reference
         ref_id_marque:
           readOnly: true
-          $ref: '#/components/schemas/SvMarque.jsonld'
-        ref_id_groupe_code_postal:
+          $ref: '#/components/schemas/SvMarque'
+        ref_id_gamme:
           readOnly: true
-          $ref: '#/components/schemas/SvGroupeCodePostal.jsonld'
+          type:
+          - integer
+          - 'null'
+        sv_def_options:
+          readOnly: true
+          type: array
+          items:
+            $ref: '#/components/schemas/SvDefOption'
     SvDefContratAssurance-rates_search_post:
       type: object
       description: SvDefContratAssurance
@@ -1465,41 +1544,6 @@ components:
           readOnly: true
           anyOf:
           - $ref: '#/components/schemas/SvGroupeCodePostal.jsonld'
-    SvMarquePays.jsonld:
-      type: object
-      description: ''
-      properties:
-        '@context':
-          readOnly: true
-          oneOf:
-          - type: string
-          - type: object
-            properties:
-              '@vocab':
-                type: string
-              hydra:
-                type: string
-                enum:
-                - http://www.w3.org/ns/hydra/core#
-            required:
-            - '@vocab'
-            - hydra
-            additionalProperties: true
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
-        id:
-          readOnly: true
-          type: integer
-        ref_id_marque:
-          readOnly: true
-          $ref: '#/components/schemas/SvMarque.jsonld'
-        ref_id_pays:
-          readOnly: true
-          type: integer
     SvGroupeCodePostal.jsonld:
       type: object
       description: ''
@@ -1550,56 +1594,7 @@ components:
           items:
             type: string
             format: iri-reference
-    OrigineConnaissanceMarque:
-      type: object
-      description: ''
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        ordre:
-          readOnly: true
-          type:
-          - integer
-          - 'null'
-        ref_id_origine_connaissance:
-          readOnly: true
-          type: string
-          format: iri-reference
-        ref_id_marque:
-          readOnly: true
-          $ref: '#/components/schemas/SvMarque'
-    SvGroupeRaceMarque:
-      type: object
-      description: ''
-      properties:
-        ref_id_marque:
-          readOnly: true
-          $ref: '#/components/schemas/SvMarque'
-        ref_id_groupe_race:
-          readOnly: true
-          type:
-          - string
-          - 'null'
-          format: iri-reference
-        ref_id_race:
-          readOnly: true
-          type: string
-          format: iri-reference
-    SvMarquePays:
-      type: object
-      description: ''
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        ref_id_marque:
-          readOnly: true
-          $ref: '#/components/schemas/SvMarque'
-        ref_id_pays:
-          readOnly: true
-          type: integer
-    SvFormuleVenduePar.jsonld-rates_search_post:
+    SvMarquePays.jsonld:
       type: object
       description: ''
       properties:
@@ -1625,10 +1620,15 @@ components:
         '@type':
           readOnly: true
           type: string
-        is_optional:
-          type:
-          - boolean
-          - 'null'
+        id:
+          readOnly: true
+          type: integer
+        ref_id_marque:
+          readOnly: true
+          $ref: '#/components/schemas/SvMarque.jsonld'
+        ref_id_pays:
+          readOnly: true
+          type: integer
   securitySchemes:
     apiKey:
       type: apiKey

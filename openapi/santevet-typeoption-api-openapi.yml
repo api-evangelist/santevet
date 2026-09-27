@@ -145,47 +145,6 @@ paths:
       deprecated: false
 components:
   schemas:
-    ValeurChamp-options_get_translations_get:
-      type: object
-      description: ''
-      properties:
-        fr:
-          type:
-          - string
-          - 'null'
-        nl:
-          type:
-          - string
-          - 'null'
-        es:
-          type:
-          - string
-          - 'null'
-        be:
-          type:
-          - string
-          - 'null'
-        de:
-          type:
-          - string
-          - 'null'
-        it:
-          type:
-          - string
-          - 'null'
-    TypeOption-options_get_translations_get:
-      type: object
-      description: Class TypeOption
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        translations:
-          readOnly: true
-          anyOf:
-          - $ref: '#/components/schemas/ValeurChamp-options_get_translations_get'
     ValeurChamp.jsonld-options_get_translations_get:
       type: object
       description: ''
@@ -212,6 +171,34 @@ components:
         '@type':
           readOnly: true
           type: string
+        fr:
+          type:
+          - string
+          - 'null'
+        nl:
+          type:
+          - string
+          - 'null'
+        es:
+          type:
+          - string
+          - 'null'
+        be:
+          type:
+          - string
+          - 'null'
+        de:
+          type:
+          - string
+          - 'null'
+        it:
+          type:
+          - string
+          - 'null'
+    ValeurChamp-options_get_translations_get:
+      type: object
+      description: ''
+      properties:
         fr:
           type:
           - string
@@ -271,6 +258,19 @@ components:
           readOnly: true
           anyOf:
           - $ref: '#/components/schemas/ValeurChamp.jsonld-options_get_translations_get'
+    TypeOption-options_get_translations_get:
+      type: object
+      description: Class TypeOption
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        translations:
+          readOnly: true
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp-options_get_translations_get'
   securitySchemes:
     apiKey:
       type: apiKey

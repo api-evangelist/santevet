@@ -145,6 +145,34 @@ paths:
       deprecated: false
 components:
   schemas:
+    ValeurChamp-payment_period_reasons_get_translations_get:
+      type: object
+      description: ''
+      properties:
+        fr:
+          type:
+          - string
+          - 'null'
+        nl:
+          type:
+          - string
+          - 'null'
+        es:
+          type:
+          - string
+          - 'null'
+        be:
+          type:
+          - string
+          - 'null'
+        de:
+          type:
+          - string
+          - 'null'
+        it:
+          type:
+          - string
+          - 'null'
     MotifPeriode.jsonld-payment_period_reasons_get_translations_get:
       type: object
       description: Motif periode
@@ -191,34 +219,6 @@ components:
         translations:
           anyOf:
           - $ref: '#/components/schemas/ValeurChamp-payment_period_reasons_get_translations_get'
-    ValeurChamp-payment_period_reasons_get_translations_get:
-      type: object
-      description: ''
-      properties:
-        fr:
-          type:
-          - string
-          - 'null'
-        nl:
-          type:
-          - string
-          - 'null'
-        es:
-          type:
-          - string
-          - 'null'
-        be:
-          type:
-          - string
-          - 'null'
-        de:
-          type:
-          - string
-          - 'null'
-        it:
-          type:
-          - string
-          - 'null'
     ValeurChamp.jsonld-payment_period_reasons_get_translations_get:
       type: object
       description: ''

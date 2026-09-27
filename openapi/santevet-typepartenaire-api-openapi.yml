@@ -145,52 +145,34 @@ paths:
       deprecated: false
 components:
   schemas:
-    TypePartenaire.jsonld-partners_types_get_translations_get:
+    ValeurChamp-partners_types_get_translations_get:
       type: object
-      description: Class TypePartenaire
+      description: ''
       properties:
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
-        '@context':
-          readOnly: true
-          oneOf:
-          - type: string
-          - type: object
-            properties:
-              '@vocab':
-                type: string
-              hydra:
-                type: string
-                enum:
-                - http://www.w3.org/ns/hydra/core#
-            required:
-            - '@vocab'
-            - hydra
-            additionalProperties: true
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        translations:
-          anyOf:
-          - $ref: '#/components/schemas/ValeurChamp.jsonld-partners_types_get_translations_get'
-    TypePartenaire-partners_types_get_translations_get:
-      type: object
-      description: Class TypePartenaire
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        translations:
-          anyOf:
-          - $ref: '#/components/schemas/ValeurChamp-partners_types_get_translations_get'
+        fr:
+          type:
+          - string
+          - 'null'
+        nl:
+          type:
+          - string
+          - 'null'
+        es:
+          type:
+          - string
+          - 'null'
+        be:
+          type:
+          - string
+          - 'null'
+        de:
+          type:
+          - string
+          - 'null'
+        it:
+          type:
+          - string
+          - 'null'
     ValeurChamp.jsonld-partners_types_get_translations_get:
       type: object
       description: ''
@@ -241,34 +223,52 @@ components:
           type:
           - string
           - 'null'
-    ValeurChamp-partners_types_get_translations_get:
+    TypePartenaire.jsonld-partners_types_get_translations_get:
       type: object
-      description: ''
+      description: Class TypePartenaire
       properties:
-        fr:
-          type:
-          - string
-          - 'null'
-        nl:
-          type:
-          - string
-          - 'null'
-        es:
-          type:
-          - string
-          - 'null'
-        be:
-          type:
-          - string
-          - 'null'
-        de:
-          type:
-          - string
-          - 'null'
-        it:
-          type:
-          - string
-          - 'null'
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        '@context':
+          readOnly: true
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              '@vocab':
+                type: string
+              hydra:
+                type: string
+                enum:
+                - http://www.w3.org/ns/hydra/core#
+            required:
+            - '@vocab'
+            - hydra
+            additionalProperties: true
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        translations:
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp.jsonld-partners_types_get_translations_get'
+    TypePartenaire-partners_types_get_translations_get:
+      type: object
+      description: Class TypePartenaire
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        translations:
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp-partners_types_get_translations_get'
   securitySchemes:
     apiKey:
       type: apiKey

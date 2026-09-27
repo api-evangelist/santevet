@@ -238,6 +238,15 @@ paths:
       deprecated: false
 components:
   schemas:
+    SvMarqueTel-brand_telephones_get:
+      type: object
+      description: SvMarqueTel
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        telephone_number:
+          type: string
     SvMarqueTel.jsonld-brand_telephones_get:
       type: object
       description: SvMarqueTel
@@ -264,15 +273,6 @@ components:
             - '@vocab'
             - hydra
             additionalProperties: true
-        id:
-          readOnly: true
-          type: integer
-        telephone_number:
-          type: string
-    SvMarqueTel-brand_telephones_get:
-      type: object
-      description: SvMarqueTel
-      properties:
         id:
           readOnly: true
           type: integer

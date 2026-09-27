@@ -145,15 +145,6 @@ paths:
       deprecated: false
 components:
   schemas:
-    TypeIdentifiantOfficielPartenaire-partners_official_identifier_types_get:
-      type: object
-      description: Class TypeIdentifiantOfficielPartenaire
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
     TypeIdentifiantOfficielPartenaire.jsonld-partners_official_identifier_types_get:
       type: object
       description: Class TypeIdentifiantOfficielPartenaire
@@ -180,6 +171,15 @@ components:
             - '@vocab'
             - hydra
             additionalProperties: true
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+    TypeIdentifiantOfficielPartenaire-partners_official_identifier_types_get:
+      type: object
+      description: Class TypeIdentifiantOfficielPartenaire
+      properties:
         id:
           readOnly: true
           type: integer

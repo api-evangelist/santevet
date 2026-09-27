@@ -195,34 +195,18 @@ components:
           type:
           - string
           - 'null'
-    ValeurChamp-claim_return_reason_get_translations_get:
+    SinistreMotifRetour-claim_return_reason_get_translations_get:
       type: object
-      description: ''
+      description: Class SinistreMotifRetour
       properties:
-        fr:
-          type:
-          - string
-          - 'null'
-        nl:
-          type:
-          - string
-          - 'null'
-        es:
-          type:
-          - string
-          - 'null'
-        be:
-          type:
-          - string
-          - 'null'
-        de:
-          type:
-          - string
-          - 'null'
-        it:
-          type:
-          - string
-          - 'null'
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        translations:
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp-claim_return_reason_get_translations_get'
     SinistreMotifRetour.jsonld-claim_return_reason_get_translations_get:
       type: object
       description: Class SinistreMotifRetour
@@ -257,18 +241,34 @@ components:
         translations:
           anyOf:
           - $ref: '#/components/schemas/ValeurChamp.jsonld-claim_return_reason_get_translations_get'
-    SinistreMotifRetour-claim_return_reason_get_translations_get:
+    ValeurChamp-claim_return_reason_get_translations_get:
       type: object
-      description: Class SinistreMotifRetour
+      description: ''
       properties:
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        translations:
-          anyOf:
-          - $ref: '#/components/schemas/ValeurChamp-claim_return_reason_get_translations_get'
+        fr:
+          type:
+          - string
+          - 'null'
+        nl:
+          type:
+          - string
+          - 'null'
+        es:
+          type:
+          - string
+          - 'null'
+        be:
+          type:
+          - string
+          - 'null'
+        de:
+          type:
+          - string
+          - 'null'
+        it:
+          type:
+          - string
+          - 'null'
   securitySchemes:
     apiKey:
       type: apiKey

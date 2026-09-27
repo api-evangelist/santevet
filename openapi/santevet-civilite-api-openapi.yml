@@ -169,6 +169,34 @@ paths:
       deprecated: false
 components:
   schemas:
+    ValeurChamp-civilities_get_translations_get:
+      type: object
+      description: ''
+      properties:
+        fr:
+          type:
+          - string
+          - 'null'
+        nl:
+          type:
+          - string
+          - 'null'
+        es:
+          type:
+          - string
+          - 'null'
+        be:
+          type:
+          - string
+          - 'null'
+        de:
+          type:
+          - string
+          - 'null'
+        it:
+          type:
+          - string
+          - 'null'
     ValeurChamp.jsonld-civilities_get_translations_get:
       type: object
       description: ''
@@ -265,34 +293,6 @@ components:
         translations:
           anyOf:
           - $ref: '#/components/schemas/ValeurChamp-civilities_get_translations_get'
-    ValeurChamp-civilities_get_translations_get:
-      type: object
-      description: ''
-      properties:
-        fr:
-          type:
-          - string
-          - 'null'
-        nl:
-          type:
-          - string
-          - 'null'
-        es:
-          type:
-          - string
-          - 'null'
-        be:
-          type:
-          - string
-          - 'null'
-        de:
-          type:
-          - string
-          - 'null'
-        it:
-          type:
-          - string
-          - 'null'
   securitySchemes:
     apiKey:
       type: apiKey

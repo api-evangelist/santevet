@@ -145,60 +145,10 @@ paths:
       deprecated: false
 components:
   schemas:
-    ValeurChamp-referral_sources_get_translations_get:
+    OrigineConnaissanceGroupe.jsonld-referral_sources_get_translations_get:
       type: object
       description: ''
       properties:
-        fr:
-          type:
-          - string
-          - 'null'
-        nl:
-          type:
-          - string
-          - 'null'
-        es:
-          type:
-          - string
-          - 'null'
-        be:
-          type:
-          - string
-          - 'null'
-        de:
-          type:
-          - string
-          - 'null'
-        it:
-          type:
-          - string
-          - 'null'
-    OrigineConnaissanceGroupe-referral_sources_get_translations_get:
-      type: object
-      description: ''
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type:
-          - string
-          - 'null'
-        translations:
-          anyOf:
-          - $ref: '#/components/schemas/ValeurChamp-referral_sources_get_translations_get'
-        order:
-          type: integer
-    OrigineConnaissance.jsonld-referral_sources_get_translations_get:
-      type: object
-      description: Class OrigineConnaissance
-      properties:
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
         '@context':
           readOnly: true
           oneOf:
@@ -215,6 +165,12 @@ components:
             - '@vocab'
             - hydra
             additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         id:
           readOnly: true
           type: integer
@@ -225,9 +181,24 @@ components:
         translations:
           anyOf:
           - $ref: '#/components/schemas/ValeurChamp.jsonld-referral_sources_get_translations_get'
-        referral_source_group:
+        order:
+          type: integer
+    OrigineConnaissanceGroupe-referral_sources_get_translations_get:
+      type: object
+      description: ''
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type:
+          - string
+          - 'null'
+        translations:
           anyOf:
-          - $ref: '#/components/schemas/OrigineConnaissanceGroupe.jsonld-referral_sources_get_translations_get'
+          - $ref: '#/components/schemas/ValeurChamp-referral_sources_get_translations_get'
+        order:
+          type: integer
     ValeurChamp.jsonld-referral_sources_get_translations_get:
       type: object
       description: ''
@@ -295,10 +266,44 @@ components:
         referral_source_group:
           anyOf:
           - $ref: '#/components/schemas/OrigineConnaissanceGroupe-referral_sources_get_translations_get'
-    OrigineConnaissanceGroupe.jsonld-referral_sources_get_translations_get:
+    ValeurChamp-referral_sources_get_translations_get:
       type: object
       description: ''
       properties:
+        fr:
+          type:
+          - string
+          - 'null'
+        nl:
+          type:
+          - string
+          - 'null'
+        es:
+          type:
+          - string
+          - 'null'
+        be:
+          type:
+          - string
+          - 'null'
+        de:
+          type:
+          - string
+          - 'null'
+        it:
+          type:
+          - string
+          - 'null'
+    OrigineConnaissance.jsonld-referral_sources_get_translations_get:
+      type: object
+      description: Class OrigineConnaissance
+      properties:
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         '@context':
           readOnly: true
           oneOf:
@@ -315,12 +320,6 @@ components:
             - '@vocab'
             - hydra
             additionalProperties: true
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
         id:
           readOnly: true
           type: integer
@@ -331,8 +330,9 @@ components:
         translations:
           anyOf:
           - $ref: '#/components/schemas/ValeurChamp.jsonld-referral_sources_get_translations_get'
-        order:
-          type: integer
+        referral_source_group:
+          anyOf:
+          - $ref: '#/components/schemas/OrigineConnaissanceGroupe.jsonld-referral_sources_get_translations_get'
   securitySchemes:
     apiKey:
       type: apiKey
