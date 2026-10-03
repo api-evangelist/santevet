@@ -145,34 +145,18 @@ paths:
       deprecated: false
 components:
   schemas:
-    ValeurChamp-partners_types_get_translations_get:
+    TypePartenaire-partners_types_get_translations_get:
       type: object
-      description: ''
+      description: Class TypePartenaire
       properties:
-        fr:
-          type:
-          - string
-          - 'null'
-        nl:
-          type:
-          - string
-          - 'null'
-        es:
-          type:
-          - string
-          - 'null'
-        be:
-          type:
-          - string
-          - 'null'
-        de:
-          type:
-          - string
-          - 'null'
-        it:
-          type:
-          - string
-          - 'null'
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        translations:
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp-partners_types_get_translations_get'
     ValeurChamp.jsonld-partners_types_get_translations_get:
       type: object
       description: ''
@@ -257,18 +241,34 @@ components:
         translations:
           anyOf:
           - $ref: '#/components/schemas/ValeurChamp.jsonld-partners_types_get_translations_get'
-    TypePartenaire-partners_types_get_translations_get:
+    ValeurChamp-partners_types_get_translations_get:
       type: object
-      description: Class TypePartenaire
+      description: ''
       properties:
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        translations:
-          anyOf:
-          - $ref: '#/components/schemas/ValeurChamp-partners_types_get_translations_get'
+        fr:
+          type:
+          - string
+          - 'null'
+        nl:
+          type:
+          - string
+          - 'null'
+        es:
+          type:
+          - string
+          - 'null'
+        be:
+          type:
+          - string
+          - 'null'
+        de:
+          type:
+          - string
+          - 'null'
+        it:
+          type:
+          - string
+          - 'null'
   securitySchemes:
     apiKey:
       type: apiKey

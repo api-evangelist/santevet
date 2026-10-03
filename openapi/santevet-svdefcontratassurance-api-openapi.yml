@@ -286,6 +286,32 @@ paths:
       deprecated: false
 components:
   schemas:
+    ValeurChamp.jsonld-insurances_get_options_get:
+      type: object
+      description: ''
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              '@vocab':
+                type: string
+              hydra:
+                type: string
+                enum:
+                - http://www.w3.org/ns/hydra/core#
+            required:
+            - '@vocab'
+            - hydra
+            additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
     SvDefContratAssurance-insurances_get_options_get:
       type: object
       description: SvDefContratAssurance
@@ -361,22 +387,86 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SvDefOptionAppliqueeAuDefContrat-insurances_get_options_get'
-    SvDefOption-insurances_get_options_get:
+    SvDefOptionAppliqueeAuDefContrat.jsonld-insurances_get_options_get:
       type: object
-      description: ''
+      description: Class SvDefOptionAppliqueeAuDefContrat
       properties:
+        '@context':
+          readOnly: true
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              '@vocab':
+                type: string
+              hydra:
+                type: string
+                enum:
+                - http://www.w3.org/ns/hydra/core#
+            required:
+            - '@vocab'
+            - hydra
+            additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          type: integer
+        amount:
+          type: number
+        additional_annual_upper_limit:
+          type:
+          - number
+          - 'null'
+        required:
+          type: boolean
+        excluded_options:
+          type:
+          - string
+          - 'null'
+        option:
+          $ref: '#/components/schemas/SvDefOption.jsonld-insurances_get_options_get'
+        rate:
+          $ref: '#/components/schemas/SvDefContratAssurance.jsonld-insurances_get_options_get'
+    TypeOption.jsonld-insurances_get_options_get:
+      type: object
+      description: Class TypeOption
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              '@vocab':
+                type: string
+              hydra:
+                type: string
+                enum:
+                - http://www.w3.org/ns/hydra/core#
+            required:
+            - '@vocab'
+            - hydra
+            additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         id:
           readOnly: true
           type: integer
         name:
           type: string
-        display_order:
-          type:
-          - integer
-          - 'null'
-        type_option:
+        translations:
+          readOnly: true
           anyOf:
-          - $ref: '#/components/schemas/TypeOption-insurances_get_options_get'
+          - $ref: '#/components/schemas/ValeurChamp.jsonld-insurances_get_options_get'
     SvDefOption.jsonld-insurances_get_options_get:
       type: object
       description: ''
@@ -415,41 +505,6 @@ components:
         type_option:
           anyOf:
           - $ref: '#/components/schemas/TypeOption.jsonld-insurances_get_options_get'
-    TypeOption.jsonld-insurances_get_options_get:
-      type: object
-      description: Class TypeOption
-      properties:
-        '@context':
-          readOnly: true
-          oneOf:
-          - type: string
-          - type: object
-            properties:
-              '@vocab':
-                type: string
-              hydra:
-                type: string
-                enum:
-                - http://www.w3.org/ns/hydra/core#
-            required:
-            - '@vocab'
-            - hydra
-            additionalProperties: true
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        translations:
-          readOnly: true
-          anyOf:
-          - $ref: '#/components/schemas/ValeurChamp.jsonld-insurances_get_options_get'
     SvDefContratAssurance.jsonld-insurances_get_options_get:
       type: object
       description: SvDefContratAssurance
@@ -570,80 +625,6 @@ components:
           $ref: '#/components/schemas/SvDefOption-insurances_get_options_get'
         rate:
           $ref: '#/components/schemas/SvDefContratAssurance-insurances_get_options_get'
-    SvDefOptionAppliqueeAuDefContrat.jsonld-insurances_get_options_get:
-      type: object
-      description: Class SvDefOptionAppliqueeAuDefContrat
-      properties:
-        '@context':
-          readOnly: true
-          oneOf:
-          - type: string
-          - type: object
-            properties:
-              '@vocab':
-                type: string
-              hydra:
-                type: string
-                enum:
-                - http://www.w3.org/ns/hydra/core#
-            required:
-            - '@vocab'
-            - hydra
-            additionalProperties: true
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
-        id:
-          readOnly: true
-          type: integer
-        amount:
-          type: number
-        additional_annual_upper_limit:
-          type:
-          - number
-          - 'null'
-        required:
-          type: boolean
-        excluded_options:
-          type:
-          - string
-          - 'null'
-        option:
-          $ref: '#/components/schemas/SvDefOption.jsonld-insurances_get_options_get'
-        rate:
-          $ref: '#/components/schemas/SvDefContratAssurance.jsonld-insurances_get_options_get'
-    ValeurChamp.jsonld-insurances_get_options_get:
-      type: object
-      description: ''
-      properties:
-        '@context':
-          readOnly: true
-          oneOf:
-          - type: string
-          - type: object
-            properties:
-              '@vocab':
-                type: string
-              hydra:
-                type: string
-                enum:
-                - http://www.w3.org/ns/hydra/core#
-            required:
-            - '@vocab'
-            - hydra
-            additionalProperties: true
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
-    ValeurChamp-insurances_get_options_get:
-      type: object
-      description: ''
     TypeOption-insurances_get_options_get:
       type: object
       description: Class TypeOption
@@ -657,6 +638,25 @@ components:
           readOnly: true
           anyOf:
           - $ref: '#/components/schemas/ValeurChamp-insurances_get_options_get'
+    ValeurChamp-insurances_get_options_get:
+      type: object
+      description: ''
+    SvDefOption-insurances_get_options_get:
+      type: object
+      description: ''
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        display_order:
+          type:
+          - integer
+          - 'null'
+        type_option:
+          anyOf:
+          - $ref: '#/components/schemas/TypeOption-insurances_get_options_get'
   securitySchemes:
     apiKey:
       type: apiKey

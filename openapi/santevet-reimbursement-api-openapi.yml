@@ -179,136 +179,88 @@ paths:
                 $ref: '#/components/schemas/ApiSchedule'
 components:
   schemas:
-    ApiClinic:
+    ReimbursementIdResponse:
+      properties:
+        reimbursement_id:
+          description: The reimbursement identifier
+          type: integer
+      type: object
+    ApiTypology:
       properties:
         id:
-          description: The clinic identifier
-          type:
-          - integer
-          - 'null'
+          description: The typology identifier
+          type: integer
         name:
-          description: the clinic name
+          description: The typology name
+          type: string
+        acts:
+          description: The acts collection
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ApiAct'
+        upper_limit:
+          $ref: '#/components/schemas/ApiUpperLimit'
+        applied_deductible:
+          description: The applied deductible
+          type:
+          - number
+          - 'null'
+          format: float
+        total_reimbursed:
+          description: The total reimbursed
+          type:
+          - number
+          - 'null'
+          format: float
+        discount:
+          description: The discount
+          allOf:
+          - $ref: '#/components/schemas/ApiDiscount'
+        non_conformities:
+          description: The non conformities
+          allOf:
+          - $ref: '#/components/schemas/ApiNonConformities'
+        first_symptom_date:
+          description: The first symptom date
           type:
           - string
           - 'null'
+        hexadecimal_color:
+          description: The hexadecimal color
+          type:
+          - string
+          - 'null'
+          example: 8cc63f
       type: object
-    CreateThirdPartyPaymentRequest:
-      required:
-      - amount
-      - clinic_id
-      - invoice_file
-      - contract_id
-      - origin_id
+    ApiDiscount:
       properties:
-        amount:
-          oneOf:
-          - type: integer
-          - type: number
-            format: float
-          exclusiveMinimum: 0
-        clinic_id:
-          type: integer
-        invoice_file:
+        code:
+          description: The discount code
           type: string
-          format: binary
-        type:
-          title: The type of the reimbursement
-          type: integer
-          enum:
-          - 1
-          - 2
-          - 5
-          - 6
-        contract_id:
-          title: The contract identifier
-          type: integer
-          exclusiveMinimum: 0
-        origin_id:
-          title: The origin identifier of the reimbursement
-          type: integer
-          exclusiveMinimum: 0
-        other_files:
-          type: array
-          items:
-            type: string
-            format: binary
-            maxItems: 5
-          maxItems: 5
+        quantity:
+          description: The discount quantity, the amount of the discount
+          type: string
+        description:
+          description: The discount description
+          type: string
       type: object
-    CreateReimbursementClaimRequest:
-      required:
-      - amount
-      - clinic_id
-      - invoice_file
-      - visit_reason
-      - sinister_types
-      - sinister_date
-      - contract_id
-      - origin_id
+    ApiSchedule:
       properties:
-        amount:
-          title: The amount of the reimbursement
-          oneOf:
-          - type: integer
-          - type: number
-            format: float
-          exclusiveMinimum: 0
-        clinic_id:
-          type: integer
-        treatment_form_file:
-          type: string
-          format: binary
-        invoice_file:
-          type: string
-          format: binary
-        veterinary_id:
-          type: integer
-        visit_reason:
-          type: string
-        sinister_types:
+        outstanding_amount:
+          description: The dynamic outstanding amount
+          type: number
+          format: float
+        taken_amount:
+          description: The amount already reimbursed by the client
+          type: number
+          format: float
+        due_dates:
+          description: The due dates collection
           type: array
           items:
-            type: integer
-            enum:
-            - 1
-            - 2
-            - 3
-            - 4
-            - 5
-            - 6
-            - 7
-            - 10
-            - 11
-            - 12
-            - 15
-            - 16
-        sinister_date:
-          title: The date of sinister
-          type: date
-          maximum: 0
-        type:
-          title: The type of the reimbursement
-          type: integer
-          enum:
-          - 1
-          - 2
-          - 5
-          - 6
-        contract_id:
-          title: The contract identifier
-          type: integer
-          exclusiveMinimum: 0
-        origin_id:
-          title: The origin identifier of the reimbursement
-          type: integer
-          exclusiveMinimum: 0
-        other_files:
-          type: array
-          items:
-            type: string
-            format: binary
-            maxItems: 5
-          maxItems: 5
+            $ref: '#/components/schemas/ApiDueDate'
       type: object
     ApiReimbursement3:
       properties:
@@ -403,195 +355,14 @@ components:
           - integer
           - 'null'
       type: object
-    ApiSchedule:
-      properties:
-        outstanding_amount:
-          description: The dynamic outstanding amount
-          type: number
-          format: float
-        taken_amount:
-          description: The amount already reimbursed by the client
-          type: number
-          format: float
-        due_dates:
-          description: The due dates collection
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiDueDate'
-      type: object
-    ApiUpperLimit:
-      properties:
-        basic_ceiling:
-          description: The basic ceiling
-          type:
-          - number
-          - 'null'
-          format: float
-        remaining_ceiling:
-          description: The remaining ceiling
-          type:
-          - number
-          - 'null'
-          format: float
-      type: object
-    ApiTypology:
-      properties:
-        id:
-          description: The typology identifier
-          type: integer
-        name:
-          description: The typology name
-          type: string
-        acts:
-          description: The acts collection
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ApiAct'
-        upper_limit:
-          $ref: '#/components/schemas/ApiUpperLimit'
-        applied_deductible:
-          description: The applied deductible
-          type:
-          - number
-          - 'null'
-          format: float
-        total_reimbursed:
-          description: The total reimbursed
-          type:
-          - number
-          - 'null'
-          format: float
-        discount:
-          description: The discount
-          allOf:
-          - $ref: '#/components/schemas/ApiDiscount'
-        non_conformities:
-          description: The non conformities
-          allOf:
-          - $ref: '#/components/schemas/ApiNonConformities'
-        first_symptom_date:
-          description: The first symptom date
-          type:
-          - string
-          - 'null'
-        hexadecimal_color:
-          description: The hexadecimal color
-          type:
-          - string
-          - 'null'
-          example: 8cc63f
-      type: object
-    ApiAct:
+    ApiNonConformities:
       properties:
         name:
-          description: The act name
-          type: string
-        sinister_date:
-          description: The sinister date
-          type: string
-        amount:
-          description: The act amount
-          type: number
-          format: float
-        is_refund:
-          description: If the act is refunded
-          type: boolean
-      type: object
-    CreateLossQuotationRequest:
-      required:
-      - visit_reason
-      - contract_id
-      - origin_id
-      properties:
-        visit_reason:
-          title: The reason of the visit
-          type: string
-        type:
-          title: The type of the reimbursement
-          type: integer
-          enum:
-          - 1
-          - 2
-          - 5
-          - 6
-        contract_id:
-          title: The contract identifier
-          type: integer
-          exclusiveMinimum: 0
-        origin_id:
-          title: The origin identifier of the reimbursement
-          type: integer
-          exclusiveMinimum: 0
-        other_files:
-          type: array
-          items:
-            type: string
-            format: binary
-            maxItems: 5
-          maxItems: 5
-      type: object
-    ApiDiscount:
-      properties:
-        code:
-          description: The discount code
-          type: string
-        quantity:
-          description: The discount quantity, the amount of the discount
+          description: The non conformities name
           type: string
         description:
-          description: The discount description
+          description: The non conformities description
           type: string
-      type: object
-    CreateDeathRegistrationRequest:
-      required:
-      - visit_reason
-      - contract_id
-      - origin_id
-      properties:
-        visit_reason:
-          title: The reason of the visit
-          type: string
-        type:
-          title: The type of the reimbursement
-          type: integer
-          enum:
-          - 1
-          - 2
-          - 5
-          - 6
-        contract_id:
-          title: The contract identifier
-          type: integer
-          exclusiveMinimum: 0
-        origin_id:
-          title: The origin identifier of the reimbursement
-          type: integer
-          exclusiveMinimum: 0
-        other_files:
-          type: array
-          items:
-            type: string
-            format: binary
-            maxItems: 5
-          maxItems: 5
-      type: object
-    ApiClinic2:
-      properties:
-        id:
-          description: The clinic identifier
-          type:
-          - integer
-          - 'null'
-      type: object
-    ApiClinic3:
-      properties:
-        id:
-          description: The clinic identifier
-          type:
-          - integer
-          - 'null'
       type: object
     ApiDueDate:
       properties:
@@ -608,20 +379,21 @@ components:
           - string
           - 'null'
       type: object
-    ApiNonConformities:
+    ApiAct:
       properties:
         name:
-          description: The non conformities name
+          description: The act name
           type: string
-        description:
-          description: The non conformities description
+        sinister_date:
+          description: The sinister date
           type: string
-      type: object
-    ReimbursementIdResponse:
-      properties:
-        reimbursement_id:
-          description: The reimbursement identifier
-          type: integer
+        amount:
+          description: The act amount
+          type: number
+          format: float
+        is_refund:
+          description: If the act is refunded
+          type: boolean
       type: object
     ApiReimbursement:
       properties:
@@ -787,6 +559,234 @@ components:
           type:
           - string
           - 'null'
+      type: object
+    ApiClinic:
+      properties:
+        id:
+          description: The clinic identifier
+          type:
+          - integer
+          - 'null'
+        name:
+          description: the clinic name
+          type:
+          - string
+          - 'null'
+      type: object
+    ApiClinic2:
+      properties:
+        id:
+          description: The clinic identifier
+          type:
+          - integer
+          - 'null'
+      type: object
+    ApiUpperLimit:
+      properties:
+        basic_ceiling:
+          description: The basic ceiling
+          type:
+          - number
+          - 'null'
+          format: float
+        remaining_ceiling:
+          description: The remaining ceiling
+          type:
+          - number
+          - 'null'
+          format: float
+      type: object
+    CreateReimbursementClaimRequest:
+      required:
+      - amount
+      - clinic_id
+      - invoice_file
+      - visit_reason
+      - sinister_types
+      - sinister_date
+      - contract_id
+      - origin_id
+      properties:
+        amount:
+          title: The amount of the reimbursement
+          oneOf:
+          - type: integer
+          - type: number
+            format: float
+          exclusiveMinimum: 0
+        clinic_id:
+          type: integer
+        treatment_form_file:
+          type: string
+          format: binary
+        invoice_file:
+          type: string
+          format: binary
+        veterinary_id:
+          type: integer
+        visit_reason:
+          type: string
+        sinister_types:
+          type: array
+          items:
+            type: integer
+            enum:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+            - 6
+            - 7
+            - 10
+            - 11
+            - 12
+            - 15
+            - 16
+        sinister_date:
+          title: The date of sinister
+          type: date
+          maximum: 0
+        type:
+          title: The type of the reimbursement
+          type: integer
+          enum:
+          - 1
+          - 2
+          - 5
+          - 6
+        contract_id:
+          title: The contract identifier
+          type: integer
+          exclusiveMinimum: 0
+        origin_id:
+          title: The origin identifier of the reimbursement
+          type: integer
+          exclusiveMinimum: 0
+        other_files:
+          type: array
+          items:
+            type: string
+            format: binary
+            maxItems: 5
+          maxItems: 5
+      type: object
+    CreateDeathRegistrationRequest:
+      required:
+      - visit_reason
+      - contract_id
+      - origin_id
+      properties:
+        visit_reason:
+          title: The reason of the visit
+          type: string
+        type:
+          title: The type of the reimbursement
+          type: integer
+          enum:
+          - 1
+          - 2
+          - 5
+          - 6
+        contract_id:
+          title: The contract identifier
+          type: integer
+          exclusiveMinimum: 0
+        origin_id:
+          title: The origin identifier of the reimbursement
+          type: integer
+          exclusiveMinimum: 0
+        other_files:
+          type: array
+          items:
+            type: string
+            format: binary
+            maxItems: 5
+          maxItems: 5
+      type: object
+    CreateThirdPartyPaymentRequest:
+      required:
+      - amount
+      - clinic_id
+      - invoice_file
+      - contract_id
+      - origin_id
+      properties:
+        amount:
+          oneOf:
+          - type: integer
+          - type: number
+            format: float
+          exclusiveMinimum: 0
+        clinic_id:
+          type: integer
+        invoice_file:
+          type: string
+          format: binary
+        type:
+          title: The type of the reimbursement
+          type: integer
+          enum:
+          - 1
+          - 2
+          - 5
+          - 6
+        contract_id:
+          title: The contract identifier
+          type: integer
+          exclusiveMinimum: 0
+        origin_id:
+          title: The origin identifier of the reimbursement
+          type: integer
+          exclusiveMinimum: 0
+        other_files:
+          type: array
+          items:
+            type: string
+            format: binary
+            maxItems: 5
+          maxItems: 5
+      type: object
+    ApiClinic3:
+      properties:
+        id:
+          description: The clinic identifier
+          type:
+          - integer
+          - 'null'
+      type: object
+    CreateLossQuotationRequest:
+      required:
+      - visit_reason
+      - contract_id
+      - origin_id
+      properties:
+        visit_reason:
+          title: The reason of the visit
+          type: string
+        type:
+          title: The type of the reimbursement
+          type: integer
+          enum:
+          - 1
+          - 2
+          - 5
+          - 6
+        contract_id:
+          title: The contract identifier
+          type: integer
+          exclusiveMinimum: 0
+        origin_id:
+          title: The origin identifier of the reimbursement
+          type: integer
+          exclusiveMinimum: 0
+        other_files:
+          type: array
+          items:
+            type: string
+            format: binary
+            maxItems: 5
+          maxItems: 5
       type: object
     ApiReimbursement2:
       properties:

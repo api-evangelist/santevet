@@ -145,34 +145,6 @@ paths:
       deprecated: false
 components:
   schemas:
-    ValeurChamp-claim_no_refund_reasons_get_translations_get:
-      type: object
-      description: ''
-      properties:
-        fr:
-          type:
-          - string
-          - 'null'
-        nl:
-          type:
-          - string
-          - 'null'
-        es:
-          type:
-          - string
-          - 'null'
-        be:
-          type:
-          - string
-          - 'null'
-        de:
-          type:
-          - string
-          - 'null'
-        it:
-          type:
-          - string
-          - 'null'
     ValeurChamp.jsonld-claim_no_refund_reasons_get_translations_get:
       type: object
       description: ''
@@ -223,6 +195,18 @@ components:
           type:
           - string
           - 'null'
+    MotifNonRemboursement-claim_no_refund_reasons_get_translations_get:
+      type: object
+      description: Class MotifNonRemboursement
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        translations:
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp-claim_no_refund_reasons_get_translations_get'
     MotifNonRemboursement.jsonld-claim_no_refund_reasons_get_translations_get:
       type: object
       description: Class MotifNonRemboursement
@@ -257,18 +241,34 @@ components:
         translations:
           anyOf:
           - $ref: '#/components/schemas/ValeurChamp.jsonld-claim_no_refund_reasons_get_translations_get'
-    MotifNonRemboursement-claim_no_refund_reasons_get_translations_get:
+    ValeurChamp-claim_no_refund_reasons_get_translations_get:
       type: object
-      description: Class MotifNonRemboursement
+      description: ''
       properties:
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        translations:
-          anyOf:
-          - $ref: '#/components/schemas/ValeurChamp-claim_no_refund_reasons_get_translations_get'
+        fr:
+          type:
+          - string
+          - 'null'
+        nl:
+          type:
+          - string
+          - 'null'
+        es:
+          type:
+          - string
+          - 'null'
+        be:
+          type:
+          - string
+          - 'null'
+        de:
+          type:
+          - string
+          - 'null'
+        it:
+          type:
+          - string
+          - 'null'
   securitySchemes:
     apiKey:
       type: apiKey

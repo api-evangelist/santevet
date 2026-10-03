@@ -145,18 +145,6 @@ paths:
       deprecated: false
 components:
   schemas:
-    Appareil-primary_systems_get_translations_get:
-      type: object
-      description: Class Appareil
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        translations:
-          anyOf:
-          - $ref: '#/components/schemas/ValeurChamp-primary_systems_get_translations_get'
     ValeurChamp.jsonld-primary_systems_get_translations_get:
       type: object
       description: ''
@@ -207,6 +195,18 @@ components:
           type:
           - string
           - 'null'
+    Appareil-primary_systems_get_translations_get:
+      type: object
+      description: Class Appareil
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        translations:
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp-primary_systems_get_translations_get'
     ValeurChamp-primary_systems_get_translations_get:
       type: object
       description: ''

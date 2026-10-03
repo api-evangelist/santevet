@@ -145,6 +145,15 @@ paths:
       deprecated: false
 components:
   schemas:
+    StatutSocialPartenaire-partners_social_statuses_get:
+      type: object
+      description: Class StatutSocialPartenaire
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
     StatutSocialPartenaire.jsonld-partners_social_statuses_get:
       type: object
       description: Class StatutSocialPartenaire
@@ -171,15 +180,6 @@ components:
             - '@vocab'
             - hydra
             additionalProperties: true
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-    StatutSocialPartenaire-partners_social_statuses_get:
-      type: object
-      description: Class StatutSocialPartenaire
-      properties:
         id:
           readOnly: true
           type: integer
