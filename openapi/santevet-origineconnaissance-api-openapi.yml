@@ -145,6 +145,22 @@ paths:
       deprecated: false
 components:
   schemas:
+    OrigineConnaissanceGroupe-referral_sources_get_translations_get:
+      type: object
+      description: ''
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type:
+          - string
+          - 'null'
+        translations:
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp-referral_sources_get_translations_get'
+        order:
+          type: integer
     OrigineConnaissance.jsonld-referral_sources_get_translations_get:
       type: object
       description: Class OrigineConnaissance
@@ -234,67 +250,6 @@ components:
           type:
           - string
           - 'null'
-    ValeurChamp-referral_sources_get_translations_get:
-      type: object
-      description: ''
-      properties:
-        fr:
-          type:
-          - string
-          - 'null'
-        nl:
-          type:
-          - string
-          - 'null'
-        es:
-          type:
-          - string
-          - 'null'
-        be:
-          type:
-          - string
-          - 'null'
-        de:
-          type:
-          - string
-          - 'null'
-        it:
-          type:
-          - string
-          - 'null'
-    OrigineConnaissanceGroupe-referral_sources_get_translations_get:
-      type: object
-      description: ''
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type:
-          - string
-          - 'null'
-        translations:
-          anyOf:
-          - $ref: '#/components/schemas/ValeurChamp-referral_sources_get_translations_get'
-        order:
-          type: integer
-    OrigineConnaissance-referral_sources_get_translations_get:
-      type: object
-      description: Class OrigineConnaissance
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type:
-          - string
-          - 'null'
-        translations:
-          anyOf:
-          - $ref: '#/components/schemas/ValeurChamp-referral_sources_get_translations_get'
-        referral_source_group:
-          anyOf:
-          - $ref: '#/components/schemas/OrigineConnaissanceGroupe-referral_sources_get_translations_get'
     OrigineConnaissanceGroupe.jsonld-referral_sources_get_translations_get:
       type: object
       description: ''
@@ -333,6 +288,51 @@ components:
           - $ref: '#/components/schemas/ValeurChamp.jsonld-referral_sources_get_translations_get'
         order:
           type: integer
+    ValeurChamp-referral_sources_get_translations_get:
+      type: object
+      description: ''
+      properties:
+        fr:
+          type:
+          - string
+          - 'null'
+        nl:
+          type:
+          - string
+          - 'null'
+        es:
+          type:
+          - string
+          - 'null'
+        be:
+          type:
+          - string
+          - 'null'
+        de:
+          type:
+          - string
+          - 'null'
+        it:
+          type:
+          - string
+          - 'null'
+    OrigineConnaissance-referral_sources_get_translations_get:
+      type: object
+      description: Class OrigineConnaissance
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type:
+          - string
+          - 'null'
+        translations:
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp-referral_sources_get_translations_get'
+        referral_source_group:
+          anyOf:
+          - $ref: '#/components/schemas/OrigineConnaissanceGroupe-referral_sources_get_translations_get'
   securitySchemes:
     apiKey:
       type: apiKey

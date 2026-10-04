@@ -247,6 +247,18 @@ components:
           type:
           - string
           - 'null'
+    Civilite-civilities_get_translations_get:
+      type: object
+      description: Class Civilite
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        translations:
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp-civilities_get_translations_get'
     Civilite.jsonld-civilities_get_translations_get:
       type: object
       description: Class Civilite
@@ -281,18 +293,6 @@ components:
         translations:
           anyOf:
           - $ref: '#/components/schemas/ValeurChamp.jsonld-civilities_get_translations_get'
-    Civilite-civilities_get_translations_get:
-      type: object
-      description: Class Civilite
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        translations:
-          anyOf:
-          - $ref: '#/components/schemas/ValeurChamp-civilities_get_translations_get'
   securitySchemes:
     apiKey:
       type: apiKey

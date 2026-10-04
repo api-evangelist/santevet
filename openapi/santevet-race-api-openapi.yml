@@ -298,38 +298,16 @@ components:
         translations:
           anyOf:
           - $ref: '#/components/schemas/ValeurChamp-breeds_get_species_get_translations_get'
-    ValeurChamp-breeds_get_species_get_translations_get:
+    Race.jsonld-breeds_get_species_get_translations_get:
       type: object
-      description: ''
+      description: Class Race
       properties:
-        fr:
-          type:
-          - string
-          - 'null'
-        nl:
-          type:
-          - string
-          - 'null'
-        es:
-          type:
-          - string
-          - 'null'
-        be:
-          type:
-          - string
-          - 'null'
-        de:
-          type:
-          - string
-          - 'null'
-        it:
-          type:
-          - string
-          - 'null'
-    ValeurChamp.jsonld-breeds_get_species_get_translations_get:
-      type: object
-      description: ''
-      properties:
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
         '@context':
           readOnly: true
           oneOf:
@@ -346,36 +324,20 @@ components:
             - '@vocab'
             - hydra
             additionalProperties: true
-        '@id':
+        id:
           readOnly: true
+          type: integer
+        name:
           type: string
-        '@type':
-          readOnly: true
-          type: string
-        fr:
+        species:
+          $ref: '#/components/schemas/Espece.jsonld-breeds_get_species_get_translations_get'
+        alimentation_group_id:
           type:
-          - string
+          - integer
           - 'null'
-        nl:
-          type:
-          - string
-          - 'null'
-        es:
-          type:
-          - string
-          - 'null'
-        be:
-          type:
-          - string
-          - 'null'
-        de:
-          type:
-          - string
-          - 'null'
-        it:
-          type:
-          - string
-          - 'null'
+        translations:
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp.jsonld-breeds_get_species_get_translations_get'
     Race-breeds_get_species_get_translations_get:
       type: object
       description: Class Race
@@ -428,16 +390,10 @@ components:
         translations:
           anyOf:
           - $ref: '#/components/schemas/ValeurChamp.jsonld-breeds_get_species_get_translations_get'
-    Race.jsonld-breeds_get_species_get_translations_get:
+    ValeurChamp.jsonld-breeds_get_species_get_translations_get:
       type: object
-      description: Class Race
+      description: ''
       properties:
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
         '@context':
           readOnly: true
           oneOf:
@@ -454,20 +410,64 @@ components:
             - '@vocab'
             - hydra
             additionalProperties: true
-        id:
+        '@id':
           readOnly: true
-          type: integer
-        name:
           type: string
-        species:
-          $ref: '#/components/schemas/Espece.jsonld-breeds_get_species_get_translations_get'
-        alimentation_group_id:
+        '@type':
+          readOnly: true
+          type: string
+        fr:
           type:
-          - integer
+          - string
           - 'null'
-        translations:
-          anyOf:
-          - $ref: '#/components/schemas/ValeurChamp.jsonld-breeds_get_species_get_translations_get'
+        nl:
+          type:
+          - string
+          - 'null'
+        es:
+          type:
+          - string
+          - 'null'
+        be:
+          type:
+          - string
+          - 'null'
+        de:
+          type:
+          - string
+          - 'null'
+        it:
+          type:
+          - string
+          - 'null'
+    ValeurChamp-breeds_get_species_get_translations_get:
+      type: object
+      description: ''
+      properties:
+        fr:
+          type:
+          - string
+          - 'null'
+        nl:
+          type:
+          - string
+          - 'null'
+        es:
+          type:
+          - string
+          - 'null'
+        be:
+          type:
+          - string
+          - 'null'
+        de:
+          type:
+          - string
+          - 'null'
+        it:
+          type:
+          - string
+          - 'null'
   securitySchemes:
     apiKey:
       type: apiKey
