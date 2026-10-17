@@ -197,6 +197,52 @@ components:
           type:
           - string
           - 'null'
+    Civilite-civilities_get_translations_get:
+      type: object
+      description: Class Civilite
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        translations:
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp-civilities_get_translations_get'
+    Civilite.jsonld-civilities_get_translations_get:
+      type: object
+      description: Class Civilite
+      properties:
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        '@context':
+          readOnly: true
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              '@vocab':
+                type: string
+              hydra:
+                type: string
+                enum:
+                - http://www.w3.org/ns/hydra/core#
+            required:
+            - '@vocab'
+            - hydra
+            additionalProperties: true
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        translations:
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp.jsonld-civilities_get_translations_get'
     ValeurChamp.jsonld-civilities_get_translations_get:
       type: object
       description: ''
@@ -247,52 +293,6 @@ components:
           type:
           - string
           - 'null'
-    Civilite-civilities_get_translations_get:
-      type: object
-      description: Class Civilite
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        translations:
-          anyOf:
-          - $ref: '#/components/schemas/ValeurChamp-civilities_get_translations_get'
-    Civilite.jsonld-civilities_get_translations_get:
-      type: object
-      description: Class Civilite
-      properties:
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
-        '@context':
-          readOnly: true
-          oneOf:
-          - type: string
-          - type: object
-            properties:
-              '@vocab':
-                type: string
-              hydra:
-                type: string
-                enum:
-                - http://www.w3.org/ns/hydra/core#
-            required:
-            - '@vocab'
-            - hydra
-            additionalProperties: true
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        translations:
-          anyOf:
-          - $ref: '#/components/schemas/ValeurChamp.jsonld-civilities_get_translations_get'
   securitySchemes:
     apiKey:
       type: apiKey

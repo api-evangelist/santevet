@@ -169,60 +169,6 @@ paths:
       deprecated: false
 components:
   schemas:
-    Pays.jsonld-countries_get_translations_get:
-      type: object
-      description: Pays
-      properties:
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
-        '@context':
-          readOnly: true
-          oneOf:
-          - type: string
-          - type: object
-            properties:
-              '@vocab':
-                type: string
-              hydra:
-                type: string
-                enum:
-                - http://www.w3.org/ns/hydra/core#
-            required:
-            - '@vocab'
-            - hydra
-            additionalProperties: true
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        translations:
-          anyOf:
-          - $ref: '#/components/schemas/ValeurChamp.jsonld-countries_get_translations_get'
-        code:
-          type:
-          - string
-          - 'null'
-    Pays-countries_get_translations_get:
-      type: object
-      description: Pays
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        translations:
-          anyOf:
-          - $ref: '#/components/schemas/ValeurChamp-countries_get_translations_get'
-        code:
-          type:
-          - string
-          - 'null'
     ValeurChamp.jsonld-countries_get_translations_get:
       type: object
       description: ''
@@ -298,6 +244,60 @@ components:
           - string
           - 'null'
         it:
+          type:
+          - string
+          - 'null'
+    Pays.jsonld-countries_get_translations_get:
+      type: object
+      description: Pays
+      properties:
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        '@context':
+          readOnly: true
+          oneOf:
+          - type: string
+          - type: object
+            properties:
+              '@vocab':
+                type: string
+              hydra:
+                type: string
+                enum:
+                - http://www.w3.org/ns/hydra/core#
+            required:
+            - '@vocab'
+            - hydra
+            additionalProperties: true
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        translations:
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp.jsonld-countries_get_translations_get'
+        code:
+          type:
+          - string
+          - 'null'
+    Pays-countries_get_translations_get:
+      type: object
+      description: Pays
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        translations:
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp-countries_get_translations_get'
+        code:
           type:
           - string
           - 'null'

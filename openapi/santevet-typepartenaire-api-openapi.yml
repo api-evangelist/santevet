@@ -145,6 +145,18 @@ paths:
       deprecated: false
 components:
   schemas:
+    TypePartenaire-partners_types_get_translations_get:
+      type: object
+      description: Class TypePartenaire
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        translations:
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp-partners_types_get_translations_get'
     TypePartenaire.jsonld-partners_types_get_translations_get:
       type: object
       description: Class TypePartenaire
@@ -257,18 +269,6 @@ components:
           type:
           - string
           - 'null'
-    TypePartenaire-partners_types_get_translations_get:
-      type: object
-      description: Class TypePartenaire
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        translations:
-          anyOf:
-          - $ref: '#/components/schemas/ValeurChamp-partners_types_get_translations_get'
   securitySchemes:
     apiKey:
       type: apiKey

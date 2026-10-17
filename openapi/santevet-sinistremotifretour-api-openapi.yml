@@ -145,34 +145,6 @@ paths:
       deprecated: false
 components:
   schemas:
-    ValeurChamp-claim_return_reason_get_translations_get:
-      type: object
-      description: ''
-      properties:
-        fr:
-          type:
-          - string
-          - 'null'
-        nl:
-          type:
-          - string
-          - 'null'
-        es:
-          type:
-          - string
-          - 'null'
-        be:
-          type:
-          - string
-          - 'null'
-        de:
-          type:
-          - string
-          - 'null'
-        it:
-          type:
-          - string
-          - 'null'
     SinistreMotifRetour.jsonld-claim_return_reason_get_translations_get:
       type: object
       description: Class SinistreMotifRetour
@@ -207,6 +179,46 @@ components:
         translations:
           anyOf:
           - $ref: '#/components/schemas/ValeurChamp.jsonld-claim_return_reason_get_translations_get'
+    SinistreMotifRetour-claim_return_reason_get_translations_get:
+      type: object
+      description: Class SinistreMotifRetour
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        translations:
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp-claim_return_reason_get_translations_get'
+    ValeurChamp-claim_return_reason_get_translations_get:
+      type: object
+      description: ''
+      properties:
+        fr:
+          type:
+          - string
+          - 'null'
+        nl:
+          type:
+          - string
+          - 'null'
+        es:
+          type:
+          - string
+          - 'null'
+        be:
+          type:
+          - string
+          - 'null'
+        de:
+          type:
+          - string
+          - 'null'
+        it:
+          type:
+          - string
+          - 'null'
     ValeurChamp.jsonld-claim_return_reason_get_translations_get:
       type: object
       description: ''
@@ -257,18 +269,6 @@ components:
           type:
           - string
           - 'null'
-    SinistreMotifRetour-claim_return_reason_get_translations_get:
-      type: object
-      description: Class SinistreMotifRetour
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        translations:
-          anyOf:
-          - $ref: '#/components/schemas/ValeurChamp-claim_return_reason_get_translations_get'
   securitySchemes:
     apiKey:
       type: apiKey

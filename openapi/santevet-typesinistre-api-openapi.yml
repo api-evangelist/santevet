@@ -145,18 +145,6 @@ paths:
       deprecated: false
 components:
   schemas:
-    TypeSinistre-claim_types_get_translations_get:
-      type: object
-      description: Class TypeSinistre
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        translations:
-          anyOf:
-          - $ref: '#/components/schemas/ValeurChamp-claim_types_get_translations_get'
     ValeurChamp.jsonld-claim_types_get_translations_get:
       type: object
       description: ''
@@ -241,6 +229,18 @@ components:
         translations:
           anyOf:
           - $ref: '#/components/schemas/ValeurChamp.jsonld-claim_types_get_translations_get'
+    TypeSinistre-claim_types_get_translations_get:
+      type: object
+      description: Class TypeSinistre
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        translations:
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp-claim_types_get_translations_get'
     ValeurChamp-claim_types_get_translations_get:
       type: object
       description: ''

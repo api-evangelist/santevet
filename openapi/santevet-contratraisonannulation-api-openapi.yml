@@ -145,46 +145,6 @@ paths:
       deprecated: false
 components:
   schemas:
-    ValeurChamp-contract_cancel_reasons_get_translations_get:
-      type: object
-      description: ''
-      properties:
-        fr:
-          type:
-          - string
-          - 'null'
-        nl:
-          type:
-          - string
-          - 'null'
-        es:
-          type:
-          - string
-          - 'null'
-        be:
-          type:
-          - string
-          - 'null'
-        de:
-          type:
-          - string
-          - 'null'
-        it:
-          type:
-          - string
-          - 'null'
-    ContratRaisonAnnulation-contract_cancel_reasons_get_translations_get:
-      type: object
-      description: Class ContratRaisonAnnulation
-      properties:
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        translations:
-          anyOf:
-          - $ref: '#/components/schemas/ValeurChamp-contract_cancel_reasons_get_translations_get'
     ContratRaisonAnnulation.jsonld-contract_cancel_reasons_get_translations_get:
       type: object
       description: Class ContratRaisonAnnulation
@@ -269,6 +229,46 @@ components:
           type:
           - string
           - 'null'
+    ValeurChamp-contract_cancel_reasons_get_translations_get:
+      type: object
+      description: ''
+      properties:
+        fr:
+          type:
+          - string
+          - 'null'
+        nl:
+          type:
+          - string
+          - 'null'
+        es:
+          type:
+          - string
+          - 'null'
+        be:
+          type:
+          - string
+          - 'null'
+        de:
+          type:
+          - string
+          - 'null'
+        it:
+          type:
+          - string
+          - 'null'
+    ContratRaisonAnnulation-contract_cancel_reasons_get_translations_get:
+      type: object
+      description: Class ContratRaisonAnnulation
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        translations:
+          anyOf:
+          - $ref: '#/components/schemas/ValeurChamp-contract_cancel_reasons_get_translations_get'
   securitySchemes:
     apiKey:
       type: apiKey

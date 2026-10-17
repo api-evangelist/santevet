@@ -193,6 +193,19 @@ paths:
       deprecated: false
 components:
   schemas:
+    Langue-languages_get_translations_get:
+      type: object
+      description: Class Langue
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        code:
+          type: string
+        locale:
+          type: string
     Langue.jsonld-languages_get_translations_get:
       type: object
       description: Class Langue
@@ -219,19 +232,6 @@ components:
             - '@vocab'
             - hydra
             additionalProperties: true
-        id:
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        code:
-          type: string
-        locale:
-          type: string
-    Langue-languages_get_translations_get:
-      type: object
-      description: Class Langue
-      properties:
         id:
           readOnly: true
           type: integer
